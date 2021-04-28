@@ -17,8 +17,9 @@
             @elseif(Auth::user()->role_id==3)
                 @php
                     $cartproducts = DB::table('carts')->where('user_id', Auth::user()->id)->get();
+                    $wishlistproducts = DB::table('wishlists')->where('user_id', Auth::user()->id)->get();
                 @endphp
-                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+                <li><a href="{{route('wishlist')}}"><i class="fa fa-heart"></i> <span>{{count($wishlistproducts)}}</span></a></li>
                 <li><a href="{{ route('cart') }}"><i class="fa fa-shopping-bag"></i> <span>{{count($cartproducts)}}</span></a></li>
             @endif
         </ul>
@@ -95,16 +96,26 @@
                             @if (Auth::guest() || Auth::user()->role_id != 3)
                                 <a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-user"></i> Login</a>
                             @elseif(Auth::user()->role_id==3)
-
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                            this.closest('form').submit();">
-                                        <i class="fa fa-user"></i> {{Auth::user()->name}}
-                                    </a>
-                                </form>
-                                {{-- <a href="#"><i class="fa fa-user"></i> </a> --}}
+                                <nav class="header__menu py-0">
+                                    <ul>
+                                        <li><a href="#"><i class="fa fa-user"></i> {{Auth::user()->name}}</a>
+                                            <ul class="header__menu__dropdown text-center">
+                                                <li><a href="#">My Profile</a></li>
+                                                <li><a href="{{route('cart')}}">My Cart</a></li>
+                                                <li><a href="{{route('wishlist')}}">My Wishlist</a></li>
+                                                <li><form method="POST" action="{{ route('logout') }}">
+                                                        @csrf
+                                                        <a href="{{ route('logout') }}"
+                                                                onclick="event.preventDefault();
+                                                                this.closest('form').submit();">
+                                                                Logout
+                                                        </a>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
                             @endif
                         </div>
                     </div>
@@ -146,8 +157,9 @@
                         @elseif(Auth::user()->role_id==3)
                             @php
                                 $cartproducts = DB::table('carts')->where('user_id', Auth::user()->id)->get();
+                                $wishlistproducts = DB::table('wishlists')->where('user_id', Auth::user()->id)->get();
                             @endphp
-                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+                            <li><a href="{{route('wishlist')}}"><i class="fa fa-heart"></i> <span>{{count($wishlistproducts)}}</span></a></li>
                             <li><a href="{{ route('cart') }}"><i class="fa fa-shopping-bag"></i> <span>{{count($cartproducts)}}</span></a></li>
                         @endif
                     </ul>
@@ -182,10 +194,10 @@
                 <div class="hero__search">
                     <div class="hero__search__form">
                         <form action="#">
-                            <div class="hero__search__categories">
+                            {{-- <div class="hero__search__categories">
                                 All Categories
                                 <span class="arrow_carrot-down"></span>
-                            </div>
+                            </div> --}}
                             <input type="text" placeholder="What do yo u need?">
                             <button type="submit" class="site-btn">SEARCH</button>
                         </form>
@@ -206,12 +218,12 @@
 </section>
 <!-- Hero Section End -->
 
-<div class="container">
+<div class="container mb-2">
     @if (session()->has('success'))
-    <div class="alert alert-success mt-2">{{ session('success') }}</div>
-@endif
-@if (session()->has('failure'))
-    <div class="alert alert-danger mt-2">{{ session('failure') }}</div>
-@endif
+        <div class="alert alert-success mt-2">{{ session('success') }}</div>
+    @endif
+    @if (session()->has('failure'))
+        <div class="alert alert-danger mt-2">{{ session('failure') }}</div>
+    @endif
 </div>
 

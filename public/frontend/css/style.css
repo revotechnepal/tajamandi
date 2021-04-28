@@ -1382,9 +1382,9 @@ ol {
 }
 
 .product__discount__item__text .product__item__price {
-	font-size: 18px;
+	font-size: 19px;
 	color: #1c1c1c;
-	font-weight: 700;
+	font-weight: 600;
 }
 
 .product__discount__item__text .product__item__price span {
@@ -1616,7 +1616,8 @@ ol {
 
 .product__item__text h5 {
 	color: #252525;
-	font-weight: 700;
+    font-size: 19px;
+	font-weight: 600;
 }
 
 .product__pagination,

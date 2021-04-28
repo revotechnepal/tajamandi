@@ -49,6 +49,7 @@ return array(
     'App\\Models\\UserPermission' => $baseDir . '/app/Models/UserPermission.php',
     'App\\Models\\UserRole' => $baseDir . '/app/Models/UserRole.php',
     'App\\Models\\Vendor' => $baseDir . '/app/Models/Vendor.php',
+    'App\\Models\\Wishlist' => $baseDir . '/app/Models/Wishlist.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',

@@ -36,13 +36,18 @@ Route::get('/', function () {
 Route::get('/home', [FrontController::class, 'index'])->name('home');
 Route::get('/shop', [FrontController::class, 'shop'])->name('shop');
 Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
-Route::get('/cart', [FrontController::class, 'cart'])->name('cart');
 Route::get('/products/{slug}', [FrontController::class, 'products'])->name('products');
 Route::get('/checkout', [FrontController::class, 'checkout'])->name('checkout');
 Route::get('/subcategory/{subcategoryslug}', [FrontController::class, 'subcategory'])->name('subcategory');
 
 // Cart
+Route::get('/cart', [FrontController::class, 'cart'])->name('cart');
 Route::post('/addtocart/{id}', [FrontController::class, 'addtocart'])->name('addtocart');
+
+// Wishlist
+Route::get('/wishlist', [FrontController::class, 'wishlist'])->name('wishlist');
+Route::get('/addtowishlist/{id}', [FrontController::class, 'addtowishlist'])->name('addtowishlist');
+Route::get('/removefromwishlist/{id}', [FrontController::class, 'removefromwishlist'])->name('removefromwishlist');
 
 
 Auth::routes();

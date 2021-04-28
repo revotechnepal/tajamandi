@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Subcategory;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -49,13 +50,6 @@ class FrontController extends Controller
         return view('frontend.contact', compact('subcategories'));
     }
 
-    public function cart()
-    {
-        $subcategories = Subcategory::latest()->get();
-        $cartproducts = Cart::where('user_id', Auth::user()->id)->get();
-        return view('frontend.cart', compact('subcategories', 'cartproducts'));
-    }
-
     public function products($slug)
     {
         $product = Product::where('slug', $slug)->first();
@@ -81,6 +75,13 @@ class FrontController extends Controller
         Mail::to($email)->send(new VerifyUserEmail($mailData));
     }
 
+    public function cart()
+    {
+        $subcategories = Subcategory::latest()->get();
+        $cartproducts = Cart::latest()->where('user_id', Auth::user()->id)->get();
+        return view('frontend.cart', compact('subcategories', 'cartproducts'));
+    }
+
     public function addtocart(Request $request, $id)
     {
         // dd($request['price']);
@@ -103,5 +104,36 @@ class FrontController extends Controller
                 return redirect()->back()->with('success', 'Product is added in cart successfully.');
             }
         }
+    }
+
+    public function wishlist()
+    {
+        $subcategories = Subcategory::latest()->get();
+        $wishlistproducts = Wishlist::latest()->where('user_id', Auth::user()->id)->get();
+        return view('frontend.wishlist', compact('subcategories', 'wishlistproducts'));
+    }
+
+    public function addtowishlist($id)
+    {
+        $wishlist = Wishlist::where('product_id', $id)->where('user_id', Auth::user()->id)->first();
+        if($wishlist) {
+            return redirect()->back()->with('failure', 'Product is already to wishlist. Go to wishlist.');
+        } else{
+            $wishlistproduct = Wishlist::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => $id,
+            ]);
+
+            $wishlistproduct->save();
+            return redirect()->back()->with('success', 'Product is added in wishlist successfully.');
+        }
+    }
+
+    public function removefromwishlist($id)
+    {
+        $wishlist = Wishlist::where('user_id', Auth::user()->id)->where('product_id', $id)->first();
+        $wishlist->delete();
+
+        return redirect()->back()->with('success', 'Product is removed from wishlist successfully.');
     }
 }

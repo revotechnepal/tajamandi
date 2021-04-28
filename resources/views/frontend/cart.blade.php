@@ -24,9 +24,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="shoping__cart__table">
+                    <div class="shoping__cart__table table table-responsive">
                         <table>
-                            <thead>
+                            <thead class="thead-light">
                                 <tr>
                                     <th class="shoping__product">Products</th>
                                     <th>Price</th>
@@ -68,7 +68,7 @@
                                                 Rs. {{$total}}
                                             </td>
                                             <td class="shoping__cart__item__close">
-                                                <span class="icon_close"></span>
+                                                <a href=""><span class="icon_close"></span></a>
                                             </td>
                                         </tr>
                                     @endforeach

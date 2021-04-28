@@ -578,6 +578,7 @@ class ComposerStaticInite9c9c1dbacb7b7f35c79a3512cb496c4
         'App\\Models\\UserPermission' => __DIR__ . '/../..' . '/app/Models/UserPermission.php',
         'App\\Models\\UserRole' => __DIR__ . '/../..' . '/app/Models/UserRole.php',
         'App\\Models\\Vendor' => __DIR__ . '/../..' . '/app/Models/Vendor.php',
+        'App\\Models\\Wishlist' => __DIR__ . '/../..' . '/app/Models/Wishlist.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
