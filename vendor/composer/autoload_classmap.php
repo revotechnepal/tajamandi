@@ -44,6 +44,7 @@ return array(
     'App\\Models\\ProductImage' => $baseDir . '/app/Models/ProductImage.php',
     'App\\Models\\Role' => $baseDir . '/app/Models/Role.php',
     'App\\Models\\RolePermission' => $baseDir . '/app/Models/RolePermission.php',
+    'App\\Models\\Setting' => $baseDir . '/app/Models/Setting.php',
     'App\\Models\\Subcategory' => $baseDir . '/app/Models/Subcategory.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Models\\UserPermission' => $baseDir . '/app/Models/UserPermission.php',
