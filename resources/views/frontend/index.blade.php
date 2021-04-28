@@ -94,13 +94,13 @@
                                         data-setbg="{{ Storage::disk('uploads')->url($image->filename)}}">
                                         <ul class="product__item__pic__hover">
                                             @if (Auth::guest() || Auth::user()->role_id != 3)
-                                            <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
-                                            <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+                                                <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                                <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
 
-                                        @elseif(Auth::user()->role_id==3)
-                                            <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
-                                            <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
-                                        @endif
+                                            @elseif(Auth::user()->role_id==3)
+                                                <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                                <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+                                            @endif
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
@@ -140,9 +140,14 @@
                                                 data-setbg="{{ Storage::disk('uploads')->url($image->filename) }}">
                                                 <div class="product__discount__percent">-{{ $product->discount }}%</div>
                                                 <ul class="product__item__pic__hover">
-                                                    <li><a href="#"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+                                                    @if (Auth::guest() || Auth::user()->role_id != 3)
+                                                        <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                                        <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+
+                                                    @elseif(Auth::user()->role_id==3)
+                                                        <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                                        <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+                                                    @endif
                                                 </ul>
                                             </div>
                                             <div class="product__discount__item__text">

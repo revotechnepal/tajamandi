@@ -31,20 +31,10 @@
                                 src="{{ Storage::disk('uploads')->url($productimage->filename) }}" alt="{{$product->title}}">
                         </div>
                         <div class="product__details__pic__slider owl-carousel">
-                        @foreach ($productimages as $image)
-                            <img data-imgbigurl="{{ Storage::disk('uploads')->url($image->filename) }}"
-                                src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}">
-                        @endforeach
-
-                            {{-- <img data-imgbigurl="
-                                        {{ asset('frontend/img/product/details/product-details-3.jpg') }}"
-                                src="{{ asset('frontend/img/product/details/thumb-2.jpg') }}" alt="">
-                            <img data-imgbigurl="
-                                        {{ asset('frontend/img/product/details/product-details-5.jpg') }}"
-                                src="{{ asset('frontend/img/product/details/thumb-3.jpg') }}" alt="">
-                            <img data-imgbigurl="
-                                        {{ asset('frontend/img/product/details/product-details-4.jpg') }}"
-                                src="{{ asset('frontend/img/product/details/thumb-4.jpg') }}" alt=""> --}}
+                            @foreach ($productimages as $image)
+                                <img data-imgbigurl="{{ Storage::disk('uploads')->url($image->filename) }}"
+                                    src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}">
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -86,7 +76,7 @@
                                     <input type="hidden" value="{{$product->price}}" name="price" class="form-control">
                                 </div>
                                 <a href="#" class="primary-btn" onclick="this.parentNode.submit()">ADD TO CART</a>
-                                <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                <a href="{{route('addtowishlist', $product->id)}}" class="heart-icon"><span class="icon_heart_alt"></span></a>
                             </form>
                         @endif
                         <ul>
@@ -221,9 +211,14 @@
                                         data-setbg="{{ Storage::disk('uploads')->url($image->filename) }}">
                                         <div class="product__discount__percent">-{{ $product->discount }}%</div>
                                         <ul class="product__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                            @if (Auth::guest() || Auth::user()->role_id != 3)
+                                                <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                                <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+
+                                            @elseif(Auth::user()->role_id==3)
+                                                <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                                <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+                                            @endif
                                         </ul>
                                     </div>
                                     <div class="product__discount__item__text">
@@ -244,9 +239,14 @@
                                 <div class="product__item__pic set-bg"
                                     data-setbg="{{ Storage::disk('uploads')->url($image->filename)}}">
                                     <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                        @if (Auth::guest() || Auth::user()->role_id != 3)
+                                            <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                            <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+
+                                        @elseif(Auth::user()->role_id==3)
+                                            <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                            <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+                                        @endif
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
