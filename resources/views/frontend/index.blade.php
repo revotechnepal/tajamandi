@@ -1,7 +1,6 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-{{-- Just Checking --}}
 
     <!-- Banner Section -->
     <div class="hero__item set-bg my-5" data-setbg="{{ asset('frontend/img/hero/banner.jpg') }}">
