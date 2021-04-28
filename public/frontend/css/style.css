@@ -1382,7 +1382,7 @@ ol {
 }
 
 .product__discount__item__text .product__item__price {
-	font-size: 19px;
+	font-size: 18px;
 	color: #1c1c1c;
 	font-weight: 600;
 }
@@ -1616,7 +1616,7 @@ ol {
 
 .product__item__text h5 {
 	color: #252525;
-    font-size: 19px;
+    font-size: 18px;
 	font-weight: 600;
 }
 
@@ -1913,7 +1913,6 @@ ol {
 }
 
 .shoping__cart__table table tbody tr td.shoping__cart__item {
-	width: 630px;
 	text-align: left;
 }
 
@@ -1931,28 +1930,31 @@ ol {
 	font-size: 18px;
 	color: #1c1c1c;
 	font-weight: 700;
-	width: 100px;
+    vertical-align: middle;
 }
 
 .shoping__cart__table table tbody tr td.shoping__cart__total {
 	font-size: 18px;
 	color: #1c1c1c;
 	font-weight: 700;
-	width: 110px;
+    vertical-align: middle;
 }
 
 .shoping__cart__table table tbody tr td.shoping__cart__item__close {
 	text-align: right;
+    vertical-align: middle;
 }
 
 .shoping__cart__table table tbody tr td.shoping__cart__item__close span {
 	font-size: 24px;
 	color: #b2b2b2;
 	cursor: pointer;
+    vertical-align: middle;
 }
 
 .shoping__cart__table table tbody tr td.shoping__cart__quantity {
 	width: 225px;
+    vertical-align: middle;
 }
 
 .shoping__cart__table table tbody tr td.shoping__cart__quantity .pro-qty {

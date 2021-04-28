@@ -67,7 +67,7 @@
     <div class="humberger__menu__contact">
         <ul>
             <li><i class="fa fa-envelope"></i> info@tajamandi.com</li>
-            <li>Free Shipping for all Order of Rs. 500</li>
+            {{-- <li>Free Shipping for all Order of Rs. 500</li> --}}
         </ul>
     </div>
 </div>
@@ -82,7 +82,7 @@
                     <div class="header__top__left">
                         <ul>
                             <li><i class="fa fa-envelope"></i> info@tajamandi.com</li>
-                            <li>Free Shipping for all Order of Rs. 500</li>
+                            {{-- <li>Free Shipping for all Order of Rs. 500</li> --}}
                         </ul>
                     </div>
                 </div>

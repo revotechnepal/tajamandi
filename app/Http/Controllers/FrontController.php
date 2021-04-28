@@ -55,15 +55,16 @@ class FrontController extends Controller
         $product = Product::where('slug', $slug)->first();
         $productimage = ProductImage::where('product_id', $product->id)->first();
         $productimages = ProductImage::where('product_id', $product->id)->get();
-        $relatedproducts = Product::where('subcategory_id', $product->subcategory_id)->take(4)->get();
+        $relatedproducts = Product::where('subcategory_id', $product->subcategory_id)->where('id', '!=', $product->id)->take(4)->get();
         $subcategories = Subcategory::latest()->get();
         return view('frontend.products', compact('subcategories', 'product', 'productimage', 'productimages', 'relatedproducts'));
     }
 
-    public function checkout()
+    public function checkout($id)
     {
+        $cartproducts = Cart::where('user_id', $id)->get();
         $subcategories = Subcategory::latest()->get();
-        return view('frontend.checkout', compact('subcategories'));
+        return view('frontend.checkout', compact('subcategories', 'cartproducts'));
     }
 
     public static function verifyEmail($name, $email, $verification_code)
@@ -103,6 +104,28 @@ class FrontController extends Controller
                 $cartproduct->save();
                 return redirect()->back()->with('success', 'Product is added in cart successfully.');
             }
+        }
+    }
+
+    public function removefromcart($id)
+    {
+        $cart = Cart::where('user_id', Auth::user()->id)->where('id', $id)->first();
+        $cart->delete();
+
+        return redirect()->back()->with('success', 'Product is removed from cart successfully.');
+    }
+
+    public function updatequantity(Request $request, $id)
+    {
+        $cart = Cart::where('user_id', Auth::user()->id)->where('id', $id)->first();
+        $product = Product::where('id', $cart->product_id)->first();
+        if ($product->quantity < $request['quantity']) {
+            return redirect()->back()->with('failure', 'Quantity more than available cannot be selected.');
+        } else {
+            $cart->update([
+                'quantity' => $request['quantity'],
+            ]);
+            return redirect()->back()->with('success', 'Quantity is updated successfully.');
         }
     }
 

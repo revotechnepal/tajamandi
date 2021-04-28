@@ -49,7 +49,15 @@
                             <i class="fa fa-star-half-o"></i>
                             <span>(18 reviews)</span>
                         </div>
-                        <div class="product__details__price">Rs. {{$product->price}}</div>
+                        @if ($product->discount > 0)
+                            @php
+                                $discountamount = ($product->discount / 100) * $product->price;
+                                $afterdiscount = $product->price - $discountamount;
+                            @endphp
+                            <div class="product__details__price">Rs. {{$afterdiscount}} <span style="font-size: 20px; color: grey;"><strike>Rs. {{$product->price}}</strike> ({{$product->discount}}% off)</span></div>
+                        @else
+                            <div class="product__details__price">Rs. {{$product->price}}</div>
+                        @endif
                         <p>{!! $product->details !!}</p>
                         @if (Auth::guest() || Auth::user()->role_id != 3)
                             <div class="product__details__quantity">
@@ -73,7 +81,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" value="{{$product->price}}" name="price" class="form-control">
+                                    @if ($product->discount > 0)
+                                        @php
+                                            $discountamount = ($product->discount / 100) * $product->price;
+                                            $afterdiscount = $product->price - $discountamount;
+                                        @endphp
+                                        <input type="hidden" value="{{$afterdiscount}}" name="price" class="form-control">
+                                    @else
+                                        <input type="hidden" value="{{$product->price}}" name="price" class="form-control">
+                                    @endif
                                 </div>
                                 <a href="#" class="primary-btn" onclick="this.parentNode.submit()">ADD TO CART</a>
                                 <a href="{{route('addtowishlist', $product->id)}}" class="heart-icon"><span class="icon_heart_alt"></span></a>
@@ -81,16 +97,17 @@
                         @endif
                         <ul>
                             <li><b>Availability</b> <span>{{$product->quantity}} units In Stock</span></li>
-                            <li><b>Shipping</b> <span>01 day shipping. <samp> Free pickup today</samp></span></li>
+                            {{-- <li><b>Shipping</b> <span>01 day shipping. <samp> Free pickup today</samp></span></li> --}}
                             <li><b>Weight</b> <span>{{$product->quantity}} {{$product->unit}}</span></li>
-                            <li><b>Share on</b>
+                            <li><b>Vendor</b> <span>{{$product->vendor->name}}</span></li>
+                            {{-- <li><b>Share on</b>
                                 <div class="share">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
                                     <a href="#"><i class="fa fa-twitter"></i></a>
                                     <a href="#"><i class="fa fa-instagram"></i></a>
                                     <a href="#"><i class="fa fa-pinterest"></i></a>
                                 </div>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>
@@ -195,21 +212,54 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                @foreach ($relatedproducts as $product)
-                    @if ($product->discount > 0)
-                            <div class="col-lg-4">
-                                <div class="product__discount__item">
-                                    @php
-                                        $image = DB::table('product_images')
-                                            ->where('product_id', $product->id)
-                                            ->first();
-                                        $discountamount = ($product->discount / 100) * $product->price;
-                                        $afterdiscount = $product->price - $discountamount;
-                                    @endphp
-                                    <div class="product__discount__item__pic set-bg"
-                                        data-setbg="{{ Storage::disk('uploads')->url($image->filename) }}">
-                                        <div class="product__discount__percent">-{{ $product->discount }}%</div>
+            <div class="row mb-2">
+                @if (count($relatedproducts) == 0)
+                    <div class="col-md-12 text-center">
+                        <h3>No related products...</h3>
+                    </div>
+                @else
+                    @foreach ($relatedproducts as $product)
+                        @if ($product->discount > 0)
+                                <div class="col-lg-4">
+                                    <div class="product__discount__item">
+                                        @php
+                                            $image = DB::table('product_images')
+                                                ->where('product_id', $product->id)
+                                                ->first();
+                                            $discountamount = ($product->discount / 100) * $product->price;
+                                            $afterdiscount = $product->price - $discountamount;
+                                        @endphp
+                                        <div class="product__discount__item__pic set-bg"
+                                            data-setbg="{{ Storage::disk('uploads')->url($image->filename) }}">
+                                            <div class="product__discount__percent">-{{ $product->discount }}%</div>
+                                            <ul class="product__item__pic__hover">
+                                                @if (Auth::guest() || Auth::user()->role_id != 3)
+                                                    <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                                    <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+
+                                                @elseif(Auth::user()->role_id==3)
+                                                    <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                                    <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                        <div class="product__discount__item__text">
+                                            <h5 style="font-size: 20px; font-weight: 650"><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
+                                            <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
+                                                    {{ $product->price }}</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="product__item">
+                                @php
+                                    $image = DB::table('product_images')
+                                        ->where('product_id', $product->id)
+                                        ->first();
+                                @endphp
+                                    <div class="product__item__pic set-bg"
+                                        data-setbg="{{ Storage::disk('uploads')->url($image->filename)}}">
                                         <ul class="product__item__pic__hover">
                                             @if (Auth::guest() || Auth::user()->role_id != 3)
                                                 <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
@@ -221,42 +271,15 @@
                                             @endif
                                         </ul>
                                     </div>
-                                    <div class="product__discount__item__text">
-                                        <h5><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
-                                        <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
-                                                {{ $product->price }}</span></div>
+                                    <div class="product__item__text">
+                                        <h6><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h6>
+                                        <h5>Rs. {{$product->price}}</h5>
                                     </div>
                                 </div>
                             </div>
-                        @else
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                            @php
-                                $image = DB::table('product_images')
-                                    ->where('product_id', $product->id)
-                                    ->first();
-                            @endphp
-                                <div class="product__item__pic set-bg"
-                                    data-setbg="{{ Storage::disk('uploads')->url($image->filename)}}">
-                                    <ul class="product__item__pic__hover">
-                                        @if (Auth::guest() || Auth::user()->role_id != 3)
-                                            <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
-                                            <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
-
-                                        @elseif(Auth::user()->role_id==3)
-                                            <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
-                                            <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
-                                        @endif
-                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h6>
-                                    <h5>Rs. {{$product->price}}</h5>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
-                @endforeach
+                            @endif
+                    @endforeach
+                @endif
                 {{-- <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg"

@@ -23,7 +23,7 @@
     <section class="shoping-cart spad">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="shoping__cart__table table table-responsive">
                         <table>
                             <thead class="thead-light">
@@ -38,7 +38,7 @@
                             <tbody>
                                 @if (count($cartproducts) == 0)
                                     <tr class="text-center">
-                                        <td  colspan="4" class="shoping__cart__total">No products in cart yet.</td>
+                                        <td colspan="4" class="shoping__cart__total">No products in cart yet.</td>
                                     </tr>
                                 @else
                                     @foreach ($cartproducts as $product)
@@ -48,17 +48,31 @@
                                                     $productimage = DB::table('product_images')->where('product_id', $product->product_id)->first();
                                                     $real_product = DB::table('products')->where('id', $product->product_id)->first();
                                                 @endphp
-                                                <img src="{{Storage::disk('uploads')->url($productimage->filename)}}" alt="{{$real_product->title}}" style="max-width: 100px;">
-                                                <h5>{{$real_product->title}}</h5>
+                                                <img src="{{Storage::disk('uploads')->url($productimage->filename)}}" alt="{{$real_product->title}}" style="max-width: 150px;">
+                                                <h5 style="font-size: 20px; font-weight: 600">{{$real_product->title}}</h5>
                                             </td>
                                             <td class="shoping__cart__price">
-                                                Rs. {{$product->price}}
+                                                @if ($real_product->discount > 0)
+                                                    @php
+                                                        $discountamount = ($product->discount / 100) * $product->price;
+                                                        $afterdiscount = $product->price - $discountamount;
+                                                    @endphp
+                                                    Rs. {{$product->price}}<p style="font-weight: 500; color: grey"><strike>Rs. {{$real_product->price}}</strike> ({{$real_product->discount}} % off)</p>
+                                                @else
+                                                    Rs. {{$real_product->price}}
+                                                @endif
                                             </td>
                                             <td class="shoping__cart__quantity">
                                                 <div class="quantity">
-                                                    <div class="pro-qty">
-                                                        <input type="text" value="{{$product->quantity}}">
-                                                    </div>
+                                                    <form action="{{route('updatequantity', $product->id)}}" method="POST">
+                                                        @csrf
+                                                        @method('POST')
+                                                        <div class="pro-qty form-group">
+                                                            <input type="text" value="{{$product->quantity}}" min="1" name="quantity">
+                                                        </div>
+                                                        <a href="#" class="primary-btn site-btn mb-1" onclick="this.parentNode.submit()">Update</a>
+                                                    </form>
+                                                    <p>(Total quantity: {{$real_product->quantity}} units)</p>
                                                 </div>
                                             </td>
                                             <td class="shoping__cart__total">
@@ -68,7 +82,7 @@
                                                 Rs. {{$total}}
                                             </td>
                                             <td class="shoping__cart__item__close">
-                                                <a href=""><span class="icon_close"></span></a>
+                                                <a href="{{route('removefromcart', $product->id)}}"><span class="icon_close"></span></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -79,7 +93,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                     <div class="shoping__cart__btns">
                         @if (count($cartproducts) == 0)
                             <a href="{{route('shop')}}" class="primary-btn site-btn">Go SHOPPING</a>
@@ -88,7 +102,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-lg-6">
+                {{-- <div class="col-lg-6">
                     <div class="shoping__continue">
                         <div class="shoping__discount">
                             <h5>Discount Codes</h5>
@@ -98,20 +112,26 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-lg-6">
                     <div class="shoping__checkout">
-                        <h5>Cart Total</h5>
+                        <h5 class="text-center">Cart Total</h5>
                         <ul>
                             @if (count($cartproducts) == 0)
                                 <li>Subtotal <span>Rs. 0</span></li>
                                 <li>Total <span>Rs. 0</span></li>
                             @else
-                                <li>Subtotal <span>Rs. {{$total}}</span></li>
-                                <li>Total <span>Rs. {{$total}}</span></li>
+                            @php
+                                $grandtotal = 0;
+                                foreach ($cartproducts as $product) {
+                                    $grandtotal = $grandtotal + ($product->price * $product->quantity);
+                                }
+                            @endphp
+                                <li>Subtotal <span>Rs. {{$grandtotal}}</span></li>
+                                <li>Total <span>Rs. {{$grandtotal}}</span></li>
                             @endif
                         </ul>
-                        <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        <a href="{{route('checkout', Auth::user()->id)}}" class="primary-btn">PROCEED TO CHECKOUT</a>
                     </div>
                 </div>
             </div>

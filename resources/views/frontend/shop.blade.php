@@ -222,7 +222,7 @@
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
-                                            <h5><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
+                                            <h5 style="font-size: 20px; font-weight: 650;"><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
                                             <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
                                                     {{ $product->price }}</span></div>
                                         </div>
@@ -250,7 +250,7 @@
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
-                                        <h6><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h6>
+                                        <h6 style="font-size: 20px; font-weight: 650;"><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h6>
                                         <h5>Rs. {{$product->price}}</h5>
                                     </div>
                                 </div>
