@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    @php
+        $setting = DB::table('settings')->first();
+    @endphp
 <head>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
@@ -9,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="images/favicon.ico" type="image/ico" />
 
-    <title>{{ env('APP_NAME') }} | Dashboard </title>
+    <title>{{ env('APP_NAME') }} {{$setting->sitename}} </title>
 
     <!-- Bootstrap -->
     <link href="{{ asset('backend/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -41,7 +44,7 @@
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title text-center" style="border: 0;">
                         <a href="{{ route('home') }}" class="site_title">
-                            <span>{{ env('APP_NAME') }}</span></a>
+                            <span>{{$setting->sitename}}</span></a>
                     </div>
 
                     <div class="clearfix"></div>
