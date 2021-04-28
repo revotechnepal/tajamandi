@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/slicknav.min.css') }}" type="text/css">
     <link href="{{asset('frontend/modalassets/css/login-register.css')}}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}" type="text/css">
+    @stack('styles')
 </head>
 
 <body>
@@ -101,6 +102,7 @@
         $('.alert').fadeOut('slow');
     }, 5000); // 5 secs
 </script>
+@stack('scripts')
 </body>
 
 </html>

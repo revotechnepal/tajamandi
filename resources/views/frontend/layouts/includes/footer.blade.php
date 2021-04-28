@@ -1,16 +1,19 @@
 <!-- Footer Section Begin -->
 <footer class="footer spad">
     <div class="container">
+        @php
+            $setting = DB::table('settings')->first();
+        @endphp
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer__about">
                     <div class="footer__about__logo">
-                        <a href="{{route('index')}}"><img src="{{ asset('frontend/img/tajamandi.png') }}" alt="Tajamandi" style="max-width: 120px; max-height: 120px;"></a>
+                        <a href="{{route('index')}}"><img src="{{Storage::disk('uploads')->url($setting->footerImage)}}" alt="Tajamandi" style="max-width: 120px; max-height: 120px;"></a>
                     </div>
                     <ul>
-                        <li>Address: Ravi Bhawan-15, Kathmandu</li>
-                        <li>Phone: +977 01-4208209</li>
-                        <li>Email: info@tajamandi.com</li>
+                        <li>Address: {{$setting->address}}</li>
+                        <li>Phone: {{$setting->phone}}</li>
+                        <li>Email: {{$setting->email}}</li>
                     </ul>
                 </div>
             </div>
@@ -44,10 +47,10 @@
                         <button type="submit" class="site-btn">Subscribe</button>
                     </form>
                     <div class="footer__widget__social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-pinterest"></i></a>
+                        <a href="{{$setting->facebook}}" target="_blank"><i class="fa fa-facebook"></i></a>
+                        <a href="{{$setting->instagram}}" target="_blank"><i class="fa fa-instagram"></i></a>
+                        {{-- <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fa fa-pinterest"></i></a> --}}
                     </div>
                 </div>
             </div>
