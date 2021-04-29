@@ -59,7 +59,7 @@ Route::get('/removefromwishlist/{id}', [FrontController::class, 'removefromwishl
 Route::post('/addreview',[FrontController::class, 'addreview'])->name('addreview');
 Route::put('/updatereview/{id}',[FrontController::class, 'updatereview'])->name('updatereview');
 Route::delete('/deleteuserreview/{id}', [FrontController::class, 'deleteuserreview'])->name('deleteuserreview');
-// Route::get('/myreviews', [FrontController::class, 'myreviews'])->name('myreviews');
+Route::get('/myreviews', [FrontController::class, 'myreviews'])->name('myreviews');
 
 Auth::routes();
 

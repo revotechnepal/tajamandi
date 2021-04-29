@@ -105,6 +105,7 @@
                                                 <li><a href="#">My Profile</a></li>
                                                 <li><a href="{{route('cart')}}">My Cart</a></li>
                                                 <li><a href="{{route('wishlist')}}">My Wishlist</a></li>
+                                                <li><a href="{{route('myreviews')}}">My Reviews</a></li>
                                                 <li><form method="POST" action="{{ route('logout') }}">
                                                         @csrf
                                                         <a href="{{ route('logout') }}"

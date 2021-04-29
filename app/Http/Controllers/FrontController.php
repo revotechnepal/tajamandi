@@ -201,4 +201,14 @@ class FrontController extends Controller
           $userreview->delete();
           return redirect()->back()->with('success', 'Review Deleted Successfully');
       }
+
+      public function myreviews()
+      {
+            $user_id = Auth::user()->id;
+            $reviews = Review::where('user_id', $user_id)->latest()->simplePaginate(10);
+            $subcategories = Subcategory::latest()->get();
+
+            return view('frontend.myreviews', compact('reviews', 'subcategories'));
+
+      }
 }
