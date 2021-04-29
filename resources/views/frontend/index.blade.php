@@ -5,9 +5,9 @@
     <!-- Banner Section -->
     <div class="hero__item set-bg my-5" data-setbg="{{ asset('frontend/img/hero/banner.jpg') }}">
         <div class="hero__text">
-            <span>FRESH FRUIT AND VEGETABLE</span>
+                   <span>FRESH FRUIT AND VEGETABLE</span>
             <h2>All Your Grocery Items </h2>
-            <p>Free Pickup and Delivery Available</p>
+<p>Free Pickup and Delivery Available</p>
             <a href="{{ route('shop') }}" class="primary-btn">SHOP NOW</a>
         </div>
     </div>
@@ -25,10 +25,10 @@
                 <div class="categories__slider owl-carousel">
                     @foreach ($subcategories as $subcategory)
                         <div class="col-lg-3">
-                            <div class="categories__item set-bg"
+                            <div onclick="location.href='{{route('subcategory', $subcategory->slug)}}';" style="cursor: pointer;" class="categories__item set-bg"
                                 data-setbg="{{ Storage::disk('uploads')->url($subcategory->image_name) }}">
                                 <h5><a href="{{route('subcategory', $subcategory->slug)}}">{{ $subcategory->title }}</a></h5>
-                            </div>
+                        </div>
                         </div>
                     @endforeach
                 </div>
@@ -59,7 +59,7 @@
                                             $discountamount = ($product->discount / 100) * $product->price;
                                             $afterdiscount = $product->price - $discountamount;
                                         @endphp
-                                        <div class="product__discount__item__pic set-bg"
+                                        <div onclick="location.href='{{ route('products', $product->slug) }}';" style="cursor: pointer;" class="product__discount__item__pic set-bg"
                                             data-setbg="{{ Storage::disk('uploads')->url($image->filename) }}">
                                             <div class="product__discount__percent">-{{ $product->discount }}%</div>
                                             <ul class="product__item__pic__hover">
@@ -90,7 +90,7 @@
                                         ->where('product_id', $product->id)
                                         ->first();
                                 @endphp
-                                    <div class="product__item__pic set-bg"
+                                    <div onclick="location.href='{{ route('products', $product->slug) }}';" style="cursor: pointer;" class="product__item__pic set-bg"
                                         data-setbg="{{ Storage::disk('uploads')->url($image->filename)}}">
                                         <ul class="product__item__pic__hover">
                                             @if (Auth::guest() || Auth::user()->role_id != 3)
@@ -136,7 +136,7 @@
                                                 $discountamount = ($product->discount / 100) * $product->price;
                                                 $afterdiscount = $product->price - $discountamount;
                                             @endphp
-                                            <div class="product__discount__item__pic set-bg"
+                                            <div onclick="location.href='{{ route('products', $product->slug) }}';" style="cursor: pointer;" class="product__discount__item__pic set-bg"
                                                 data-setbg="{{ Storage::disk('uploads')->url($image->filename) }}">
                                                 <div class="product__discount__percent">-{{ $product->discount }}%</div>
                                                 <ul class="product__item__pic__hover">
@@ -240,13 +240,13 @@
                     @endphp
                     @foreach ($filterproducts as $filterproduct)
                       @php
-                          if($i > 4)
+                          if($i < 5)
                           {
-                              $show = 'block';
+                              $show = 'none';
                               $i = $i+1;
                           }
                           else {
-                              $show = 'none';
+                              $show = 'block';
                               $i = $i+1;
                           }
                       @endphp
@@ -321,13 +321,13 @@
                       @endphp
                       @foreach ($ratedproducts as $ratedproduct)
                         @php
-                            if($i > 4)
+                            if($i < 5)
                             {
-                                $show = 'block';
+                                $show = 'none';
                                 $i = $i+1;
                             }
                             else {
-                                $show = 'none';
+                                $show = 'block';
                                 $i = $i+1;
                             }
                         @endphp
