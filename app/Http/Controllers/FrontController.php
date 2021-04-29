@@ -6,6 +6,7 @@ use App\Mail\VerifyUserEmail;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\Review;
 use App\Models\Subcategory;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
@@ -159,4 +160,45 @@ class FrontController extends Controller
 
         return redirect()->back()->with('success', 'Product is removed from wishlist successfully.');
     }
+
+    public function addreview(Request $request){
+        $data = $this->validate($request, [
+            'star' => 'required',
+            'username' => 'required',
+            'product_id' => 'required',
+        ]);
+
+        $review = Review::create([
+            'username' => $data['username'],
+            'user_id' => Auth::user()->id,
+            'product_id' => $data['product_id'],
+            'rating' => $data['star'],
+            'description' => $request['ratingdescription'],
+        ]);
+
+        $review->save();
+
+        return redirect()->back()->with('success', 'Review added successfully');
+    }
+
+    public function updatereview(Request $request, $id)
+    {
+        $userreview = Review::findorfail($id);
+        $data = $this->validate($request, [
+            'star' => 'required',
+        ]);
+        $userreview->update([
+            'rating' => $data['star'],
+            'description' => $request['ratingdescription'],
+        ]);
+        $userreview->save();
+        return redirect()->back()->with('success', 'Review updated successfully');
+    }
+
+    public function deleteuserreview($id)
+      {
+          $userreview = Review::findorfail($id);
+          $userreview->delete();
+          return redirect()->back()->with('success', 'Review Deleted Successfully');
+      }
 }

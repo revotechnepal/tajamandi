@@ -26,6 +26,7 @@ class CreateReviewsTable extends Migration
                   ->onDelete('cascade');
             $table->integer('rating');
             $table->longText('description')->nullable();
+            $table->integer('disable')->nullable();
             $table->timestamps();
         });
     }
