@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="images/favicon.ico" type="image/ico" />
 
-    <title>{{ env('APP_NAME') }} {{$setting->sitename}} </title>
+    <title> {{$setting->sitename}} | Dashboard</title>
 
     <!-- Bootstrap -->
     <link href="{{ asset('backend/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -44,7 +44,7 @@
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title text-center" style="border: 0;">
                         <a href="{{ route('home') }}" class="site_title">
-                            <span>{{$setting->sitename}}</span></a>
+                            <span>{{ $setting->sitename }}</span></a>
                     </div>
 
                     <div class="clearfix"></div>
