@@ -80,13 +80,15 @@
                     <div class="product__details__text">
                         <h3>{{$product->title}}</h3>
                         <div class="product__details__rating">
-                            <div class="rateyo-readonly-widg"></div>
-                            {{-- <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half-o"></i> --}}
-                            <span>(18 reviews)</span>
+                            <div class="row">
+                                <div class="rateyos-readonly-widg"></div>
+                                {{-- <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i> --}}
+                                <span>({{$noofreviews}} reviews)</span>
+                            </div>
                         </div>
                         <div class="product__details__price">Rs. {{$product->price}}</div>
                         <p>{!! $product->details !!}</p>
