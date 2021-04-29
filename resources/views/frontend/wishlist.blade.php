@@ -38,7 +38,7 @@
                             <tbody>
                                 @if (count($wishlistproducts) == 0)
                                     <tr class="text-center">
-                                        <td  colspan="2" class="shoping__cart__total">No products in wishlist yet.</td>
+                                        <td  colspan="4" class="shoping__cart__total">No products in wishlist yet.</td>
                                     </tr>
                                 @else
                                     @foreach ($wishlistproducts as $product)

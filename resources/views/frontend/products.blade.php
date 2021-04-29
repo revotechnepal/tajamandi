@@ -305,7 +305,7 @@
                                             @endphp
                                             @if ($userreview)
                                                 <hr>
-                                                <h5 style="color: #b83955">Your Review
+                                                <h5 style="color: #b83955; margin-bottom:1rem;">Your Review
                                                     {{-- <a href="#" class="btn btn-success btn-sm ml-4">&nbsp; Edit &nbsp;</a> --}}
                                                     <button type="button" class="btn btn-success btn-sm ml-4" data-toggle="modal" data-target="#editreviewModal{{$product->id . Auth::user()->id}}">&nbsp; Edit &nbsp;</button>
                                                     <!-- Modal -->
