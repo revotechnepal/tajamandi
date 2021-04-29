@@ -117,6 +117,7 @@
                                         <li><a href="{{ route('role.index') }}">View Roles</a></li>
                                     </ul>
                                 </li>
+                                <li><a href="{{ route('review') }}"><i class="fa fa-star"></i> Reviews</a></li>
                                 <li><a href="{{ route('setting.index') }}"><i class="fa fa-cog"></i> Setting</a></li>
                                 {{-- <li><a><i class="fa fa-bug"></i> Additional Pages <span
                                             class="fa fa-chevron-down"></span></a>
