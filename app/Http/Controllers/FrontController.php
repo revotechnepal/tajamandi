@@ -6,6 +6,7 @@ use App\Mail\VerifyUserEmail;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\Review;
 use App\Models\Subcategory;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
@@ -23,8 +24,9 @@ class FrontController extends Controller
             $subcategories = Subcategory::latest()->get();
             $featuredproducts = Product::latest()->where('featured', 1)->get();
             $offerproducts = Product::latest()->where('discount', '>', 0)->take(6)->get();
-            $filterproducts = Product::latest()->take(6)->get();
-            return view('frontend.index', compact('subcategories', 'featuredproducts', 'offerproducts', 'filterproducts'));
+            $filterproducts = Product::latest()->take(8)->get();
+            $ratedproducts = Review::orderBy('rating', 'DESC')->with('product')->take(8)->get();
+            return view('frontend.index', compact('subcategories', 'featuredproducts', 'offerproducts', 'filterproducts', 'ratedproducts'));
         }
     }
     public function shop()
@@ -159,4 +161,55 @@ class FrontController extends Controller
 
         return redirect()->back()->with('success', 'Product is removed from wishlist successfully.');
     }
+
+    public function addreview(Request $request){
+        $data = $this->validate($request, [
+            'star' => 'required',
+            'username' => 'required',
+            'product_id' => 'required',
+        ]);
+
+        $review = Review::create([
+            'username' => $data['username'],
+            'user_id' => Auth::user()->id,
+            'product_id' => $data['product_id'],
+            'rating' => $data['star'],
+            'description' => $request['ratingdescription'],
+        ]);
+
+        $review->save();
+
+        return redirect()->back()->with('success', 'Review added successfully');
+    }
+
+    public function updatereview(Request $request, $id)
+    {
+        $userreview = Review::findorfail($id);
+        $data = $this->validate($request, [
+            'star' => 'required',
+        ]);
+        $userreview->update([
+            'rating' => $data['star'],
+            'description' => $request['ratingdescription'],
+        ]);
+        $userreview->save();
+        return redirect()->back()->with('success', 'Review updated successfully');
+    }
+
+    public function deleteuserreview($id)
+      {
+          $userreview = Review::findorfail($id);
+          $userreview->delete();
+          return redirect()->back()->with('success', 'Review Deleted Successfully');
+      }
+
+      public function myreviews()
+      {
+            $user_id = Auth::user()->id;
+            $reviews = Review::where('user_id', $user_id)->latest()->simplePaginate(10);
+            $subcategories = Subcategory::latest()->get();
+
+            return view('frontend.myreviews', compact('reviews', 'subcategories'));
+
+      }
 }

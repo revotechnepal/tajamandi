@@ -5,12 +5,14 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\Subcategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,8 +32,9 @@ Route::get('/', function () {
     $subcategories = Subcategory::latest()->get();
     $featuredproducts = Product::latest()->where('featured', 1)->get();
     $offerproducts = Product::latest()->where('discount', '>', 0)->take(6)->get();
-    $filterproducts = Product::latest()->take(6)->get();
-    return view('frontend.index', compact('subcategories', 'featuredproducts', 'offerproducts', 'filterproducts'));
+    $filterproducts = Product::latest()->take(8)->get();
+    $ratedproducts = Review::orderBy('rating', 'DESC')->with('product')->take(8)->get();
+    return view('frontend.index', compact('subcategories', 'featuredproducts', 'offerproducts', 'filterproducts', 'ratedproducts'));
 })->name('index');
 
 Route::get('/home', [FrontController::class, 'index'])->name('home');
@@ -55,6 +58,11 @@ Route::get('/wishlist', [FrontController::class, 'wishlist'])->name('wishlist');
 Route::get('/addtowishlist/{id}', [FrontController::class, 'addtowishlist'])->name('addtowishlist');
 Route::get('/removefromwishlist/{id}', [FrontController::class, 'removefromwishlist'])->name('removefromwishlist');
 
+//User Review
+Route::post('/addreview',[FrontController::class, 'addreview'])->name('addreview');
+Route::put('/updatereview/{id}',[FrontController::class, 'updatereview'])->name('updatereview');
+Route::delete('/deleteuserreview/{id}', [FrontController::class, 'deleteuserreview'])->name('deleteuserreview');
+Route::get('/myreviews', [FrontController::class, 'myreviews'])->name('myreviews');
 
 Auth::routes();
 
@@ -71,6 +79,9 @@ Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.us
     Route::post('addmoreproductimages/{id}', [ProductController::class, 'addmoreproductimages'])->name('addmoreproductimages');
     Route::resource('product', ProductController::class);
     Route::resource('setting', SettingController::class);
+    Route::get('review', [ReviewController::class, 'getreviews'])->name('review');
+    Route::put('enablereview/{id}', [ReviewController::class, 'enableurl'])->name('review.enable');
+    Route::put('disablereview/{id}', [ReviewController::class, 'disableurl'])->name('review.disable');
 
 });
 

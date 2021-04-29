@@ -189,210 +189,169 @@
     <!-- Latest Product Section Begin -->
     <section class="latest-product spad">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <div class="latest-product__text">
-                        <h4>Latest Products</h4>
-                        <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item">
-                                    @php
-                                        $i=1;
-                                    @endphp
-                                @foreach ($filterproducts as $product)
-                                @php
-                                    if($i < 4)
-                                    {
-                                        $show = 'block';
-                                        $i = $i+1;
-                                    }
-                                    else {
-                                        $show = 'none';
-                                        $i = $i+1;
-                                    }
-                                @endphp
-                                    <a href="{{route('products', $product->slug)}}" class="latest-product__item" style="display: {{$show}}">
-                                        <div class="latest-product__item__pic">
-                                            @php
-                                                $image = DB::table('product_images')
-                                                    ->where('product_id', $product->id)
-                                                    ->first()
-                                            @endphp
-                                            <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
-                                        </div>
-                                        <div class="latest-product__item__text">
-                                            <h6>{{$product->title}}</h6>
-                                            <span>Rs. {{$product->price}}</span>
-                                        </div>
-                                    </a>
-                                @endforeach
-                            </div>
-                            <div class="latest-prdouct__slider__item">
-                                    @php
-                                        $i=1;
-                                    @endphp
-                                @foreach ($filterproducts as $product)
-                                @php
-                                    if($i < 4)
-                                    {
-                                        $show = 'none';
-                                        $i = $i+1;
-                                    }
-                                    else {
-                                        $show = 'block';
-                                        $i = $i+1;
-                                    }
-                                @endphp
-                                    <a href="{{route('products', $product->slug)}}" class="latest-product__item" style="display: {{$show}}">
-                                        <div class="latest-product__item__pic">
-                                            @php
-                                                $image = DB::table('product_images')
-                                                    ->where('product_id', $product->id)
-                                                    ->first()
-                                            @endphp
-                                            <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
-                                        </div>
-                                        <div class="latest-product__item__text">
-                                            <h6>{{$product->title}}</h6>
-                                            <span>Rs. {{$product->price}}</span>
-                                        </div>
-                                    </a>
-                                @endforeach
-                            </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="latest-product__text">
+                {{-- <h4>Latest Products</h4> --}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title">
+                            <h2>Latest Products</h2>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="latest-product__text">
-                        <h4>Top Rated Products</h4>
-                        <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('frontend/img/latest-product/lp-1.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('frontend/img/latest-product/lp-2.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('frontend/img/latest-product/lp-3.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                <div class="latest-product__slider owl-carousel">
+                  <div class="row latest-prdouct__slider__item">
+                      @php
+                          $i = 1;
+                      @endphp
+                      @foreach ($filterproducts as $filterproduct)
+                        @php
+                            if($i < 5)
+                            {
+                                $show = 'block';
+                                $i = $i+1;
+                            }
+                            else {
+                                $show = 'none';
+                                $i = $i+1;
+                            }
+                        @endphp
+                        <a href="{{route('products', $filterproduct->slug)}}" class="latest-product__item col-lg-3 col-sm-6" style="display: {{$show}}">
+                            <div class="latest-product__item__pic">
+                                @php
+                                $image = DB::table('product_images')
+                                    ->where('product_id', $filterproduct->id)
+                                    ->first()
+                                @endphp
+                            <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$filterproduct->title}}" style="max-width: 110px; max-height: 110px;">
                             </div>
-                            <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('frontend/img/latest-product/lp-1.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('frontend/img/latest-product/lp-2.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('frontend/img/latest-product/lp-3.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                            <div class="latest-product__item__text">
+                            <h6>{{$filterproduct->title}}</h6>
+                            <span>Rs. {{$filterproduct->price}}</span>
                             </div>
-                        </div>
-                    </div>
+                        </a>
+                      @endforeach
+                  </div>
+
+                  <div class="row latest-prdouct__slider__item">
+                    @php
+                        $i = 1;
+                    @endphp
+                    @foreach ($filterproducts as $filterproduct)
+                      @php
+                          if($i > 4)
+                          {
+                              $show = 'block';
+                              $i = $i+1;
+                          }
+                          else {
+                              $show = 'none';
+                              $i = $i+1;
+                          }
+                      @endphp
+                      <a href="{{route('products', $filterproduct->slug)}}" class="latest-product__item col-lg-3 col-sm-6" style="display: {{$show}}">
+                          <div class="latest-product__item__pic">
+                              @php
+                              $image = DB::table('product_images')
+                                  ->where('product_id', $filterproduct->id)
+                                  ->first()
+                              @endphp
+                          <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$filterproduct->title}}" style="max-width: 110px; max-height: 110px;">
+                          </div>
+                          <div class="latest-product__item__text">
+                          <h6>{{$filterproduct->title}}</h6>
+                          <span>Rs. {{$filterproduct->price}}</span>
+                          </div>
+                      </a>
+                    @endforeach
                 </div>
-                {{-- <div class="col-lg-4 col-md-6">
-                    <div class="latest-product__text">
-                        <h4>Review Products</h4>
-                        <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('frontend/img/latest-product/lp-1.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('frontend/img/latest-product/lp-2.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('frontend/img/latest-product/lp-3.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('frontend/img/latest-product/lp-1.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('frontend/img/latest-product/lp-2.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('frontend/img/latest-product/lp-3.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
+                </div>
+              </div>
             </div>
+
+
+            <div class="col-lg-12">
+                <div class="latest-product__text">
+                  {{-- <h4>Latest Products</h4> --}}
+                  <div class="row mt-5">
+                      <div class="col-lg-12">
+                          <div class="section-title">
+                              <h2>Top Rated Products</h2>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="latest-product__slider owl-carousel">
+                    <div class="row latest-prdouct__slider__item">
+                        @php
+                            $i = 1;
+                        @endphp
+                        @foreach ($ratedproducts as $ratedproduct)
+                          @php
+                              if($i < 5)
+                              {
+                                  $show = 'block';
+                                  $i = $i+1;
+                              }
+                              else {
+                                  $show = 'none';
+                                  $i = $i+1;
+                              }
+                          @endphp
+                          <a href="{{route('products', $ratedproduct->product->slug)}}" class="latest-product__item col-lg-3 col-sm-6" style="display: {{$show}}">
+                              <div class="latest-product__item__pic">
+                                  @php
+                                  $image = DB::table('product_images')
+                                      ->where('product_id', $ratedproduct->product_id)
+                                      ->first()
+                                  @endphp
+                              <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$ratedproduct->product->title}}" style="max-width: 110px; max-height: 110px;">
+                              </div>
+                              <div class="latest-product__item__text">
+                              <h6>{{$ratedproduct->product->title}}</h6>
+                              <span>Rs. {{$ratedproduct->product->price}}</span>
+                              </div>
+                          </a>
+                        @endforeach
+                    </div>
+
+                    <div class="row latest-prdouct__slider__item">
+                      @php
+                          $i = 1;
+                      @endphp
+                      @foreach ($ratedproducts as $ratedproduct)
+                        @php
+                            if($i > 4)
+                            {
+                                $show = 'block';
+                                $i = $i+1;
+                            }
+                            else {
+                                $show = 'none';
+                                $i = $i+1;
+                            }
+                        @endphp
+                        <a href="{{route('products', $ratedproduct->product->slug)}}" class="latest-product__item col-lg-3 col-sm-6" style="display: {{$show}}">
+                            <div class="latest-product__item__pic">
+                                @php
+                                $image = DB::table('product_images')
+                                    ->where('product_id', $ratedproduct->product_id)
+                                    ->first()
+                                @endphp
+                            <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$ratedproduct->product->title}}" style="max-width: 110px; max-height: 110px;">
+                            </div>
+                            <div class="latest-product__item__text">
+                            <h6>{{$ratedproduct->product->title}}</h6>
+                            <span>Rs. {{$ratedproduct->product->price}}</span>
+                            </div>
+                        </a>
+                      @endforeach
+                  </div>
+                  </div>
+                </div>
+              </div>
+          </div>
         </div>
-    </section>
-    <!-- Latest Product Section End -->
+      </section>
+      <!-- Latest Product Section End -->
 @endsection

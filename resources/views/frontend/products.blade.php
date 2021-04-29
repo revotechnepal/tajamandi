@@ -25,17 +25,16 @@
 
     {{-- Calculations for Review --}}
     @php
-        $reviews = DB::table('reviews')->where('product_id', $product->id)->orderBy('rating', 'DESC')->get();
-        $otherreviews = DB::table('reviews')->where('product_id', $product->id)->where('user_id', '!=', Auth::user()->id)->orderBy('rating', 'DESC')->get();
+        $reviews = DB::table('reviews')->where('product_id', $product->id)->where('disable', null)->orderBy('rating', 'DESC')->get();
 
         $noofreviews = count($reviews);
-        $avgRatingFloat = DB::table('reviews')->where('product_id', $product->id)->avg('rating');
+        $avgRatingFloat = DB::table('reviews')->where('product_id', $product->id)->where('disable', null)->avg('rating');
         $avgRating = number_format((float)$avgRatingFloat, 1, '.', '');
-        $noof5stars = DB::table('reviews')->where('product_id', $product->id)->where('rating', 5)->count('rating');
-        $noof4stars = DB::table('reviews')->where('product_id', $product->id)->where('rating', 4)->count('rating');
-        $noof3stars = DB::table('reviews')->where('product_id', $product->id)->where('rating', 3)->count('rating');
-        $noof2stars = DB::table('reviews')->where('product_id', $product->id)->where('rating', 2)->count('rating');
-        $noof1stars = DB::table('reviews')->where('product_id', $product->id)->where('rating', 1)->count('rating');
+        $noof5stars = DB::table('reviews')->where('product_id', $product->id)->where('disable', null)->where('rating', 5)->count('rating');
+        $noof4stars = DB::table('reviews')->where('product_id', $product->id)->where('disable', null)->where('rating', 4)->count('rating');
+        $noof3stars = DB::table('reviews')->where('product_id', $product->id)->where('disable', null)->where('rating', 3)->count('rating');
+        $noof2stars = DB::table('reviews')->where('product_id', $product->id)->where('disable', null)->where('rating', 2)->count('rating');
+        $noof1stars = DB::table('reviews')->where('product_id', $product->id)->where('disable', null)->where('rating', 1)->count('rating');
         if ($noofreviews == 0) {
             $per5stars = 0;
             $per4stars = 0;
@@ -80,23 +79,17 @@
                     <div class="product__details__text">
                         <h3>{{$product->title}}</h3>
                         <div class="product__details__rating">
-                            <div class="rateyo-readonly-widg"></div>
-                            {{-- <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half-o"></i> --}}
-                            <span>(18 reviews)</span>
+                            <div class="row">
+                                <div class="rateyos-readonly-widg"></div>
+                                {{-- <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i> --}}
+                                <span>({{$noofreviews}} reviews)</span>
+                            </div>
                         </div>
-                        @if ($product->discount > 0)
-                            @php
-                                $discountamount = ($product->discount / 100) * $product->price;
-                                $afterdiscount = $product->price - $discountamount;
-                            @endphp
-                            <div class="product__details__price">Rs. {{$afterdiscount}} <span style="font-size: 20px; color: grey;"><strike>Rs. {{$product->price}}</strike> ({{$product->discount}}% off)</span></div>
-                        @else
-                            <div class="product__details__price">Rs. {{$product->price}}</div>
-                        @endif
+                        <div class="product__details__price">Rs. {{$product->price}}</div>
                         <p>{!! $product->details !!}</p>
                         @if (Auth::guest() || Auth::user()->role_id != 3)
                             <div class="product__details__quantity">
@@ -120,15 +113,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    @if ($product->discount > 0)
-                                        @php
-                                            $discountamount = ($product->discount / 100) * $product->price;
-                                            $afterdiscount = $product->price - $discountamount;
-                                        @endphp
-                                        <input type="hidden" value="{{$afterdiscount}}" name="price" class="form-control">
-                                    @else
-                                        <input type="hidden" value="{{$product->price}}" name="price" class="form-control">
-                                    @endif
+                                    <input type="hidden" value="{{$product->price}}" name="price" class="form-control">
                                 </div>
                                 <a href="#" class="primary-btn" onclick="this.parentNode.submit()">ADD TO CART</a>
                                 <a href="{{route('addtowishlist', $product->id)}}" class="heart-icon"><span class="icon_heart_alt"></span></a>
@@ -136,17 +121,16 @@
                         @endif
                         <ul>
                             <li><b>Availability</b> <span>{{$product->quantity}} units In Stock</span></li>
-                            {{-- <li><b>Shipping</b> <span>01 day shipping. <samp> Free pickup today</samp></span></li> --}}
+                            <li><b>Shipping</b> <span>01 day shipping. <samp> Free pickup today</samp></span></li>
                             <li><b>Weight</b> <span>{{$product->quantity}} {{$product->unit}}</span></li>
-                            <li><b>Vendor</b> <span>{{$product->vendor->name}}</span></li>
-                            {{-- <li><b>Share on</b>
+                            <li><b>Share on</b>
                                 <div class="share">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
                                     <a href="#"><i class="fa fa-twitter"></i></a>
                                     <a href="#"><i class="fa fa-instagram"></i></a>
                                     <a href="#"><i class="fa fa-pinterest"></i></a>
                                 </div>
-                            </li> --}}
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -163,7 +147,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
-                                    aria-selected="false">Reviews <span>(1)</span></a>
+                                    aria-selected="false">Reviews <span>({{$noofreviews}})</span></a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -313,7 +297,7 @@
 
                                     <div class="customer-review-option">
                                         @if (Auth::guest())
-                                            <a href="{{route('login')}}" class="btn btn-primary" style="background-color: #f39c12; border: none;">Login to leave or modify Review</a>
+                                            <a href="javascript:void(0)" onclick="openLoginModal();" class="btn btn-primary" style="background-color: #f39c12; border: none;">Login to leave or modify Review</a>
                                             <br><hr>
                                         @else
                                             @php
@@ -321,7 +305,7 @@
                                             @endphp
                                             @if ($userreview)
                                                 <hr>
-                                                <h5 style="color: #b83955">Your Review
+                                                <h5 style="color: #b83955; margin-bottom:1rem;">Your Review
                                                     {{-- <a href="#" class="btn btn-success btn-sm ml-4">&nbsp; Edit &nbsp;</a> --}}
                                                     <button type="button" class="btn btn-success btn-sm ml-4" data-toggle="modal" data-target="#editreviewModal{{$product->id . Auth::user()->id}}">&nbsp; Edit &nbsp;</button>
                                                     <!-- Modal -->
@@ -334,7 +318,7 @@
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                             </div>
-                                                            <form action="#" method="POST">
+                                                            <form action="{{route('updatereview', $userreview->id)}}" method="POST">
                                                                 @csrf
                                                                 @method('PUT')
                                                                 <div class="modal-body">
@@ -395,7 +379,7 @@
                                                     </div>
                                                     <!-- Modal Ends -->
 
-                                                    <form action="#" method="POST" style="display: inline;">
+                                                    <form action="{{route('deleteuserreview', $userreview->id)}}" method="POST" style="display: inline;">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button class="btn btn-danger btn-sm" type="submit">Delete</button>
@@ -418,7 +402,8 @@
                                                     </div>
                                                 </div>
                                                 <hr>
-                                                <h5 style="color: #b83955">Other Reviews</h5>
+                                                <h5 style="color: #b83955">All Reviews</h5>
+                                                <br>
                                             @else
                                                 {{-- <a href="#" class="btn btn-primary" style="background-color: #f39c12; border: none;">Leave a Review</a> --}}
                                                 <button type="button" class="btn btn-primary" style="background-color: #f39c12; border: none;" data-toggle="modal" data-target="#reviewModal{{$product->id . Auth::user()->id}}">Leave a Review</button>
@@ -432,7 +417,7 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                         </div>
-                                                        <form action="#" method="POST">
+                                                        <form action="{{route('addreview')}}" method="POST">
                                                             @csrf
                                                             <div class="modal-body">
                                                                     <div class="form-group">
@@ -481,10 +466,10 @@
                                             <p style="color: gray">No reviews for this product</p>
 
                                         @else
-                                            @if (count($otherreviews) == 0)
+                                            @if (count($reviews) == 0)
                                                     <p style="color: gray">No reviews given by others for this product</p>
                                             @else
-                                                @foreach ($otherreviews as $review)
+                                                @foreach ($reviews as $review)
 
 
                                                         <div class="co-item">
@@ -527,54 +512,21 @@
                     </div>
                 </div>
             </div>
-            <div class="row mb-2">
-                @if (count($relatedproducts) == 0)
-                    <div class="col-md-12 text-center">
-                        <h3>No related products...</h3>
-                    </div>
-                @else
-                    @foreach ($relatedproducts as $product)
-                        @if ($product->discount > 0)
-                                <div class="col-lg-4">
-                                    <div class="product__discount__item">
-                                        @php
-                                            $image = DB::table('product_images')
-                                                ->where('product_id', $product->id)
-                                                ->first();
-                                            $discountamount = ($product->discount / 100) * $product->price;
-                                            $afterdiscount = $product->price - $discountamount;
-                                        @endphp
-                                        <div class="product__discount__item__pic set-bg"
-                                            data-setbg="{{ Storage::disk('uploads')->url($image->filename) }}">
-                                            <div class="product__discount__percent">-{{ $product->discount }}%</div>
-                                            <ul class="product__item__pic__hover">
-                                                @if (Auth::guest() || Auth::user()->role_id != 3)
-                                                    <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
-                                                    <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
-
-                                                @elseif(Auth::user()->role_id==3)
-                                                    <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
-                                                    <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
-                                                @endif
-                                            </ul>
-                                        </div>
-                                        <div class="product__discount__item__text">
-                                            <h5 style="font-size: 20px; font-weight: 650"><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
-                                            <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
-                                                    {{ $product->price }}</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                @php
-                                    $image = DB::table('product_images')
-                                        ->where('product_id', $product->id)
-                                        ->first();
-                                @endphp
-                                    <div class="product__item__pic set-bg"
-                                        data-setbg="{{ Storage::disk('uploads')->url($image->filename)}}">
+            <div class="row">
+                @foreach ($relatedproducts as $product)
+                    @if ($product->discount > 0)
+                            <div class="col-lg-4">
+                                <div class="product__discount__item">
+                                    @php
+                                        $image = DB::table('product_images')
+                                            ->where('product_id', $product->id)
+                                            ->first();
+                                        $discountamount = ($product->discount / 100) * $product->price;
+                                        $afterdiscount = $product->price - $discountamount;
+                                    @endphp
+                                    <div class="product__discount__item__pic set-bg"
+                                        data-setbg="{{ Storage::disk('uploads')->url($image->filename) }}">
+                                        <div class="product__discount__percent">-{{ $product->discount }}%</div>
                                         <ul class="product__item__pic__hover">
                                             @if (Auth::guest() || Auth::user()->role_id != 3)
                                                 <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
@@ -586,15 +538,42 @@
                                             @endif
                                         </ul>
                                     </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h6>
-                                        <h5>Rs. {{$product->price}}</h5>
+                                    <div class="product__discount__item__text">
+                                        <h5><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
+                                        <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
+                                                {{ $product->price }}</span></div>
                                     </div>
                                 </div>
                             </div>
-                            @endif
-                    @endforeach
-                @endif
+                        @else
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="product__item">
+                            @php
+                                $image = DB::table('product_images')
+                                    ->where('product_id', $product->id)
+                                    ->first();
+                            @endphp
+                                <div class="product__item__pic set-bg"
+                                    data-setbg="{{ Storage::disk('uploads')->url($image->filename)}}">
+                                    <ul class="product__item__pic__hover">
+                                        @if (Auth::guest() || Auth::user()->role_id != 3)
+                                            <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                            <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+
+                                        @elseif(Auth::user()->role_id==3)
+                                            <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                            <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+                                        @endif
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h6>
+                                    <h5>Rs. {{$product->price}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                @endforeach
                 {{-- <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg"
