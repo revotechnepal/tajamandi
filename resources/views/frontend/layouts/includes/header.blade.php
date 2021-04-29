@@ -5,7 +5,6 @@
 @php
     $setting = DB::table('settings')->first();
 @endphp
-
 <!-- Humberger Begin -->
 <div class="humberger__menu__overlay"></div>
 <div class="humberger__menu__wrapper">

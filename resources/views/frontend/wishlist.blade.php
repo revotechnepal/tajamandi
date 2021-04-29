@@ -77,7 +77,7 @@
                                                 </div>
                                             </td>
                                             <td class="shoping__cart__item__close">
-                                                <a href="{{route('removefromwishlist', $real_product->id)}}"><span class="icon_close"></span></a>
+                                                <a href="{{route('removefromwishlist', $real_product->id)}}"><span class="icon_close" title="Remove from wishlist"></span></a>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -44,6 +44,11 @@ Route::get('/subcategory/{subcategoryslug}', [FrontController::class, 'subcatego
 // Cart
 Route::get('/cart', [FrontController::class, 'cart'])->name('cart');
 Route::post('/addtocart/{id}', [FrontController::class, 'addtocart'])->name('addtocart');
+Route::get('/removefromcart/{id}', [FrontController::class, 'removefromcart'])->name('removefromcart');
+Route::post('/updatequantity/{id}', [FrontController::class, 'updatequantity'])->name('updatequantity');
+
+// Checkout
+Route::get('/checkout/{id}', [FrontController::class, 'checkout'])->name('checkout');
 
 // Wishlist
 Route::get('/wishlist', [FrontController::class, 'wishlist'])->name('wishlist');

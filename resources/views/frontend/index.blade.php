@@ -76,7 +76,7 @@
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
-                                            <h5><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
+                                            <h5 style="font-size: 20px; font-weight: 650"><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
                                             <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
                                                     {{ $product->price }}</span></div>
                                         </div>
@@ -104,7 +104,7 @@
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
-                                        <h6><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h6>
+                                        <h6 style="font-size: 20px; font-weight: 650"><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h6>
                                         <h5>Rs. {{$product->price}}</h5>
                                     </div>
                                 </div>
@@ -141,18 +141,18 @@
                                                 <div class="product__discount__percent">-{{ $product->discount }}%</div>
                                                 <ul class="product__item__pic__hover">
                                                     @if (Auth::guest() || Auth::user()->role_id != 3)
-                                                        <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
-                                                        <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+                                                    <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                                    <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
 
-                                                    @elseif(Auth::user()->role_id==3)
-                                                        <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
-                                                        <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
-                                                    @endif
+                                                @elseif(Auth::user()->role_id==3)
+                                                    <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                                    <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+                                                @endif
                                                 </ul>
                                             </div>
                                             <div class="product__discount__item__text">
                                                 <span>{{ $product->subcategory->title }}</span>
-                                                <h5><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
+                                                <h5 style="font-size: 20px; font-weight: 650"><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
                                                 <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
                                                         {{ $product->price }}</span></div>
                                             </div>
