@@ -52,6 +52,7 @@ Route::post('/updatequantity/{id}', [FrontController::class, 'updatequantity'])-
 
 // Checkout
 Route::get('/checkout/{id}', [FrontController::class, 'checkout'])->name('checkout');
+Route::post('/placeorder', [FrontController::class, 'placeorder'])->name('placeorder');
 
 // Wishlist
 Route::get('/wishlist', [FrontController::class, 'wishlist'])->name('wishlist');

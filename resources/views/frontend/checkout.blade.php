@@ -30,7 +30,7 @@
             </div> --}}
             <div class="checkout__form">
                 <h4>Billing Details</h4>
-                <form action="#" method="POST">
+                <form action="{{ route('placeorder')}}" method="POST">
                     @csrf
                     @method('POST')
                     <div class="row form-group">
@@ -39,75 +39,46 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Fist Name<span>*</span></p>
-                                        <input type="text" name="firstname" class="form-control" placeholder="Your First Name">
+                                        <input type="text" required name="firstname" class="form-control" placeholder="Your First Name">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Last Name<span>*</span></p>
-                                        <input type="text" name="lastname" class="form-control" placeholder="Your Last Name">
+                                        <input type="text" required name="lastname" class="form-control" placeholder="Your Last Name">
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="checkout__input">
-                                <p>Country<span>*</span></p>
-                                <input type="text">
-                            </div> --}}
                             <div class="checkout__input">
                                 <p>Address<span>*</span></p>
-                                <input type="text" placeholder="Street Address / Tole (Ex: Swoyambhu-15)" class="form-control" name="street">
-                                {{-- <input type="text" placeholder="Apartment, suite, unite ect (optinal)"> --}}
+                                <input type="text" required placeholder="Street Address / Tole (Ex: Swoyambhu-15)" class="form-control" name="street">
                             </div>
                             <div class="checkout__input">
                                 <p>Town/City<span>*</span></p>
-                                <input type="text" placeholder="Ex: Kathmandu" name="town" class="form-control">
+                                <input type="text" required placeholder="Ex: Kathmandu" name="town" class="form-control">
                             </div>
                             <div class="checkout__input">
                                 <p>District<span>*</span></p>
-                                <input type="text" class="form-control" placeholder="District you live in" name="district">
+                                <input type="text" required class="form-control" placeholder="District you live in" name="district">
                             </div>
                             <div class="checkout__input">
                                 <p>Postcode / ZIP<span>*</span></p>
-                                <input type="text" name="postcode" class="form-control" placeholder="Ex: 44600">
+                                <input type="text" required name="postcode" class="form-control" placeholder="Ex: 44600">
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Phone<span>*</span></p>
-                                        <input type="text" name="phone" class="form-control" placeholder="Your phone no.">
+                                        <input type="text" required name="phone" class="form-control" placeholder="Your phone no.">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Email<span>*</span></p>
-                                        <input type="text" name="email" class="form-control" placeholder="Your email address">
+                                        <input type="text" required name="email" class="form-control" placeholder="Your email address">
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="checkout__input__checkbox">
-                                <label for="acc">
-                                    Create an account?
-                                    <input type="checkbox" id="acc">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <p>Create an account by entering the information below. If you are a returning customer
-                                please login at the top of the page</p>
-                            <div class="checkout__input">
-                                <p>Account Password<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input__checkbox">
-                                <label for="diff-acc">
-                                    Ship to a different address?
-                                    <input type="checkbox" id="diff-acc">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="checkout__input">
-                                <p>Order notes<span>*</span></p>
-                                <input type="text" placeholder="Notes about your order, e.g. special notes for delivery.">
-                            </div> --}}
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="checkout__order">
@@ -120,8 +91,6 @@
                                         @endphp
                                         <li>{{$real_product->title}} ({{$product->quantity}} * Rs. {{$product->price}}) <span>Rs. {{$product->quantity * $product->price}}</span></li>
                                     @endforeach
-                                    {{-- <li>Fresh Vegetable <span>$151.99</span></li>
-                                    <li>Organic Bananas <span>$53.99</span></li> --}}
                                 </ul>
                                 @php
                                     $grandtotal = 0;

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Mail\VerifyUserEmail;
 use App\Models\Cart;
+use App\Models\DelieveryAddress;
+use App\Models\Order;
+use App\Models\OrderedProducts;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Review;
@@ -211,5 +214,64 @@ class FrontController extends Controller
 
             return view('frontend.myreviews', compact('reviews', 'subcategories'));
 
+      }
+
+
+
+      public function placeorder(Request $request)
+      {
+          $data = $this->validate($request, [
+              'firstname' => 'required',
+              'lastname' => 'required',
+              'address' => 'required',
+              'town' => 'required',
+              'district' => 'required',
+              'postcode' => 'required',
+              'phone' => 'required',
+              'email' => 'required|email'
+            ]);
+
+            $delievery_address = DelieveryAddress::create([
+                'firstname' => $data['firstname'],
+                'lastname' => $data['lastname'],
+                'address' => $data['address'],
+                'town' => $data['town'],
+                'district' => $data['district'],
+                'postcode' => $data['postcode'],
+                'phone' => $data['phone'],
+                'email' => $data['email']
+            ]);
+            $delievery_address->save();
+
+            $order = Order::create([
+                'user_id' => Auth::user()->id,
+                'delievery_address_id' => $delievery_address->id
+            ]);
+
+            $order->save();
+
+            $cartproducts = Cart::where('user_id', Auth::user()->id)->get();
+
+            foreach ($cartproducts as $cartproduct) {
+                $product = Product::where('id', $cartproduct->product_id)->first();
+                $quantity = $product->quantity - $cartproduct->quantity;
+
+                $product->update([
+                    'quantity' => $quantity
+                ]);
+
+                $ordered_products = OrderedProducts::create([
+                    'order_id' => $order->id,
+                    'product_id' => $cartproduct->product_id,
+                    'quantity' => $cartproduct->quantity,
+                    'price' => $cartproduct->price,
+                    'status_id' => 1
+                ]);
+
+                $cartproduct->delete();
+
+                $ordered_products->save();
+            }
+            return redirect()->route('index')->with('success', 'Thank you for ordering. We will call you soon');
       }
 }
