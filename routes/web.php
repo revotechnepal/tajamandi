@@ -94,6 +94,8 @@ Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.us
     Route::get('/notificationsread', [OrderController::class, 'notificationsread'])->name('notificationsread');
     Route::put('/editaddress/{id}', [OrderController::class, 'editaddress'])->name('editaddress');
     Route::get('/deletefromorder/{id}', [OrderController::class, 'deletefromorder'])->name('deletefromorder');
+    Route::put('/updatequantity/{id}', [OrderController::class, 'updatequantity'])->name('updatequantity');
+    Route::put('/changeOrderStatus/{id}', [OrderController::class, 'changeOrderStatus'])->name('changeOrderStatus');
     Route::resource('order', OrderController::class);
     Route::resource('vendor', VendorController::class);
     Route::put('deleteproductimage/{id}', [ProductController::class, 'deleteproductimage'])->name('deleteproductimage');
