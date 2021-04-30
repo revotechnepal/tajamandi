@@ -3,7 +3,7 @@
 @section('content')
 
     <!-- Banner Section -->
-    <div class="hero__item set-bg my-5" data-setbg="{{ asset('frontend/img/hero/banner.jpg') }}">
+    <div class="hero__item set-bg my-5" style="background-size:cover;" data-setbg="{{ asset('frontend/img/hero/banner.jpg') }}" >
         <div class="hero__text">
                    <span>FRESH FRUIT AND VEGETABLE</span>
             <h2>All Your Grocery Items </h2>
@@ -50,8 +50,8 @@
             <div class="row featured__filter">
                 @foreach ($featuredproducts as $product)
                     @if ($product->discount > 0)
-                                <div class="col-lg-2 col-md-4 col-sm-6">
-                                    <div class="product__discount__item">
+                                <div class="product-lg-6 col-md-4 col-sm-6 product-container">
+                                    <div class="product__discount__item product__discount">
                                         @php
                                             $image = DB::table('product_images')
                                                 ->where('product_id', $product->id)
@@ -76,14 +76,14 @@
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
-                                            <h5 style="font-size: 20px; font-weight: 650"><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
+                                            <h5><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
                                             <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
                                                     {{ $product->price }}</span></div>
                                         </div>
                                     </div>
                                 </div>
                             @else
-                            <div class="col-lg-2 col-md-4 col-sm-6">
+                            <div class="product-lg-6 col-md-4 col-sm-6 product-container">
                                 <div class="product__item">
                                 @php
                                     $image = DB::table('product_images')
@@ -104,8 +104,8 @@
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
-                                        <h6 style="font-size: 20px; font-weight: 650"><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h6>
-                                        <h5>Rs. {{$product->price}}</h5>
+                                        <h5><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h5>
+                                        <div class="product__item__price">Rs. {{$product->price}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -120,14 +120,14 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-            <div class="product__discount">
+            <div class="product__discount" style="border:none; margin-bottom:40px;">
                         <div class="section-title product__discount__title text-center">
                             <h2>Sale Off</h2>
                         </div>
                         <div class="row">
                             <div class="product__discount__slider owl-carousel">
                                 @foreach ($offerproducts as $product)
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 product-container">
                                         <div class="product__discount__item">
                                             @php
                                                 $image = DB::table('product_images')
@@ -217,7 +217,7 @@
                                 $i = $i+1;
                             }
                         @endphp
-                        <a href="{{route('products', $filterproduct->slug)}}" class="latest-product__item col-lg-3 col-sm-6" style="display: {{$show}}">
+                        <a href="{{route('products', $filterproduct->slug)}}" class="latest-product__item col-lg-3 col-sm-6 " style="display: {{$show}}">
                             <div class="latest-product__item__pic">
                                 @php
                                 $image = DB::table('product_images')

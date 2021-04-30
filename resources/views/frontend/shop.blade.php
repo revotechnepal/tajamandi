@@ -134,7 +134,7 @@
                                                 $i = $i+1;
                                             }
                                         @endphp
-                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item" style="display: {{$show}}">
+                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item " style="display: {{$show}}">
                                                 <div class="latest-product__item__pic">
                                                     @php
                                                         $image = DB::table('product_images')
@@ -198,8 +198,8 @@
                     <div class="row">
                         @foreach ($products as $product)
                             @if ($product->discount > 0)
-                                <div class="col-lg-4">
-                                    <div class="product__discount__item">
+                                <div class="col-lg-3 product-container">
+                                    <div class="product__discount__item product__discount">
                                         @php
                                             $image = DB::table('product_images')
                                                 ->where('product_id', $product->id)
@@ -229,7 +229,7 @@
                                     </div>
                                 </div>
                             @else
-                            <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="col-lg-3 col-md-6 col-sm-6 product-container">
                                 <div class="product__item">
                                 @php
                                     $image = DB::table('product_images')
@@ -250,8 +250,8 @@
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
-                                        <h6 style="font-size: 20px; font-weight: 650;"><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h6>
-                                        <h5>Rs. {{$product->price}}</h5>
+                                        <h5><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h5>
+                                        <div class="product__item__price">Rs. {{$product->price}}</div>
                                     </div>
                                 </div>
                             </div>

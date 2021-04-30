@@ -68,8 +68,10 @@
     ------------------------*/
     $(".categories__slider").owlCarousel({
         loop: true,
-        margin: 0,
-        items: 4,
+        stagePadding: 50,
+        margin: 10,
+        items: 6,
+        autoWidth: true,
         dots: false,
         nav: true,
         navText: [

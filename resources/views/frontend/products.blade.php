@@ -59,9 +59,9 @@
 
     <!-- Product Details Section Begin -->
     <section class="product-details spad">
-        <div class="container">
+        <div class="container ">
             <div class="row">
-                <div class="col-lg-6 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="product__details__pic__item--large"
@@ -75,7 +75,7 @@
                         </div>
                     </div>
                 </div>
-                <div class=" col-lg-6 col-md-6">
+                <div class=" col-lg-6 col-md-6 ml-4">
                     <div class="product__details__text">
                         <h3>{{$product->title}}</h3>
                         <div class="product__details__rating">
@@ -494,7 +494,7 @@
             <div class="row">
                 @foreach ($relatedproducts as $product)
                     @if ($product->discount > 0)
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 product-container">
                                 <div class="product__discount__item">
                                     @php
                                         $image = DB::table('product_images')
@@ -525,8 +525,8 @@
                                 </div>
                             </div>
                         @else
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
+                        <div class="col-lg-4 col-md-6 col-sm-6 ">
+                            <div class="product__item ">
                             @php
                                 $image = DB::table('product_images')
                                     ->where('product_id', $product->id)
@@ -553,7 +553,7 @@
                         </div>
                         @endif
                 @endforeach
-                {{-- <div class="col-lg-3 col-md-4 col-sm-6">
+                {{-- <div class="col-lg-3 col-md-4 col-sm-6 ">
                     <div class="product__item">
                         <div class="product__item__pic set-bg"
                             data-setbg="{{ asset('frontend/img/product/product-2.jpg') }}">
