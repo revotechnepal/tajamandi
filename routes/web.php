@@ -65,6 +65,10 @@ Route::put('/updatereview/{id}',[FrontController::class, 'updatereview'])->name(
 Route::delete('/deleteuserreview/{id}', [FrontController::class, 'deleteuserreview'])->name('deleteuserreview');
 Route::get('/myreviews', [FrontController::class, 'myreviews'])->name('myreviews');
 
+//User Account
+// Route::get('/myaccount', [FrontController::class, 'myaccount'])->name('myaccount');
+
+
 Auth::routes();
 
 Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.user');
