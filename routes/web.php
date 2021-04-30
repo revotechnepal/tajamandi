@@ -75,6 +75,8 @@ Route::get('/useremailchange',[FrontController::class, 'useremailchange'])->name
 Route::get('/send-otpemail', [FrontController::class, 'sendotpEmail'])->name('sendotp');
 Route::get('/otpvalidation', [FrontController::class, 'otpvalidation'])->name('otpvalidation');
 Route::put('/updatepassword', [FrontController::class, 'updatePassword'])->name('updatepassword');
+Route::get('/myorders', [FrontController::class, 'myorders'])->name('myorders');
+Route::put('/cancelorder/{id}', [FrontController::class, 'cancelorder'])->name('cancelorder');
 
 
 Route::get('/editaddress', [FrontController::class, 'editaddress'])->name('editaddress');
