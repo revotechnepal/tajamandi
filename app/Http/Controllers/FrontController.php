@@ -41,7 +41,7 @@ class FrontController extends Controller
     public function shop()
     {
         $subcategories = Subcategory::latest()->get();
-        $products = Product::latest()->get();
+        $products = Product::latest()->simplePaginate(16);
         $filterproducts = Product::latest()->take(6)->get();
         return view('frontend.shop', compact('subcategories', 'products', 'filterproducts'));
     }
@@ -49,7 +49,7 @@ class FrontController extends Controller
     public function subcategory($slug)
     {
         $subcategory = Subcategory::where('slug', $slug)->first();
-        $products = Product::latest()->where('subcategory_id', $subcategory->id)->get();
+        $products = Product::latest()->where('subcategory_id', $subcategory->id)->simplePaginate(16);
         $filterproducts = Product::latest()->take(6)->get();
         $subcategories = Subcategory::latest()->get();
         return view('frontend.subcategory', compact('subcategories', 'products', 'subcategory', 'filterproducts'));
