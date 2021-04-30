@@ -4,7 +4,9 @@
 <section class="ftco-section bg-light">
     <div class="container py-5">
         <div class="row">
-            <div class="col-md-12 col-lg-12 order-md-last">
+            <div class="col-lg-1 order-md-last">
+            </div>
+            <div class="col-md-12 col-lg-10 order-md-last">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="billing-heading text-center mt-2 mb-2">My Profile</h4>
@@ -33,6 +35,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-lg-1 order-md-last">
             </div>
 
 
