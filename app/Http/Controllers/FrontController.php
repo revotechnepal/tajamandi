@@ -475,4 +475,51 @@ class FrontController extends Controller
                     ->with('oldfailure', 'Your old password doesnot match our credentials.');
         }
     }
+
+    public function myorders()
+    {
+        $subcategories = Subcategory::latest()->get();
+        $orders = Order::latest()->where('user_id', Auth::user()->id)->with('user', 'status')->get();
+        return view('frontend.myorders', compact( 'subcategories', 'orders'));
+    }
+
+    public function cancelorder(Request $request, $id)
+    {
+        $orderproduct = OrderedProducts::findorfail($id);
+
+        if($request['reason'] == null)
+        {
+            $data = $this->validate($request, [
+                'other' => 'required',
+            ]);
+
+            $reason = $data['other'];
+        }
+        else
+        {
+            $data = $this->validate($request, [
+                'reason'=>'required',
+            ]);
+            $reason = $data['reason'];
+        }
+        $quantity = $orderproduct->quantity;
+
+        $orderproduct->update([
+            'status_id'=>6,
+            'reason'=>$reason,
+            'quantity'=>0,
+        ]);
+
+
+
+                $product = Product::where('id', $orderproduct->product_id)->first();
+
+                $newquantity = $product->quantity + $quantity;
+                $product->update([
+                    'quantity' => $newquantity,
+                ]);
+            return redirect()->back()->with('success', 'Cancellation successful.');
+
+    }
+
 }

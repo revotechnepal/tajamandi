@@ -41,6 +41,7 @@
                                 <ul class="header__menu__dropdown text-center">
                                     <li><a href="{{route('myaccount')}}">My Account</a></li>
                                     <li><a href="{{route('myprofile')}}">My Profile</a></li>
+                                    <li><a href="{{route('myorders')}}">My Orders</a></li>
                                     <li><a href="{{route('cart')}}">My Cart</a></li>
                                     <li><a href="{{route('wishlist')}}">My Wishlist</a></li>
                                     <li><a href="{{route('myreviews')}}">My Reviews</a></li>
@@ -114,6 +115,7 @@
                                             <ul class="header__menu__dropdown text-center">
                                                 <li><a href="{{route('myaccount')}}">My Account</a></li>
                                                 <li><a href="{{route('myprofile')}}">My Profile</a></li>
+                                                <li><a href="{{route('myorders')}}">My Orders</a></li>
                                                 <li><a href="{{route('cart')}}">My Cart</a></li>
                                                 <li><a href="{{route('wishlist')}}">My Wishlist</a></li>
                                                 <li><a href="{{route('myreviews')}}">My Reviews</a></li>
