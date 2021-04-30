@@ -67,7 +67,18 @@ Route::delete('/deleteuserreview/{id}', [FrontController::class, 'deleteuserrevi
 Route::get('/myreviews', [FrontController::class, 'myreviews'])->name('myreviews');
 
 //User Account
-// Route::get('/myaccount', [FrontController::class, 'myaccount'])->name('myaccount');
+Route::get('/myaccount', [FrontController::class, 'myaccount'])->name('myaccount');
+Route::get('/myprofile', [FrontController::class, 'myprofile'])->name('myprofile');
+Route::get('/editinfo', [FrontController::class, 'editinfo'])->name('editinfo');
+Route::get('/sendemailchange',[FrontController::class, 'sendemailchange'])->name('sendemailchange');
+Route::get('/useremailchange',[FrontController::class, 'useremailchange'])->name('user.emailchange');
+Route::get('/send-otpemail', [FrontController::class, 'sendotpEmail'])->name('sendotp');
+Route::get('/otpvalidation', [FrontController::class, 'otpvalidation'])->name('otpvalidation');
+Route::put('/updatepassword', [FrontController::class, 'updatePassword'])->name('updatepassword');
+
+
+Route::get('/editaddress', [FrontController::class, 'editaddress'])->name('editaddress');
+Route::put('/updateaddress/{id}', [FrontController::class, 'updateaddress'])->name('updateaddress');
 
 
 Auth::routes();

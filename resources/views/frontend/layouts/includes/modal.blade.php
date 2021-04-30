@@ -61,6 +61,20 @@
                       </div>
                   </div>
               </div>
+              <div class="box">
+                <div class="content passwordBox" style="display:none;">
+                 <div class="form">
+                    <form method="POST" action = "{{ route('password.email') }}">
+                      @csrf
+                      @method('POST')
+
+                      <input id="email" class="form-control mb-2" type="text" placeholder="Email" name="email">
+
+                      <input class="btn btn-default btn-password" type="submit" value="Send Password Reset Link" >
+                    </form>
+                    </div>
+                </div>
+            </div>
           </div>
           <div class="modal-footer">
               <div class="forgot login-footer">
@@ -68,9 +82,9 @@
                        <a href="javascript: showRegisterForm();">create an account ?</a><br>
 
                        @if (Route::has('password.request'))
-                           <a href="{{route('password.request')}}">
-                                {{ __('Forgot Your Password?') }}
-                            </a>
+                        <a href="javascript: showPasswordForm();">
+                            Forgot Password?
+                        </a>
                        @endif
                   </span>
               </div>

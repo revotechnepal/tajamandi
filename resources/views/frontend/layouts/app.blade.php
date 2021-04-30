@@ -48,27 +48,40 @@
   <script src="{{asset('frontend/modalassets/js/login-register.js')}}" type="text/javascript"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
     <script>
-    function showRegisterForm(){
+        function showPasswordForm(){
         $('.loginBox').fadeOut('fast',function(){
-            $('.registerBox').fadeIn('fast');
+            $('.passwordBox').fadeIn('fast');
             $('.login-footer').fadeOut('fast',function(){
                 $('.register-footer').fadeIn('fast');
             });
-            $('.modal-title').html('Register with');
+            $('.modal-title').html('Reset Password');
+        });
+        $('.error').removeClass('alert alert-danger').html('');
+    }
+    function showRegisterForm(){
+        $('.loginBox').fadeOut('fast',function(){
+            $('.registerBox').fadeIn('fast');
+            $('.passwordBox').fadeOut('fast');
+            $('.login-footer').fadeOut('fast',function(){
+                $('.register-footer').fadeIn('fast');
+            });
+            $('.modal-title').html('Register');
         });
         $('.error').removeClass('alert alert-danger').html('');
     }
     function showLoginForm(){
         $('#loginModal .registerBox').fadeOut('fast',function(){
             $('.loginBox').fadeIn('fast');
+            $('.passwordBox').fadeOut('fast');
             $('.register-footer').fadeOut('fast',function(){
                 $('.login-footer').fadeIn('fast');
             });
 
-            $('.modal-title').html('Login with');
+            $('.modal-title').html('Login');
         });
         $('.error').removeClass('alert alert-danger').html('');
     }
+
 
     function openLoginModal(){
         showLoginForm();
@@ -78,6 +91,12 @@
     }
     function openRegisterModal(){
         showRegisterForm();
+        setTimeout(function(){
+            $('#loginModal').modal('show');
+        }, 230);
+    }
+    function openPasswordModal(){
+        showPasswordForm();
         setTimeout(function(){
             $('#loginModal').modal('show');
         }, 230);
