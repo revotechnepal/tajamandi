@@ -27,29 +27,38 @@
         </ul>
         {{-- <div class="header__cart__price">item: <span>$150.00</span></div> --}}
     </div>
-    <div class="humberger__menu__widget">
+    {{-- <div class="humberger__menu__widget">
         <div class="header__top__right__auth">
-            @if (Auth::guest() || Auth::user()->role_id != 3)
-                <a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-user"></i> Login</a>
-            @elseif(Auth::user()->role_id==3)
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
 
-                <a href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                        this.closest('form').submit();">
-                    <i class="fa fa-user"></i> {{Auth::user()->name}}
-                </a>
-            </form>
-            @endif
         </div>
-    </div>
+    </div> --}}
     <nav class="humberger__menu__nav mobile-menu">
         <ul>
+            <li>
+                @if (Auth::guest() || Auth::user()->role_id != 3)
+                                <a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-user"></i> Login</a>
+                            @elseif(Auth::user()->role_id==3)<a href="#"><i class="fa fa-user"></i> {{Auth::user()->name}}</a>
+                                <ul class="header__menu__dropdown text-center">
+                                    <li><a href="#">My Profile</a></li>
+                                    <li><a href="{{route('cart')}}">My Cart</a></li>
+                                    <li><a href="{{route('wishlist')}}">My Wishlist</a></li>
+                                    <li><a href="{{route('myreviews')}}">My Reviews</a></li>
+                                    <li><form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <a href="{{ route('logout') }}"
+                                                    onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                                                    Logout
+                                            </a>
+                                        </form>
+                                    </li>
+                            @endif
+                </ul>
+            </li>
             <li class="active"><a href="{{ route('index') }}">Home</a></li>
             <li><a href="{{ route('shop') }}">Shop</a></li>
             <li><a href="#">Pages</a>
-                <ul class="header__menu__dropdown">
+                <ul class="header__menu__dropdown text-center">
                     <li><a href="./shop-details.html">Shop Details</a></li>
                     <li><a href="./shoping-cart.html">Shoping Cart</a></li>
                     <li><a href="./checkout.html">Check Out</a></li>

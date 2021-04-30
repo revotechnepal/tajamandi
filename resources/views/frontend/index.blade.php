@@ -50,7 +50,7 @@
             <div class="row featured__filter">
                 @foreach ($featuredproducts as $product)
                     @if ($product->discount > 0)
-                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="col-lg-2 col-md-4 col-sm-6">
                                     <div class="product__discount__item">
                                         @php
                                             $image = DB::table('product_images')
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                             @else
-                            <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="col-lg-2 col-md-4 col-sm-6">
                                 <div class="product__item">
                                 @php
                                     $image = DB::table('product_images')
