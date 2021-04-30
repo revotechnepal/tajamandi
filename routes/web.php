@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
@@ -79,6 +80,10 @@ Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.us
     Route::resource('role', RoleController::class);
     Route::resource('category', CategoryController::class);
     Route::resource('subcategory', SubcategoryController::class);
+    Route::get('/notificationsread', [OrderController::class, 'notificationsread'])->name('notificationsread');
+    Route::put('/editaddress/{id}', [OrderController::class, 'editaddress'])->name('editaddress');
+    Route::get('/deletefromorder/{id}', [OrderController::class, 'deletefromorder'])->name('deletefromorder');
+    Route::resource('order', OrderController::class);
     Route::resource('vendor', VendorController::class);
     Route::put('deleteproductimage/{id}', [ProductController::class, 'deleteproductimage'])->name('deleteproductimage');
     Route::post('addmoreproductimages/{id}', [ProductController::class, 'addmoreproductimages'])->name('addmoreproductimages');
@@ -87,7 +92,6 @@ Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.us
     Route::get('review', [ReviewController::class, 'getreviews'])->name('review');
     Route::put('enablereview/{id}', [ReviewController::class, 'enableurl'])->name('review.enable');
     Route::put('disablereview/{id}', [ReviewController::class, 'disableurl'])->name('review.disable');
-
 });
 
 

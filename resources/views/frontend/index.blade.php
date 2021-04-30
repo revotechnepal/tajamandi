@@ -7,7 +7,7 @@
         <div class="hero__text">
                    <span>FRESH FRUIT AND VEGETABLE</span>
             <h2>All Your Grocery Items </h2>
-<p>Free Pickup and Delivery Available</p>
+            <p>Free Pickup and Delivery Available</p>
             <a href="{{ route('shop') }}" class="primary-btn">SHOP NOW</a>
         </div>
     </div>

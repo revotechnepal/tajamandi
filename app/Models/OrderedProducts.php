@@ -14,6 +14,16 @@ class OrderedProducts extends Model
         'product_id',
         'quantity',
         'price',
-        'status_id'
+        'status_id',
+        'reason'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+    public function status()
+    {
+        return $this->belongsTo(OrderStatus::class);
+    }
 }

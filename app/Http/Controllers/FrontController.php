@@ -13,6 +13,7 @@ use App\Models\Review;
 use App\Models\Subcategory;
 use App\Models\User;
 use App\Models\Wishlist;
+use App\Notifications\NewOrderNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -265,10 +266,12 @@ class FrontController extends Controller
 
             $order = Order::create([
                 'user_id' => Auth::user()->id,
-                'delievery_address_id' => $delievery_address->id
+                'delievery_address_id' => $delievery_address->id,
+                'status_id' => 1
             ]);
 
             $order->save();
+            $order->notify(new NewOrderNotification($order));
 
             $cartproducts = Cart::where('user_id', Auth::user()->id)->get();
 

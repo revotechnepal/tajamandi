@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\FrontController;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Notifications\NewUserNotification;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -107,7 +108,7 @@ class RegisterController extends Controller
         {
             $user->is_verified = 1;
             $user->save();
-            // $user->notify(new NewUserNotification($user));
+            $user->notify(new NewUserNotification($user));
             return redirect()->route('index')->with('success', 'Your account is activated. Please login.');
         }
         return redirect()->route('index')->with('error', 'Something is wrong.');

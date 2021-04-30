@@ -20,6 +20,7 @@ class CreateOrderedProductsTable extends Migration
             $table->integer('quantity');
             $table->integer('price');
             $table->integer('status_id');
+            $table->longText('reason')->nullable();
             $table->timestamps();
         });
     }
