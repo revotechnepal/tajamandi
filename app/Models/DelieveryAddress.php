@@ -10,6 +10,7 @@ class DelieveryAddress extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'firstname',
         'lastname',
         'address',
@@ -18,5 +19,6 @@ class DelieveryAddress extends Model
         'postcode',
         'phone',
         'email',
+        'is_default'
     ];
 }

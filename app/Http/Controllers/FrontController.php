@@ -232,16 +232,35 @@ class FrontController extends Controller
               'email' => 'required|email'
             ]);
 
-            $delievery_address = DelieveryAddress::create([
-                'firstname' => $data['firstname'],
-                'lastname' => $data['lastname'],
-                'address' => $data['address'],
-                'town' => $data['town'],
-                'district' => $data['district'],
-                'postcode' => $data['postcode'],
-                'phone' => $data['phone'],
-                'email' => $data['email']
-            ]);
+            $address = DelieveryAddress::where('user_id', Auth::user()->id)->first();
+            if($address) {
+                $delievery_address = DelieveryAddress::create([
+                    'user_id' => Auth::user()->id,
+                    'firstname' => $data['firstname'],
+                    'lastname' => $data['lastname'],
+                    'address' => $data['address'],
+                    'town' => $data['town'],
+                    'district' => $data['district'],
+                    'postcode' => $data['postcode'],
+                    'phone' => $data['phone'],
+                    'email' => $data['email'],
+                    'is_default' => 0
+                ]);
+            }else {
+                $delievery_address = DelieveryAddress::create([
+                    'user_id' => Auth::user()->id,
+                    'firstname' => $data['firstname'],
+                    'lastname' => $data['lastname'],
+                    'address' => $data['address'],
+                    'town' => $data['town'],
+                    'district' => $data['district'],
+                    'postcode' => $data['postcode'],
+                    'phone' => $data['phone'],
+                    'email' => $data['email'],
+                    'is_default' => 1
+                ]);
+            }
+
             $delievery_address->save();
 
             $order = Order::create([

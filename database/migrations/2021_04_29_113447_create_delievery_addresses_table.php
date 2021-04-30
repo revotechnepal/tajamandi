@@ -15,6 +15,7 @@ class CreateDelieveryAddressesTable extends Migration
     {
         Schema::create('delievery_addresses', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
             $table->string('firstname');
             $table->string('lastname');
             $table->string('address');
@@ -23,6 +24,7 @@ class CreateDelieveryAddressesTable extends Migration
             $table->string('postcode');
             $table->string('phone');
             $table->string('email');
+            $table->integer('is_default');
             $table->timestamps();
         });
     }

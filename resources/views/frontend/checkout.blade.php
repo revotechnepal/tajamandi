@@ -29,6 +29,9 @@
                 </div>
             </div> --}}
             <div class="checkout__form">
+                @if($errors->any())
+                    {{ implode('', $errors->all('<div>:message</div>')) }}
+                @endif
                 <h4>Billing Details</h4>
                 <form action="{{ route('placeorder')}}" method="POST">
                     @csrf
@@ -51,7 +54,7 @@
                             </div>
                             <div class="checkout__input">
                                 <p>Address<span>*</span></p>
-                                <input type="text" required placeholder="Street Address / Tole (Ex: Swoyambhu-15)" class="form-control" name="street">
+                                <input type="text" required placeholder="Street Address / Tole (Ex: Swoyambhu-15)" class="form-control" name="address">
                             </div>
                             <div class="checkout__input">
                                 <p>Town/City<span>*</span></p>
