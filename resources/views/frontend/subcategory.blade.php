@@ -241,7 +241,7 @@
                                     ->where('product_id', $product->id)
                                     ->first();
                             @endphp
-                                <div class="product__item__pic set-bg"
+                                <div onclick="location.href='{{route('products', $product->slug)}}';" style="cursor: pointer;" class="product__item__pic set-bg"
                                     data-setbg="{{ Storage::disk('uploads')->url($image->filename)}}">
                                     <ul class="product__item__pic__hover">
                                         @if (Auth::guest() || Auth::user()->role_id != 3)
