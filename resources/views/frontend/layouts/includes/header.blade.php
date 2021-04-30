@@ -102,6 +102,7 @@
                                     <ul>
                                         <li><a href="#"><i class="fa fa-user"></i> {{Auth::user()->name}}</a>
                                             <ul class="header__menu__dropdown text-center">
+                                                <li><a href="#">My Account</a></li>
                                                 <li><a href="#">My Profile</a></li>
                                                 <li><a href="{{route('cart')}}">My Cart</a></li>
                                                 <li><a href="{{route('wishlist')}}">My Wishlist</a></li>
