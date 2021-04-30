@@ -120,7 +120,11 @@
                             </form>
                         @endif
                         <ul>
-                            <li><b>Availability</b> <span>{{$product->quantity}} units In Stock</span></li>
+                            @if ($product->quantity <= 0)
+                                <li><b>Availability</b> <span class="text-danger">Out of stock.</span></li>
+                            @else
+                                <li><b>Availability</b> <span>{{$product->quantity}} units In Stock</span></li>
+                            @endif
                             <li><b>Shipping</b> <span>01 day shipping. <samp> Free pickup today</samp></span></li>
                             <li><b>Weight</b> <span>{{$product->quantity}} {{$product->unit}}</span></li>
                             <li><b>Vendor</b> <span>{{$product->vendor->name}}</span></li>

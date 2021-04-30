@@ -39,7 +39,9 @@
                                 <a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-user"></i> Login</a>
                             @elseif(Auth::user()->role_id==3)<a href="#"><i class="fa fa-user"></i> {{Auth::user()->name}}</a>
                                 <ul class="header__menu__dropdown text-center">
-                                    <li><a href="#">My Profile</a></li>
+                                    <li><a href="{{route('myaccount')}}">My Account</a></li>
+                                    <li><a href="{{route('myprofile')}}">My Profile</a></li>
+                                    <li><a href="{{route('myorders')}}">My Orders</a></li>
                                     <li><a href="{{route('cart')}}">My Cart</a></li>
                                     <li><a href="{{route('wishlist')}}">My Wishlist</a></li>
                                     <li><a href="{{route('myreviews')}}">My Reviews</a></li>
@@ -111,8 +113,9 @@
                                     <ul>
                                         <li><a href="#"><i class="fa fa-user"></i> {{Auth::user()->name}}</a>
                                             <ul class="header__menu__dropdown text-center">
-                                                <li><a href="#">My Account</a></li>
-                                                <li><a href="#">My Profile</a></li>
+                                                <li><a href="{{route('myaccount')}}">My Account</a></li>
+                                                <li><a href="{{route('myprofile')}}">My Profile</a></li>
+                                                <li><a href="{{route('myorders')}}">My Orders</a></li>
                                                 <li><a href="{{route('cart')}}">My Cart</a></li>
                                                 <li><a href="{{route('wishlist')}}">My Wishlist</a></li>
                                                 <li><a href="{{route('myreviews')}}">My Reviews</a></li>
@@ -231,12 +234,38 @@
 </section>
 <!-- Hero Section End -->
 
-<div class="container mb-2">
-    @if (session()->has('success'))
+<div class="container mb-2" style="position: absolute; z-index:1; right:0;">
+    {{-- @if (session()->has('success'))
         <div class="alert alert-success mt-2">{{ session('success') }}</div>
+    @endif --}}
+
+    @if (session('success'))
+        <div class="row">
+            <div class="col-sm-4 ml-auto message scroll">
+                <div class="alert  alert-success alert-dismissible fade show" role="alert" style="background: seagreen; color: white;">
+                {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     @endif
-    @if (session()->has('failure'))
+    {{-- @if (session()->has('failure'))
         <div class="alert alert-danger mt-2">{{ session('failure') }}</div>
+    @endif --}}
+
+    @if (session('failure'))
+        <div class="row">
+            <div class="col-sm-4 ml-auto message scroll">
+                <div class="alert  alert-danger alert-dismissible fade show" role="alert" style="background: seagreen; color: white;">
+                {{ session('failure') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     @endif
 </div>
 

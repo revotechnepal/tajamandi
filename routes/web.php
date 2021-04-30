@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
@@ -66,7 +67,20 @@ Route::delete('/deleteuserreview/{id}', [FrontController::class, 'deleteuserrevi
 Route::get('/myreviews', [FrontController::class, 'myreviews'])->name('myreviews');
 
 //User Account
-// Route::get('/myaccount', [FrontController::class, 'myaccount'])->name('myaccount');
+Route::get('/myaccount', [FrontController::class, 'myaccount'])->name('myaccount');
+Route::get('/myprofile', [FrontController::class, 'myprofile'])->name('myprofile');
+Route::get('/editinfo', [FrontController::class, 'editinfo'])->name('editinfo');
+Route::get('/sendemailchange',[FrontController::class, 'sendemailchange'])->name('sendemailchange');
+Route::get('/useremailchange',[FrontController::class, 'useremailchange'])->name('user.emailchange');
+Route::get('/send-otpemail', [FrontController::class, 'sendotpEmail'])->name('sendotp');
+Route::get('/otpvalidation', [FrontController::class, 'otpvalidation'])->name('otpvalidation');
+Route::put('/updatepassword', [FrontController::class, 'updatePassword'])->name('updatepassword');
+Route::get('/myorders', [FrontController::class, 'myorders'])->name('myorders');
+Route::put('/cancelorder/{id}', [FrontController::class, 'cancelorder'])->name('cancelorder');
+
+
+Route::get('/editaddress', [FrontController::class, 'editaddress'])->name('editaddress');
+Route::put('/updateaddress/{id}', [FrontController::class, 'updateaddress'])->name('updateaddress');
 
 
 Auth::routes();
@@ -79,6 +93,10 @@ Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.us
     Route::resource('role', RoleController::class);
     Route::resource('category', CategoryController::class);
     Route::resource('subcategory', SubcategoryController::class);
+    Route::get('/notificationsread', [OrderController::class, 'notificationsread'])->name('notificationsread');
+    Route::put('/editaddress/{id}', [OrderController::class, 'editaddress'])->name('editaddress');
+    Route::get('/deletefromorder/{id}', [OrderController::class, 'deletefromorder'])->name('deletefromorder');
+    Route::resource('order', OrderController::class);
     Route::resource('vendor', VendorController::class);
     Route::put('deleteproductimage/{id}', [ProductController::class, 'deleteproductimage'])->name('deleteproductimage');
     Route::post('addmoreproductimages/{id}', [ProductController::class, 'addmoreproductimages'])->name('addmoreproductimages');
@@ -87,7 +105,6 @@ Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.us
     Route::get('review', [ReviewController::class, 'getreviews'])->name('review');
     Route::put('enablereview/{id}', [ReviewController::class, 'enableurl'])->name('review.enable');
     Route::put('disablereview/{id}', [ReviewController::class, 'disableurl'])->name('review.disable');
-
 });
 
 

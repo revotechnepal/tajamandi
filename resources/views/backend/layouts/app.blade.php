@@ -84,9 +84,6 @@
                                     <ul class="nav child_menu">
                                         <li><a href="{{ route('product.index') }}">All Products</a></li>
                                         <li><a href={{ route('product.create') }}>Add new Product</a></li>
-                                        {{-- <li><a href="morisjs.html">Moris JS</a></li>
-                                        <li><a href="echarts.html">ECharts</a></li>
-                                        <li><a href="other_charts.html">Other Charts</a></li> --}}
                                     </ul>
                                 </li>
                                 <li><a><i class="fa fa-industry"></i>Our Vendors <span
@@ -95,6 +92,8 @@
                                         <li><a href="{{ route('vendor.index') }}">Our vendors</a></li>
                                         <li><a href="{{ route('vendor.create') }}">Register new vendor</a></li>
                                     </ul>
+                                </li>
+                                <li><a href="{{route('order.index')}}"><i class="fa fa-exchange"></i>Our Orders</a>
                                 </li>
                             </ul>
                         </div>
@@ -119,68 +118,10 @@
                                 </li>
                                 <li><a href="{{ route('review') }}"><i class="fa fa-star"></i> Reviews</a></li>
                                 <li><a href="{{ route('setting.index') }}"><i class="fa fa-cog"></i> Setting</a></li>
-                                {{-- <li><a><i class="fa fa-bug"></i> Additional Pages <span
-                                            class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="e_commerce.html">E-commerce</a></li>
-                                        <li><a href="projects.html">Projects</a></li>
-                                        <li><a href="project_detail.html">Project Detail</a></li>
-                                        <li><a href="contacts.html">Contacts</a></li>
-                                        <li><a href="profile.html">Profile</a></li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="page_403.html">403 Error</a></li>
-                                        <li><a href="page_404.html">404 Error</a></li>
-                                        <li><a href="page_500.html">500 Error</a></li>
-                                        <li><a href="plain_page.html">Plain Page</a></li>
-                                        <li><a href="login.html">Login Page</a></li>
-                                        <li><a href="pricing_tables.html">Pricing Tables</a></li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span
-                                            class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="#level1_1">Level One</a>
-                                        <li><a>Level One<span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li class="sub_menu"><a href="level2.html">Level Two</a>
-                                                </li>
-                                                <li><a href="#level2_1">Level Two</a>
-                                                </li>
-                                                <li><a href="#level2_2">Level Two</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#level1_2">Level One</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span
-                                            class="label label-success pull-right">Coming Soon</span></a></li> --}}
                             </ul>
                         </div>
 
                     </div>
-                    <!-- /sidebar menu -->
-
-                    <!-- /menu footer buttons -->
-                    {{-- <div class="sidebar-footer hidden-small">
-                        <a data-toggle="tooltip" data-placement="top" title="Settings">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Lock">
-                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                        </a>
-                    </div> --}}
-                    <!-- /menu footer buttons -->
                 </div>
             </div>
 
@@ -199,12 +140,6 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-usermenu pull-right"
                                     aria-labelledby="navbarDropdown">
-                                    {{-- <a class="dropdown-item" href="javascript:;"> Profile</a>
-                                    <a class="dropdown-item" href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
-                                    </a>
-                                    <a class="dropdown-item" href="javascript:;">Help</a> --}}
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                   document.getElementById('logout-form').submit();">
                                         <i class="fa fa-sign-out pull-right"></i> Log Out</a>
@@ -215,73 +150,91 @@
                             </li>
 
                             <li role="presentation" class="nav-item dropdown open">
+
+                                @php
+                                    $neworder = DB::table('notifications')->where('type','App\Notifications\NewOrderNotification')->where('is_read', 0)->count();
+                                    $newuser = DB::table('notifications')->where('type','App\Notifications\NewUserNotification')->where('is_read', 0)->count();
+                               @endphp
                                 <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1"
                                     data-toggle="dropdown" aria-expanded="false">
                                     <i class="fa fa-bell"></i>
-                                    <span class="badge bg-green">6</span>
+                                    @if ($neworder > 0 && $newuser == 0)
+                                        <span class="badge bg-green">1</span>
+                                    @elseif($newuser > 0 &&$neworder == 0)
+                                        <span class="badge bg-green">1</span>
+                                    @elseif($newuser > 0 && $neworder > 0)
+                                        <span class="badge bg-green">2</span>
+                                    @else
+                                        <span class="badge bg-green">0</span>
+                                    @endif
                                 </a>
                                 <ul class="dropdown-menu list-unstyled msg_list" role="menu"
                                     aria-labelledby="navbarDropdown1">
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <div class="text-center">
-                                            <a class="dropdown-item">
-                                                <strong>See All Alerts</strong>
-                                                <i class="fa fa-angle-right"></i>
+                                    @if ($neworder > 0 && $newuser == 0)
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" href="{{route('order.index')}}">
+                                                <span>
+                                                    <i class="fa fa-exchange"></i><span style="font-size: 15px;"> &nbsp;<b>{{$neworder}}</b> new order has just arrived.</span>
+                                                </span>
                                             </a>
-                                        </div>
-                                    </li>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div class="text-center">
+                                                <a class="dropdown-item" href="{{route('notificationsread')}}">
+                                                    <strong>Mark all as read.</strong>
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    @elseif ($newuser > 0 && $neworder == 0)
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" href="{{route('user.index')}}">
+                                                <span>
+                                                    <i class="fa fa-user"></i><span style="font-size: 15px;"> &nbsp;<b>{{$newuser}}</b> new user has just registerd.</span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div class="text-center">
+                                                <a class="dropdown-item" href="{{route('notificationsread')}}">
+                                                    <strong>Mark all as read.</strong>
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    @elseif ($newuser > 0 && $neworder > 0)
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" href="{{route('user.index')}}">
+                                                <span>
+                                                    <i class="fa fa-user"></i><span style="font-size: 15px;"> &nbsp;<b>{{$newuser}}</b> new user has just registerd.</span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" href="{{route('order.index')}}">
+                                                <span>
+                                                    <i class="fa fa-exchange"></i><span style="font-size: 15px;"> &nbsp;<b>{{$neworder}}</b> new order has just arrived.</span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div class="text-center">
+                                                <a class="dropdown-item" href="{{route('notificationsread')}}">
+                                                    <strong>Mark all as read.</strong>
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    @else
+                                        <li class="nav-item">
+                                            <div class="text-center">
+                                                <a class="dropdown-item">
+                                                    <strong>No new notifications</strong>
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>
                         </ul>

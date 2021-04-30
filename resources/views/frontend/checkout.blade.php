@@ -29,9 +29,9 @@
                 </div>
             </div> --}}
             <div class="checkout__form">
-                @if($errors->any())
+                {{-- @if($errors->any())
                     {{ implode('', $errors->all('<div>:message</div>')) }}
-                @endif
+                @endif --}}
                 <h4>Billing Details</h4>
                 <form action="{{ route('placeorder')}}" method="POST">
                     @csrf

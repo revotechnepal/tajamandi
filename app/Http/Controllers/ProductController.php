@@ -66,7 +66,6 @@ class ProductController extends Controller
         }else{
             return view('backend.permission.permission');
         }
-
     }
 
     /**

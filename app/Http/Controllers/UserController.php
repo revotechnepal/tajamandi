@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -25,7 +26,10 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        //
+        $newuser = DB::table('notifications')->where('type','App\Notifications\NewUserNotification')->where('is_read', 0)->get();
+            foreach ($newuser as $user) {
+                DB::update('update notifications set is_read = 1 where id = ?', [$user->id]);
+            }
         if ($request->user()->can('manage-user')) {
             if ($request->ajax()) {
                 $data = User::latest()->get();

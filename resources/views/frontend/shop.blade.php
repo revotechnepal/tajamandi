@@ -25,13 +25,13 @@
             <div class="row">
                 <div class="col-lg-3 col-md-5">
                     <div class="sidebar">
-                        <div class="blog__sidebar__search">
+                        {{-- <div class="blog__sidebar__search">
                             <form action="#">
                                 <input type="text" placeholder="Search...">
                                 <button type="submit"><span class="icon_search"></span></button>
                             </form>
-                        </div>
-                        <div class="sidebar__item">
+                        </div> --}}
+                        {{-- <div class="sidebar__item">
                             <h4>Price</h4>
                             <div class="price-range-wrap">
                                 <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
@@ -47,8 +47,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="sidebar__item sidebar__item__color--option">
+                        </div> --}}
+                        {{-- <div class="sidebar__item sidebar__item__color--option">
                             <h4>Colors</h4>
                             <div class="sidebar__item__color sidebar__item__color--white">
                                 <label for="white">
@@ -86,8 +86,8 @@
                                     <input type="radio" id="green">
                                 </label>
                             </div>
-                        </div>
-                        <div class="sidebar__item">
+                        </div> --}}
+                        {{-- <div class="sidebar__item">
                             <h4>Popular Size</h4>
                             <div class="sidebar__item__size">
                                 <label for="large">
@@ -113,7 +113,7 @@
                                     <input type="radio" id="tiny">
                                 </label>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="sidebar__item">
                             <div class="latest-product__text">
                                 <h4>Latest Products</h4>
@@ -207,7 +207,7 @@
                                             $discountamount = ($product->discount / 100) * $product->price;
                                             $afterdiscount = $product->price - $discountamount;
                                         @endphp
-                                        <div class="product__discount__item__pic set-bg"
+                                        <div onclick="location.href='{{route('products', $product->slug)}}';" style="cursor: pointer;" class="product__discount__item__pic set-bg"
                                             data-setbg="{{ Storage::disk('uploads')->url($image->filename) }}">
                                             <div class="product__discount__percent">-{{ $product->discount }}%</div>
                                             <ul class="product__item__pic__hover">
@@ -236,7 +236,7 @@
                                         ->where('product_id', $product->id)
                                         ->first();
                                 @endphp
-                                    <div class="product__item__pic set-bg"
+                                    <div onclick="location.href='{{route('products', $product->slug)}}';" style="cursor: pointer;" class="product__item__pic set-bg"
                                         data-setbg="{{ Storage::disk('uploads')->url($image->filename)}}">
                                         <ul class="product__item__pic__hover">
                                             @if (Auth::guest() || Auth::user()->role_id != 3)
@@ -259,12 +259,16 @@
                         @endforeach
 
                     </div>
-                    {{-- <div class="product__pagination text-center">
-                        <a href="#">1</a>
+                    <div class="text-center">
+                        {{ $products->links() }}
+                    </div>
+                    {{-- <div class="product__pagination text-center"> --}}
+
+                        {{-- <a href="#">1</a>
                         <a href="#">2</a>
                         <a href="#">3</a>
-                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
-                    </div> --}}
+                        <a href="#"><i class="fa fa-long-arrow-right"></i></a> --}}
+                    {{-- </div> --}}
                 </div>
             </div>
         </div>

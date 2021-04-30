@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\EmailChangeVerification;
+use App\Mail\PasswordChangeVerification;
 use App\Mail\VerifyUserEmail;
 use App\Models\Cart;
 use App\Models\DelieveryAddress;
@@ -13,9 +15,13 @@ use App\Models\Review;
 use App\Models\Subcategory;
 use App\Models\User;
 use App\Models\Wishlist;
+use App\Notifications\NewOrderNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Response;
 
 class FrontController extends Controller
 {
@@ -36,7 +42,7 @@ class FrontController extends Controller
     public function shop()
     {
         $subcategories = Subcategory::latest()->get();
-        $products = Product::latest()->get();
+        $products = Product::latest()->simplePaginate(16);
         $filterproducts = Product::latest()->take(6)->get();
         return view('frontend.shop', compact('subcategories', 'products', 'filterproducts'));
     }
@@ -44,7 +50,7 @@ class FrontController extends Controller
     public function subcategory($slug)
     {
         $subcategory = Subcategory::where('slug', $slug)->first();
-        $products = Product::latest()->where('subcategory_id', $subcategory->id)->get();
+        $products = Product::latest()->where('subcategory_id', $subcategory->id)->simplePaginate(16);
         $filterproducts = Product::latest()->take(6)->get();
         $subcategories = Subcategory::latest()->get();
         return view('frontend.subcategory', compact('subcategories', 'products', 'subcategory', 'filterproducts'));
@@ -265,10 +271,12 @@ class FrontController extends Controller
 
             $order = Order::create([
                 'user_id' => Auth::user()->id,
-                'delievery_address_id' => $delievery_address->id
+                'delievery_address_id' => $delievery_address->id,
+                'status_id' => 1
             ]);
 
             $order->save();
+            $order->notify(new NewOrderNotification($order));
 
             $cartproducts = Cart::where('user_id', Auth::user()->id)->get();
 
@@ -294,4 +302,224 @@ class FrontController extends Controller
             }
             return redirect()->route('index')->with('success', 'Thank you for ordering. We will call you soon');
       }
+
+      public function myaccount()
+    {
+        $user = User::where('id', Auth::user()->id)->first();
+        $title = $user->name;
+        $delieveryaddress = DelieveryAddress::where('user_id', $user->id)->where('is_default', 1)->first();
+        $subcategories = Subcategory::latest()->get();
+        return view('frontend.myaccount', compact('user', 'delieveryaddress', 'subcategories'));
+    }
+
+    public function editaddress()
+    {
+        // $title = $user->name;
+        $address = DelieveryAddress::where('user_id', Auth::user()->id)->where('is_default', 1)->first();
+        $subcategories = Subcategory::latest()->get();
+
+        return view('frontend.editaddress', compact('subcategories', 'address'));
+    }
+
+    public function updateaddress(Request $request, $id)
+    {
+        $data = $this->validate($request, [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'district' => 'required',
+            'town' => 'required',
+            'postcode' => 'required',
+            'email'=>'required|email',
+        ]);
+
+        $address = DelieveryAddress::findorfail($id);
+
+        $address->update([
+            'firstname' => $data['firstname'],
+            'lastname' => $data['lastname'],
+            'address' => $data['address'],
+            'town' => $data['town'],
+            'district' => $data['district'],
+            'postcode' => $data['postcode'],
+            'phone' => $data['phone'],
+            'email' => $data['email'],
+
+        ]);
+        return redirect()->route('myaccount')->with('success', 'Address information Updated Successfully');
+    }
+
+    public function myprofile()
+    {
+        $user = User::where('id', Auth::user()->id)->first();
+        $subcategories = Subcategory::latest()->get();
+        return view('frontend.myprofile.myprofile', compact( 'subcategories', 'user'));
+    }
+
+    public function editinfo()
+    {
+
+        $user = User::where('id', Auth::user()->id)->first();
+        $subcategories = Subcategory::latest()->get();
+        return view('frontend.myprofile.editinfo', compact( 'subcategories', 'user'));
+    }
+
+    public function sendEmailChange(Request $request)
+    {
+        $user = Auth::user();
+
+        $data = $this->validate($request,[
+            'name'=>'required',
+            'email'=>'required|email',
+        ]);
+
+        Cookie::queue('emailcookie', $data['email'], 30);
+        Cookie::queue('namecookie', $data['name'], 30);
+
+
+        $mailData = [
+            'name' => $data['name'],
+            'verification_code' => $user->verification_code,
+        ];
+        Mail::to($data['email'])->send(new EmailChangeVerification($mailData));
+
+        return redirect()->back()->with('success', 'Please verify from your newly given email');
+    }
+
+    public function useremailchange(){
+        $verification_code = \Illuminate\Support\Facades\Request::get('code');
+        $user = User::where('verification_code', $verification_code)->first();
+        if( $user != null)
+        {
+            $username = Cookie::get('namecookie');
+            $email = Cookie::get('emailcookie');
+
+            $user->name = $username;
+            $user->email = $email;
+            $user->save();
+
+            return redirect()->route('myprofile')->with('success', 'Your name and email has been changed as requested');
+        }
+        return redirect()->route('index')->with('error', 'Something is wrong.');
+    }
+
+    public function sendotpEmail() {
+        $user = Auth::user();
+
+        $email = $user->email;
+
+        $otp = mt_rand(111111, 999999);
+
+        Cookie::queue('otpcookie', $otp, 10);
+
+        $mailData = [
+            'otp' => $otp,
+        ];
+
+        Mail::to($email)->send(new PasswordChangeVerification($mailData));
+
+        $subcategories = Subcategory::latest()->get();
+        return view('frontend.myprofile.otpconfirmation', compact('subcategories'));
+
+    }
+
+    public function otpvalidation(Request $request)
+    {
+
+        $data = $this->validate($request, [
+            'otpcode' => 'required|numeric',
+        ]);
+
+        $cookiedata = Cookie::get('otpcookie');
+
+        if($data['otpcode'] == $cookiedata) {
+
+            $subcategories = Subcategory::latest()->get();
+            return view('frontend.myprofile.editpassword', compact( 'subcategories'));
+        }
+        else {
+            return response()->json([
+                'error_message' => 'Your otp code didnt match.'
+            ], Response::HTTP_OK);
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $data = $this->validate($request,[
+            'oldpassword' =>  'required',
+            'newpassword' => 'required|min:8|confirmed|different:password',
+        ]);
+
+        $user = User::where('id', Auth::user()->id)->first();
+        if(Hash::check($data['oldpassword'], $user->password))
+        {
+            if(!Hash::check($data['newpassword'], $user->password))
+            {
+                $newpassword = Hash::make($data['newpassword']);
+                $user->update([
+                    'password' => $newpassword,
+                ]);
+                $user->save();
+                return redirect()->route('myprofile')->with('success', 'Password has been changed.');
+            }
+            else
+            {
+                return redirect()->back()
+                        ->with('samepass', 'Old password cannot be new password.');
+            }
+        }
+        else{
+            return redirect()->back()
+                    ->with('oldfailure', 'Your old password doesnot match our credentials.');
+        }
+    }
+
+    public function myorders()
+    {
+        $subcategories = Subcategory::latest()->get();
+        $orders = Order::latest()->where('user_id', Auth::user()->id)->with('user', 'status')->get();
+        return view('frontend.myorders', compact( 'subcategories', 'orders'));
+    }
+
+    public function cancelorder(Request $request, $id)
+    {
+        $orderproduct = OrderedProducts::findorfail($id);
+
+        if($request['reason'] == null)
+        {
+            $data = $this->validate($request, [
+                'other' => 'required',
+            ]);
+
+            $reason = $data['other'];
+        }
+        else
+        {
+            $data = $this->validate($request, [
+                'reason'=>'required',
+            ]);
+            $reason = $data['reason'];
+        }
+        $quantity = $orderproduct->quantity;
+
+        $orderproduct->update([
+            'status_id'=>6,
+            'reason'=>$reason,
+            'quantity'=>0,
+        ]);
+
+
+
+                $product = Product::where('id', $orderproduct->product_id)->first();
+
+                $newquantity = $product->quantity + $quantity;
+                $product->update([
+                    'quantity' => $newquantity,
+                ]);
+            return redirect()->back()->with('success', 'Cancellation successful.');
+
+    }
+
 }
