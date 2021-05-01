@@ -24,6 +24,8 @@ class User extends Authenticatable
         'role_id',
         'verification_code',
         'is_verified',
+        'google_id',
+        'facebook_id'
     ];
 
     /**

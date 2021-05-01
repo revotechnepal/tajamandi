@@ -67,7 +67,7 @@ class FrontController extends Controller
         $product = Product::where('slug', $slug)->first();
         $productimage = ProductImage::where('product_id', $product->id)->first();
         $productimages = ProductImage::where('product_id', $product->id)->get();
-        $relatedproducts = Product::where('subcategory_id', $product->subcategory_id)->where('id', '!=', $product->id)->take(4)->get();
+        $relatedproducts = Product::where('subcategory_id', $product->subcategory_id)->where('id', '!=', $product->id)->take(5)->get();
         $subcategories = Subcategory::latest()->get();
         return view('frontend.products', compact('subcategories', 'product', 'productimage', 'productimages', 'relatedproducts'));
     }
@@ -75,8 +75,22 @@ class FrontController extends Controller
     public function checkout($id)
     {
         $cartproducts = Cart::where('user_id', $id)->get();
-        $subcategories = Subcategory::latest()->get();
-        return view('frontend.checkout', compact('subcategories', 'cartproducts'));
+        if(count($cartproducts) == 0) {
+            return redirect()->back()->with('failure', 'No products in your cart.');
+        }
+
+        $carttotal = 0;
+        foreach ($cartproducts as $cartproduct) {
+            $carttotal = $carttotal + ($cartproduct->price * $cartproduct->quantity);
+        }
+
+        if ($carttotal < 1000) {
+            return redirect()->back()->with('failure', 'Order should be above Rs. 1000 to chekcout.');
+        }
+        else{
+            $subcategories = Subcategory::latest()->get();
+            return view('frontend.checkout', compact('subcategories', 'cartproducts'));
+        }
     }
 
     public static function verifyEmail($name, $email, $verification_code)
@@ -223,8 +237,6 @@ class FrontController extends Controller
 
       }
 
-
-
       public function placeorder(Request $request)
       {
           $data = $this->validate($request, [
@@ -282,11 +294,6 @@ class FrontController extends Controller
 
             foreach ($cartproducts as $cartproduct) {
                 $product = Product::where('id', $cartproduct->product_id)->first();
-                $quantity = $product->quantity - $cartproduct->quantity;
-
-                $product->update([
-                    'quantity' => $quantity
-                ]);
 
                 $ordered_products = OrderedProducts::create([
                     'order_id' => $order->id,
@@ -300,7 +307,7 @@ class FrontController extends Controller
 
                 $ordered_products->save();
             }
-            return redirect()->route('index')->with('success', 'Thank you for ordering. We will call you soon');
+            return redirect()->route('index')->with('success', 'Thank you for ordering. We will call you soon.');
       }
 
       public function myaccount()
@@ -502,24 +509,13 @@ class FrontController extends Controller
             ]);
             $reason = $data['reason'];
         }
-        $quantity = $orderproduct->quantity;
 
         $orderproduct->update([
-            'status_id'=>6,
-            'reason'=>$reason,
-            'quantity'=>0,
+            'status_id' => 6,
+            'reason' => $reason,
+            'quantity' => 0,
         ]);
 
-
-
-                $product = Product::where('id', $orderproduct->product_id)->first();
-
-                $newquantity = $product->quantity + $quantity;
-                $product->update([
-                    'quantity' => $newquantity,
-                ]);
-            return redirect()->back()->with('success', 'Cancellation successful.');
-
+        return redirect()->back()->with('success', 'Cancellation successful.');
     }
-
 }

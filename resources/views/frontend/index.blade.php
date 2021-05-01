@@ -76,6 +76,7 @@
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
+                                            <b>({{$product->quantity}} {{$product->unit}})</b>
                                             <h5><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
                                             <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
                                                     {{ $product->price }}</span></div>
@@ -104,6 +105,7 @@
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
+                                        <b>({{$product->quantity}} {{$product->unit}})</b>
                                         <h5><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h5>
                                         <div class="product__item__price">Rs. {{$product->price}}</div>
                                     </div>
@@ -152,7 +154,8 @@
                                             </div>
                                             <div class="product__discount__item__text">
                                                 <span>{{ $product->subcategory->title }}</span>
-                                                <h5 style="font-size: 20px; font-weight: 650"><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
+                                                <h5 style="font-size: 20px; font-weight: 650"><a href="{{ route('products', $product->slug) }}">{{ $product->title }} </a></h5>
+                                                <h6>({{$product->quantity}} {{$product->unit}})</h6>
                                                 <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
                                                         {{ $product->price }}</span></div>
                                             </div>
@@ -227,8 +230,17 @@
                             <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$filterproduct->title}}" style="max-width: 110px; max-height: 110px;">
                             </div>
                             <div class="latest-product__item__text">
-                            <h6>{{$filterproduct->title}}</h6>
-                            <span>Rs. {{$filterproduct->price}}</span>
+                            <h6>{{$filterproduct->title}} ({{$filterproduct->quantity}} {{$filterproduct->unit}})</h6>
+                            @if ($filterproduct->discount > 0)
+                                @php
+                                    $discountamount = ($filterproduct->discount / 100) * $filterproduct->price;
+                                    $afterdiscount = $filterproduct->price - $discountamount;
+                                @endphp
+                                <span>Rs. {{$afterdiscount}}</span>
+                                <strike style="font-size: 15px; color: black;">Rs. {{$filterproduct->price}}</strike>
+                            @else
+                                <span>Rs. {{$filterproduct->price}}</span>
+                            @endif
                             </div>
                         </a>
                       @endforeach
@@ -260,8 +272,17 @@
                           <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$filterproduct->title}}" style="max-width: 110px; max-height: 110px;">
                           </div>
                           <div class="latest-product__item__text">
-                          <h6>{{$filterproduct->title}}</h6>
-                          <span>Rs. {{$filterproduct->price}}</span>
+                          <h6>{{$filterproduct->title}} ({{$filterproduct->quantity}} {{$filterproduct->unit}})</h6>
+                          @if ($filterproduct->discount > 0)
+                            @php
+                                $discountamount = ($filterproduct->discount / 100) * $filterproduct->price;
+                                $afterdiscount = $filterproduct->price - $discountamount;
+                            @endphp
+                                <span>Rs. {{$afterdiscount}}</span>
+                                <strike style="font-size: 15px; color: black;">Rs. {{$filterproduct->price}}</strike>
+                            @else
+                                <span>Rs. {{$filterproduct->price}}</span>
+                            @endif
                           </div>
                       </a>
                     @endforeach

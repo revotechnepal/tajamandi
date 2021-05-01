@@ -62,7 +62,7 @@ class OrderController extends Controller
                             return $date;
                         })
                         ->addColumn('action', function($row){
-                                $showurl = route('order.show', $row->id);
+                            $showurl = route('order.show', $row->id);
                             $btn = "<a href='$showurl' class='edit btn btn-primary btn-sm'>View Order</a>";
 
                             return $btn;
@@ -185,12 +185,12 @@ class OrderController extends Controller
     public function deletefromorder($id)
     {
         $ordered_product = OrderedProducts::findorFail($id);
-        $product = Product::where('id', $ordered_product->product_id)->first();
-        $new_quantity = $product->quantity + $ordered_product->quantity;
+        // $product = Product::where('id', $ordered_product->product_id)->first();
+        // $new_quantity = $product->quantity + $ordered_product->quantity;
 
-        $product->update([
-            'quantity' => $new_quantity
-        ]);
+        // $product->update([
+        //     'quantity' => $new_quantity
+        // ]);
 
         $ordered_product->update([
             'quantity' => 0,
@@ -203,41 +203,35 @@ class OrderController extends Controller
     public function updatequantity(Request $request, $id)
     {
         $ordered_product = OrderedProducts::findorFail($id);
-        $product = Product::where('id', $ordered_product->product_id)->first();
 
-        $total_quantity = $ordered_product->quantity + $product->quantity;
+        // $product = Product::where('id', $ordered_product->product_id)->first();
+        // $total_quantity = $ordered_product->quantity + $product->quantity;
+        // if($total_quantity < $request['quantity'])
+        // {
+        //     return redirect()->back()->with('failure', 'Quantity cannot be more than available.');
+        // }
+        // else
+        // {
+        //     if ($request['quantity'] > $ordered_product->quantity) {
+        //         $more_to_add = $request['quantity'] - $ordered_product->quantity;
+        //         $new_quantity = $product->quantity - $more_to_add;
+        //         $product->update([
+        //             'quantity' => $new_quantity
+        //         ]);
+        //     }
+        //     elseif ($request['quantity'] < $ordered_product->quantity) {
+        //         $product_to_deduct = $ordered_product->quantity - $request['quantity'];
+        //         $new_quantity = $product->quantity + $product_to_deduct;
+        //         $product->update([
+        //             'quantity' => $new_quantity
+        //         ]);
+        //     }
 
-        if($total_quantity < $request['quantity'])
-        {
-            return redirect()->back()->with('failure', 'Quantity cannot be more than available.');
-        }
-        else
-        {
-            if ($request['quantity'] > $ordered_product->quantity) {
-                $more_to_add = $request['quantity'] - $ordered_product->quantity;
+        $ordered_product->update([
+            'quantity' => $request['quantity']
+        ]);
 
-                $new_quantity = $product->quantity - $more_to_add;
-
-                $product->update([
-                    'quantity' => $new_quantity
-                ]);
-            }
-            elseif ($request['quantity'] < $ordered_product->quantity) {
-                $product_to_deduct = $ordered_product->quantity - $request['quantity'];
-
-                $new_quantity = $product->quantity + $product_to_deduct;
-
-                $product->update([
-                    'quantity' => $new_quantity
-                ]);
-            }
-
-            $ordered_product->update([
-                'quantity' => $request['quantity']
-            ]);
-
-            return redirect()->back()->with('success', 'Quantity is updated successfully.');
-        }
+        return redirect()->back()->with('success', 'Quantity is updated successfully.');
     }
 
     public function changeOrderStatus(Request $request, $id)

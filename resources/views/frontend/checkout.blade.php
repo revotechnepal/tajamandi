@@ -22,22 +22,13 @@
     <!-- Checkout Section Begin -->
     <section class="checkout spad">
         <div class="container">
-            {{-- <div class="row">
-                <div class="col-lg-12">
-                    <h6><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click here</a> to enter your code
-                    </h6>
-                </div>
-            </div> --}}
             <div class="checkout__form">
-                {{-- @if($errors->any())
-                    {{ implode('', $errors->all('<div>:message</div>')) }}
-                @endif --}}
                 <h4>Billing Details</h4>
                 <form action="{{ route('placeorder')}}" method="POST">
                     @csrf
                     @method('POST')
                     <div class="row form-group">
-                        <div class="col-lg-8 col-md-6">
+                        <div class="col-lg-7 col-md-6">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
@@ -49,6 +40,20 @@
                                     <div class="checkout__input">
                                         <p>Last Name<span>*</span></p>
                                         <input type="text" required name="lastname" class="form-control" placeholder="Your Last Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Phone<span>*</span></p>
+                                        <input type="text" required name="phone" class="form-control" placeholder="Your phone no.">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Email<span>*</span></p>
+                                        <input type="text" required name="email" class="form-control" placeholder="Your email address">
                                     </div>
                                 </div>
                             </div>
@@ -68,22 +73,11 @@
                                 <p>Postcode / ZIP<span>*</span></p>
                                 <input type="text" required name="postcode" class="form-control" placeholder="Ex: 44600">
                             </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Phone<span>*</span></p>
-                                        <input type="text" required name="phone" class="form-control" placeholder="Your phone no.">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Email<span>*</span></p>
-                                        <input type="text" required name="email" class="form-control" placeholder="Your email address">
-                                    </div>
-                                </div>
-                            </div>
+                            {{-- <div class="checkout__input">
+                                <input type="checkbox" class="form-control" name="delievery"> Inside Ring Road
+                            </div> --}}
                         </div>
-                        <div class="col-lg-4 col-md-6">
+                        <div class="col-lg-5 col-md-6">
                             <div class="checkout__order">
                                 <h4>Your Order</h4>
                                 <div class="checkout__order__products">Products <span>Total</span></div>
@@ -102,7 +96,8 @@
                                     }
                                 @endphp
                                 <div class="checkout__order__subtotal">Subtotal <span>Rs. {{$grandtotal}}</span></div>
-                                <div class="checkout__order__total">Total <span>Rs. {{$grandtotal}}</span></div>
+                                <div class="checkout__order__subtotal">Delievery Charge <span>Rs. 50</span></div>
+                                <div class="checkout__order__total">Total <span>Rs. {{$grandtotal + 50}}</span></div>
                                 {{-- <div class="checkout__input__checkbox">
                                     <label for="acc-or">
                                         Create an account?

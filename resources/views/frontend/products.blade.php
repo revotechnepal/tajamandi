@@ -77,7 +77,7 @@
                 </div>
                 <div class=" col-lg-6 col-md-6 ml-4">
                     <div class="product__details__text">
-                        <h3>{{$product->title}}</h3>
+                        <h3>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h3>
                         <div class="product__details__rating">
                             <div class="row">
                                 <div class="rateyos-readonly-widg"></div>
@@ -89,8 +89,15 @@
                                 <span>({{$noofreviews}} reviews)</span>
                             </div>
                         </div>
-                        <div class="product__details__price">Rs. {{$product->price}}</div>
-                        <p>{!! $product->details !!}</p>
+                        @if ($product->discount > 0)
+                            @php
+                                $discountamount = ($product->discount / 100) * $product->price;
+                                $afterdiscount = $product->price - $discountamount;
+                            @endphp
+                            <div class="product__details__price">Rs. {{$afterdiscount}} <span style="color: black; font-size: 18px;"><strike>Rs. {{$product->price}}</strike><span></div>
+                        @else
+                            <div class="product__details__price">Rs. {{$product->price}}</div>
+                        @endif
                         @if (Auth::guest() || Auth::user()->role_id != 3)
                             <div class="product__details__quantity">
                                 <div class="quantity">
@@ -120,13 +127,9 @@
                             </form>
                         @endif
                         <ul>
-                            @if ($product->quantity <= 0)
-                                <li><b>Availability</b> <span class="text-danger">Out of stock.</span></li>
-                            @else
-                                <li><b>Availability</b> <span>{{$product->quantity}} units In Stock</span></li>
-                            @endif
+                            <li><b>Availability</b> <span class="text-danger">In stock.</span></li>
                             <li><b>Shipping</b> <span>01 day shipping. <samp> Free pickup today</samp></span></li>
-                            <li><b>Weight</b> <span>{{$product->quantity}} {{$product->unit}}</span></li>
+                            {{-- <li><b>Weight</b> <span>{{$product->quantity}} {{$product->unit}}</span></li> --}}
                             <li><b>Vendor</b> <span>{{$product->vendor->name}}</span></li>
                             {{-- <li><b>Share on</b>
                                 <div class="share">
@@ -523,6 +526,7 @@
                                     </div>
                                     <div class="product__discount__item__text">
                                         <h5><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
+                                        <h6>({{$product->quantity}} {{$product->unit}})</h6>
                                         <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
                                                 {{ $product->price }}</span></div>
                                     </div>
@@ -550,8 +554,10 @@
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h6>
-                                    <h5>Rs. {{$product->price}}</h5>
+                                    <h5><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h5>
+
+                                    <h6>({{$product->quantity}} {{$product->unit}})</h6>
+                                    <div class="product__item__price"><span>Rs. {{$product->price}}</span></div>
                                 </div>
                             </div>
                         </div>

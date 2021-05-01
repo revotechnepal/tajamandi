@@ -10,7 +10,7 @@
               <div class="box">
                    <div class="content">
                       <div class="social">
-                          <a id="google_login" class="circle google" href="#">
+                          <a id="google_login" class="circle google" href="{{url('auth/google')}}">
                                 <i class="fa fa-google-plus"></i>
                           </a>
                           <a id="facebook_login" class="circle facebook" href="#">

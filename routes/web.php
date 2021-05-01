@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
@@ -78,10 +79,16 @@ Route::put('/updatepassword', [FrontController::class, 'updatePassword'])->name(
 Route::get('/myorders', [FrontController::class, 'myorders'])->name('myorders');
 Route::put('/cancelorder/{id}', [FrontController::class, 'cancelorder'])->name('cancelorder');
 
-
 Route::get('/editaddress', [FrontController::class, 'editaddress'])->name('editaddress');
 Route::put('/updateaddress/{id}', [FrontController::class, 'updateaddress'])->name('updateaddress');
 
+// Sign in with google
+Route::get('auth/google', [SocialMediaController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [SocialMediaController::class, 'handleGoogleCallback']);
+
+// Sign in with facebook
+Route::get('auth/facebook', [SocialMediaController::class, 'redirectToFacebook']);
+Route::get('auth/facebook/callback', [SocialMediaController::class, 'facebookSignin']);
 
 Auth::routes();
 
@@ -108,6 +115,7 @@ Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.us
     Route::put('enablereview/{id}', [ReviewController::class, 'enableurl'])->name('review.enable');
     Route::put('disablereview/{id}', [ReviewController::class, 'disableurl'])->name('review.disable');
 });
+
 
 
 

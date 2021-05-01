@@ -258,7 +258,7 @@
     @if (session('failure'))
         <div class="row">
             <div class="col-sm-4 ml-auto message scroll">
-                <div class="alert  alert-danger alert-dismissible fade show" role="alert" style="background: seagreen; color: white;">
+                <div class="alert  alert-danger alert-dismissible fade show" role="alert" style="background: rgb(134, 7, 7); color: white;">
                 {{ session('failure') }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
