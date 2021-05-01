@@ -228,3 +228,23 @@
         $button.parent().find("input").val(newVal);
     });
 })(jQuery);
+
+/*------------------
+        Hero Slider
+    --------------------*/
+$(".hero-items").owlCarousel({
+    loop: true,
+    margin: 0,
+    nav: true,
+    items: 1,
+    dots: false,
+    animateOut: "fadeOut",
+    animateIn: "fadeIn",
+    navText: [
+        "<span class='fa fa-angle-left'><span/>",
+        "<span class='fa fa-angle-right'><span/>",
+    ],
+    smartSpeed: 1200,
+    autoHeight: false,
+    autoplay: true,
+});

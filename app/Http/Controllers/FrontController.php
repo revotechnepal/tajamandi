@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CustomerEmail;
 use App\Mail\EmailChangeVerification;
 use App\Mail\PasswordChangeVerification;
 use App\Mail\VerifyUserEmail;
 use App\Models\Cart;
+use App\Models\Category;
 use App\Models\DelieveryAddress;
 use App\Models\Order;
 use App\Models\OrderedProducts;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Review;
+use App\Models\Setting;
+use App\Models\Slider;
 use App\Models\Subcategory;
 use App\Models\User;
 use App\Models\Wishlist;
@@ -31,12 +35,13 @@ class FrontController extends Controller
             return view('backend.dashboard');
 
         } elseif(Auth::user()->role_id == 3) {
+            $slider = Slider::latest()->get();
             $subcategories = Subcategory::latest()->get();
             $featuredproducts = Product::latest()->where('featured', 1)->get();
             $offerproducts = Product::latest()->where('discount', '>', 0)->take(6)->get();
             $filterproducts = Product::latest()->take(8)->get();
             $ratedproducts = Review::orderBy('rating', 'DESC')->with('product')->take(8)->get();
-            return view('frontend.index', compact('subcategories', 'featuredproducts', 'offerproducts', 'filterproducts', 'ratedproducts'));
+            return view('frontend.index', compact('subcategories', 'featuredproducts', 'offerproducts', 'filterproducts', 'ratedproducts', 'slider'));
         }
     }
     public function shop()
@@ -58,8 +63,9 @@ class FrontController extends Controller
 
     public function contact()
     {
+        $setting = Setting::first();
         $subcategories = Subcategory::latest()->get();
-        return view('frontend.contact', compact('subcategories'));
+        return view('frontend.contact', compact('subcategories', 'setting'));
     }
 
     public function products($slug)
@@ -518,4 +524,25 @@ class FrontController extends Controller
 
         return redirect()->back()->with('success', 'Cancellation successful.');
     }
+
+    public function customerEmail(Request $request)
+    {
+        $email = "info@tajamandi.com";
+        $data = $this->validate($request, [
+            'fullname'=>'required',
+            'customeremail'=>'required',
+            'message'=>'required',
+        ]);
+
+        $mailData = [
+            'fullname' => $request['fullname'],
+            'customeremail' => $request['customeremail'],
+            'message' => $request['message'],
+        ];
+
+        Mail::to($email)->send(new CustomerEmail($mailData));
+
+        return redirect()->back()->with('success', 'Thank you for messaging us. We will get back to you soon.');
+    }
+
 }

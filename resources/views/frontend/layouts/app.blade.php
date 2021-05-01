@@ -25,7 +25,65 @@
     <link href="{{asset('frontend/modalassets/css/login-register.css')}}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}" type="text/css">
     <link rel="stylesheet" href="{{asset('frontend/css/rating.css')}}" type="text/css">
+<style>
+    .dropdown-submenu {
+    position: relative;
+}
 
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
+.categorydrop {
+    height: 3rem;
+    width: -webkit-fill-available;
+    background: #7fad39;
+}
+
+.categorydrop:hover {
+    background: #698f2f;
+}
+</style>
     @stack('styles')
 </head>
 
@@ -39,6 +97,7 @@
 
     <!-- Js Plugins -->
     <script src="{{ asset('frontend/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery.nice-select.min.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery-ui.min.js') }}"></script>

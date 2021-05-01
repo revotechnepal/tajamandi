@@ -3,14 +3,36 @@
 @section('content')
 
     <!-- Banner Section -->
-    <div class="hero__item set-bg my-5" style="background-size:cover;" data-setbg="{{ asset('frontend/img/hero/banner.jpg') }}" >
+    {{-- <div class="hero__item set-bg my-5" style="background-size:cover;" data-setbg="{{ asset('frontend/img/hero/banner.jpg') }}" >
         <div class="hero__text">
                    <span>FRESH FRUIT AND VEGETABLE</span>
             <h2>All Your Grocery Items </h2>
             <p>Free Pickup and Delivery Available</p>
             <a href="{{ route('shop') }}" class="primary-btn">SHOP NOW</a>
         </div>
+    </div> --}}
+
+    <section class="hero-section">
+    <div class="hero-items owl-carousel">
+        @foreach ($slider as $slideritem)
+            <div onclick="location.href=" style="cursor: pointer; background-repeat: no-repeat;" class="single-hero-items set-bg" data-setbg="{{Storage::disk('uploads')->url($slideritem->images)}}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <span>{{$slideritem->subtitle}}</span>
+                            <h1>{{$slideritem->title}}</h1>
+                            <p>{{$slideritem->description}}</p>
+                            <a href="{{route('shop')}}" class="primary-btn">Shop Now</a>
+                        </div>
+                    </div>
+                    {{-- <div class="off-card">
+                        <h2>Sale <span>{{$slideritem->discount}}%</span></h2>
+                    </div> --}}
+                </div>
+            </div>
+        @endforeach
     </div>
+</section>
     <!-- Banner Section end -->
 
     <!-- Categories Section Begin -->

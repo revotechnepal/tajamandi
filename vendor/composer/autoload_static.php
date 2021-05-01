@@ -595,6 +595,7 @@ class ComposerStaticInite9c9c1dbacb7b7f35c79a3512cb496c4
         'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
         'App\\Models\\RolePermission' => __DIR__ . '/../..' . '/app/Models/RolePermission.php',
         'App\\Models\\Setting' => __DIR__ . '/../..' . '/app/Models/Setting.php',
+        'App\\Models\\Slider' => __DIR__ . '/../..' . '/app/Models/Slider.php',
         'App\\Models\\Subcategory' => __DIR__ . '/../..' . '/app/Models/Subcategory.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\UserPermission' => __DIR__ . '/../..' . '/app/Models/UserPermission.php',

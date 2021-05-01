@@ -56,6 +56,7 @@ return array(
     'App\\Models\\Role' => $baseDir . '/app/Models/Role.php',
     'App\\Models\\RolePermission' => $baseDir . '/app/Models/RolePermission.php',
     'App\\Models\\Setting' => $baseDir . '/app/Models/Setting.php',
+    'App\\Models\\Slider' => $baseDir . '/app/Models/Slider.php',
     'App\\Models\\Subcategory' => $baseDir . '/app/Models/Subcategory.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Models\\UserPermission' => $baseDir . '/app/Models/UserPermission.php',
