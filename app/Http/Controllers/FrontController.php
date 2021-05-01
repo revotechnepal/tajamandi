@@ -569,8 +569,12 @@ class FrontController extends Controller
 
     public function search($slug)
     {
-        // $subcategories = Subcategory::latest()->get();
-        // $product = Product::where('slug', $slug)->first();
-        // return view('', compact('subcategories', 'product'));
+        $subcategories = Subcategory::latest()->get();
+        $products = Product::where('slug', $slug)->latest()->simplePaginate(16);
+
+        $filterproducts = Product::latest()->take(6)->get();
+        $ratedproducts = Review::orderBy('rating', 'DESC')->with('product')->take(6)->get();
+
+        return view('frontend.search', compact('subcategories', 'products', 'filterproducts', 'ratedproducts'));
     }
 }

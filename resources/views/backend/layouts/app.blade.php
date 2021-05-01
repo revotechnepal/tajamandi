@@ -109,6 +109,13 @@
                                         <li><a href="{{ route('user.create') }}">Create User</a></li>
                                     </ul>
                                 </li>
+                                <li><a><i class="fa fa-cog"></i> Settings <span
+                                    class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="{{ route('setting.index') }}">General</a></li>
+                                        <li><a href="{{ route('slider.index') }}">Slider Settings</a></li>
+                                    </ul>
+                                </li>
                                 <li><a><i class="fa fa-ban"></i> Roles and Permission <span
                                             class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
@@ -117,13 +124,7 @@
                                     </ul>
                                 </li>
                                 <li><a href="{{ route('review') }}"><i class="fa fa-star"></i> Reviews</a></li>
-                                <li><a><i class="fa fa-cog"></i> Settings <span
-                                    class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="{{ route('setting.index') }}">General</a></li>
-                                        <li><a href="{{ route('slider.index') }}">Slider Settings</a></li>
-                                    </ul>
-                                </li>
+
                             </ul>
                         </div>
 
