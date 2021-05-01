@@ -3221,7 +3221,7 @@ ol {
     }
     .hero__search__phone {
         float: left;
-        margin-top: 30px;
+        padding-top: 80px;
     }
     .hero-items .single-hero-items {
         padding: 110px 25px 80px;
@@ -3766,4 +3766,61 @@ ol {
 .hero-items .owl-nav button[type="button"].owl-next {
     left: auto;
     right: 40px;
+}
+
+/* ============ desktop view ============ */
+@media all and (min-width: 992px) {
+    .dropdown-menu li {
+        position: relative;
+    }
+    .dropdown-menu .submenu {
+        display: none;
+        position: absolute;
+        left: 100%;
+        top: -7px;
+    }
+    .dropdown-menu .submenu-left {
+        right: 100%;
+        left: auto;
+    }
+
+    .dropdown-menu > li:hover {
+        background-color: #f1f1f1;
+    }
+    .dropdown-menu > li:hover > .submenu {
+        display: block;
+    }
+}
+/* ============ desktop view .end// ============ */
+
+/* ============ small devices ============ */
+@media (max-width: 991px) {
+    .dropdown-menu .dropdown-menu {
+        margin-left: 0.7rem;
+        margin-right: 0.7rem;
+        margin-bottom: 0.5rem;
+        width: 50% !important;
+        will-change: transform !important;
+        position: absolute !important;
+        transform: translate3d(100px, 0px, 0px) !important;
+        top: 0px !important;
+        left: 0px !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .dropright .ddnav {
+        will-change: transform !important;
+        position: absolute !important;
+        transform: translate3d(100px, 0px, 0px) !important;
+        top: 0px !important;
+        left: 0px !important;
+    }
+    .dropdown-toggle[aria-expanded="true"]:after {
+        transform: rotate(-90deg);
+    }
+    /*for animation*/
+    .dropdown-toggle:after {
+        transition: 0.7s;
+    }
 }

@@ -191,6 +191,7 @@
 </header>
 <!-- Header Section End -->
 
+
 <!-- Hero Section Begin -->
 <section class="hero hero-normal">
     <div class="container">
@@ -225,17 +226,7 @@
                         @endforeach
                       </ul>
                 </div>
-                {{-- <div class="hero__categories">
-                    <div class="hero__categories__all">
-                        <i class="fa fa-bars"></i>
-                        <span>All departments</span>
-                    </div>
-                    <ul>
-                        @foreach ($subcategories as $category)
-                            <li><a href="{{route('subcategory', $category->slug)}}">{{ $category->title }}</a></li>
-                        @endforeach
-                    </ul>
-                </div> --}}
+       
             </div>
             <div class="col-lg-9">
                 <div class="hero__search">
@@ -268,7 +259,6 @@
     </div>
 </section>
 <!-- Hero Section End -->
-
     @if (session('success'))
         <div class="row">
             <div class="col-sm-4 ml-auto message scroll">
