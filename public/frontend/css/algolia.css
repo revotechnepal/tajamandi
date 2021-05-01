@@ -98,7 +98,7 @@
 .aa-suggestion span em {
     font-weight: 700;
     font-style: normal;
-    background-color: #00aaff;
+    background-color: #7fad39;
     padding: 2px 0 2px 2px;
 }
 
@@ -118,7 +118,7 @@
 }
 
 .ais-hits--item em {
-    background-color: rgba(58, 150, 207, 0.3);
+    background-color: #7fad39;
 }
 
 .algolia-autocomplete {
