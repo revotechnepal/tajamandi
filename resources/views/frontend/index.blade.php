@@ -3,14 +3,36 @@
 @section('content')
 
     <!-- Banner Section -->
-    <div class="hero__item set-bg my-5" style="background-size:cover;" data-setbg="{{ asset('frontend/img/hero/banner.jpg') }}" >
+    {{-- <div class="hero__item set-bg my-5" style="background-size:cover;" data-setbg="{{ asset('frontend/img/hero/banner.jpg') }}" >
         <div class="hero__text">
                    <span>FRESH FRUIT AND VEGETABLE</span>
             <h2>All Your Grocery Items </h2>
             <p>Free Pickup and Delivery Available</p>
             <a href="{{ route('shop') }}" class="primary-btn">SHOP NOW</a>
         </div>
+    </div> --}}
+
+    <section class="hero-section">
+    <div class="hero-items owl-carousel">
+        @foreach ($slider as $slideritem)
+            <div onclick="location.href=" style="cursor: pointer; background-repeat: no-repeat;" class="single-hero-items set-bg" data-setbg="{{Storage::disk('uploads')->url($slideritem->images)}}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <span>{{$slideritem->subtitle}}</span>
+                            <h1>{{$slideritem->title}}</h1>
+                            <p>{{$slideritem->description}}</p>
+                            <a href="{{route('shop')}}" class="primary-btn">Shop Now</a>
+                        </div>
+                    </div>
+                    {{-- <div class="off-card">
+                        <h2>Sale <span>{{$slideritem->discount}}%</span></h2>
+                    </div> --}}
+                </div>
+            </div>
+        @endforeach
     </div>
+</section>
     <!-- Banner Section end -->
 
     <!-- Categories Section Begin -->
@@ -76,6 +98,7 @@
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
+                                            <b>({{$product->quantity}} {{$product->unit}})</b>
                                             <h5><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
                                             <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
                                                     {{ $product->price }}</span></div>
@@ -104,6 +127,7 @@
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
+                                        <b>({{$product->quantity}} {{$product->unit}})</b>
                                         <h5><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h5>
                                         <div class="product__item__price">Rs. {{$product->price}}</div>
                                     </div>
@@ -152,7 +176,8 @@
                                             </div>
                                             <div class="product__discount__item__text">
                                                 <span>{{ $product->subcategory->title }}</span>
-                                                <h5 style="font-size: 20px; font-weight: 650"><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
+                                                <h5 style="font-size: 20px; font-weight: 650"><a href="{{ route('products', $product->slug) }}">{{ $product->title }} </a></h5>
+                                                <h6>({{$product->quantity}} {{$product->unit}})</h6>
                                                 <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
                                                         {{ $product->price }}</span></div>
                                             </div>
@@ -227,8 +252,17 @@
                             <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$filterproduct->title}}" style="max-width: 110px; max-height: 110px;">
                             </div>
                             <div class="latest-product__item__text">
-                            <h6>{{$filterproduct->title}}</h6>
-                            <span>Rs. {{$filterproduct->price}}</span>
+                            <h6>{{$filterproduct->title}} ({{$filterproduct->quantity}} {{$filterproduct->unit}})</h6>
+                            @if ($filterproduct->discount > 0)
+                                @php
+                                    $discountamount = ($filterproduct->discount / 100) * $filterproduct->price;
+                                    $afterdiscount = $filterproduct->price - $discountamount;
+                                @endphp
+                                <span>Rs. {{$afterdiscount}}</span>
+                                <strike style="font-size: 15px; color: black;">Rs. {{$filterproduct->price}}</strike>
+                            @else
+                                <span>Rs. {{$filterproduct->price}}</span>
+                            @endif
                             </div>
                         </a>
                       @endforeach
@@ -260,8 +294,17 @@
                           <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$filterproduct->title}}" style="max-width: 110px; max-height: 110px;">
                           </div>
                           <div class="latest-product__item__text">
-                          <h6>{{$filterproduct->title}}</h6>
-                          <span>Rs. {{$filterproduct->price}}</span>
+                          <h6>{{$filterproduct->title}} ({{$filterproduct->quantity}} {{$filterproduct->unit}})</h6>
+                          @if ($filterproduct->discount > 0)
+                            @php
+                                $discountamount = ($filterproduct->discount / 100) * $filterproduct->price;
+                                $afterdiscount = $filterproduct->price - $discountamount;
+                            @endphp
+                                <span>Rs. {{$afterdiscount}}</span>
+                                <strike style="font-size: 15px; color: black;">Rs. {{$filterproduct->price}}</strike>
+                            @else
+                                <span>Rs. {{$filterproduct->price}}</span>
+                            @endif
                           </div>
                       </a>
                     @endforeach

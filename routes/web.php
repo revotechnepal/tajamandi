@@ -9,11 +9,14 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SocialMediaController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use App\Models\Product;
 use App\Models\Review;
+use App\Models\Slider;
 use App\Models\Subcategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,12 +33,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    $slider = Slider::latest()->get();
     $subcategories = Subcategory::latest()->get();
     $featuredproducts = Product::latest()->where('featured', 1)->get();
     $offerproducts = Product::latest()->where('discount', '>', 0)->take(6)->get();
     $filterproducts = Product::latest()->take(8)->get();
     $ratedproducts = Review::orderBy('rating', 'DESC')->with('product')->take(8)->get();
-    return view('frontend.index', compact('subcategories', 'featuredproducts', 'offerproducts', 'filterproducts', 'ratedproducts'));
+    return view('frontend.index', compact('subcategories', 'featuredproducts', 'offerproducts', 'filterproducts', 'ratedproducts', 'slider'));
 })->name('index');
 
 Route::get('/home', [FrontController::class, 'index'])->name('home');
@@ -78,10 +82,19 @@ Route::put('/updatepassword', [FrontController::class, 'updatePassword'])->name(
 Route::get('/myorders', [FrontController::class, 'myorders'])->name('myorders');
 Route::put('/cancelorder/{id}', [FrontController::class, 'cancelorder'])->name('cancelorder');
 
-
 Route::get('/editaddress', [FrontController::class, 'editaddress'])->name('editaddress');
 Route::put('/updateaddress/{id}', [FrontController::class, 'updateaddress'])->name('updateaddress');
 
+// Customer Email
+Route::get('/customerEmail', [FrontController::class, 'customerEmail'])->name('customerEmail');
+
+// Sign in with google
+Route::get('auth/google', [SocialMediaController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [SocialMediaController::class, 'handleGoogleCallback']);
+
+// Sign in with facebook
+Route::get('auth/facebook', [SocialMediaController::class, 'redirectToFacebook']);
+Route::get('auth/facebook/callback', [SocialMediaController::class, 'facebookSignin']);
 
 Auth::routes();
 
@@ -107,7 +120,10 @@ Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.us
     Route::get('review', [ReviewController::class, 'getreviews'])->name('review');
     Route::put('enablereview/{id}', [ReviewController::class, 'enableurl'])->name('review.enable');
     Route::put('disablereview/{id}', [ReviewController::class, 'disableurl'])->name('review.disable');
+    Route::resource('slider', SliderController::class);
+
 });
+
 
 
 

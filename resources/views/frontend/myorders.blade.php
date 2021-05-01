@@ -18,7 +18,7 @@
                         @if ($orders->count() == 0)
                             You have no orders.
                         @else
-                        <div class="table-responsive">
+                        <div class="table-responsive text-center">
                             <table id="myTable" class="table">
                                 <thead>
                                     <tr>
@@ -46,7 +46,7 @@
                                                                 </div>
 
                                                                 <div class="modal-body">
-                                                                    <div class="table-responsive">
+                                                                    <div class="table-responsive text-center ">
                                                                         <table class="table" id="myTable">
                                                                             <thead>
                                                                                 <tr>
@@ -74,7 +74,7 @@
                                                                                             <img src="{{Storage::disk('uploads')->url($productimage->filename)}}" alt="" style="max-height: 100px;">
                                                                                         </td>
                                                                                         <td>
-                                                                                            <b>{{$product->title}}</b>
+                                                                                            <b>{{$product->title}} <br>({{$product->quantity}} {{$product->unit}})</b>
                                                                                         </td>
                                                                                         <td>
                                                                                             @php
@@ -83,9 +83,9 @@
                                                                                             {{$status->status}}
                                                                                         </td>
                                                                                         <td>{{$productorder->quantity}}</td>
-                                                                                        <td>{{$productorder->price}}</td>
+                                                                                        <td>Rs. {{$productorder->price}}</td>
                                                                                         <td>
-                                                                                            {{$productorder->quantity * $productorder->price}}
+                                                                                            Rs. {{$productorder->quantity * $productorder->price}}
                                                                                         </td>
 
                                                                                         @if ($productorder->status_id == 1 || $productorder->status_id == 2 || $productorder->status_id == 3)

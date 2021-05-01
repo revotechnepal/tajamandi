@@ -49,7 +49,7 @@
                                                     $real_product = DB::table('products')->where('id', $product->product_id)->first();
                                                 @endphp
                                                 <img src="{{Storage::disk('uploads')->url($productimage->filename)}}" alt="{{$real_product->title}}" style="max-width: 150px;">
-                                                <h5 style="font-size: 20px; font-weight: 600">{{$real_product->title}}</h5>
+                                                <h5 style="font-size: 20px; font-weight: 600">{{$real_product->title}} ({{$real_product->quantity}} {{$real_product->unit}})</h5>
                                             </td>
                                             <td class="shoping__cart__price">
                                                 @if ($real_product->discount > 0)
@@ -72,7 +72,7 @@
                                                         </div>
                                                         <a href="#" class="primary-btn site-btn mb-1" onclick="this.parentNode.submit()">Update</a>
                                                     </form>
-                                                    <p>(Total quantity: {{$real_product->quantity}} units)</p>
+                                                    {{-- <p>(Total quantity: {{$real_product->quantity}} units)</p> --}}
                                                 </div>
                                             </td>
                                             <td class="shoping__cart__total">
@@ -102,17 +102,7 @@
                         @endif
                     </div>
                 </div>
-                {{-- <div class="col-lg-6">
-                    <div class="shoping__continue">
-                        <div class="shoping__discount">
-                            <h5>Discount Codes</h5>
-                            <form action="#">
-                                <input type="text" placeholder="Enter your coupon code">
-                                <button type="submit" class="site-btn">APPLY COUPON</button>
-                            </form>
-                        </div>
-                    </div>
-                </div> --}}
+
                 <div class="col-lg-6">
                     <div class="shoping__checkout">
                         <h5 class="text-center">Cart Total</h5>

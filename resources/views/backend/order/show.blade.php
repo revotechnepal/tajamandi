@@ -146,7 +146,7 @@
                                                                     @endif
                                                                   </form>
 
-                                                                  <p class="mt-1">({{$ordered_product->product->quantity}} left in stock)</p>
+                                                                  {{-- <p class="mt-1">({{$ordered_product->product->quantity}} left in stock)</p> --}}
                                                             </td>
                                                             <td style="vertical-align: inherit">Rs. {{$ordered_product->price * $ordered_product->quantity}}</td>
                                                         </tr>

@@ -144,8 +144,17 @@
                                                     <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
                                                 </div>
                                                 <div class="latest-product__item__text">
-                                                    <h6>{{$product->title}}</h6>
-                                                    <span>Rs. {{$product->price}}</span>
+                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
+                                                    @if ($product->discount > 0)
+                                                    @php
+                                                        $discountamount = ($product->discount / 100) * $product->price;
+                                                        $afterdiscount = $product->price - $discountamount;
+                                                    @endphp
+                                                        <span>Rs. {{$afterdiscount}}</span>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                    @else
+                                                        <span>Rs. {{$product->price}}</span>
+                                                    @endif
                                                 </div>
                                             </a>
                                         @endforeach
@@ -176,8 +185,17 @@
                                                     <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
                                                 </div>
                                                 <div class="latest-product__item__text">
-                                                    <h6>{{$product->title}}</h6>
-                                                    <span>Rs. {{$product->price}}</span>
+                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
+                                                    @if ($product->discount > 0)
+                                                    @php
+                                                        $discountamount = ($product->discount / 100) * $product->price;
+                                                        $afterdiscount = $product->price - $discountamount;
+                                                    @endphp
+                                                        <span>Rs. {{$afterdiscount}}</span>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                    @else
+                                                        <span>Rs. {{$product->price}}</span>
+                                                    @endif
                                                 </div>
                                             </a>
                                         @endforeach
@@ -222,6 +240,7 @@
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
+                                            <b>({{$product->quantity}} {{$product->unit}})</b>
                                             <h5 style="font-size: 20px; font-weight: 650;"><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
                                             <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
                                                     {{ $product->price }}</span></div>
@@ -250,6 +269,7 @@
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
+                                        <b>({{$product->quantity}} {{$product->unit}})</b>
                                         <h5><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h5>
                                         <div class="product__item__price">Rs. {{$product->price}}</div>
                                     </div>

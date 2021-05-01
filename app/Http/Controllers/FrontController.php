@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CustomerEmail;
 use App\Mail\EmailChangeVerification;
 use App\Mail\PasswordChangeVerification;
 use App\Mail\VerifyUserEmail;
@@ -13,6 +14,8 @@ use App\Models\OrderedProducts;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Review;
+use App\Models\Setting;
+use App\Models\Slider;
 use App\Models\Subcategory;
 use App\Models\User;
 use App\Models\Wishlist;
@@ -32,12 +35,13 @@ class FrontController extends Controller
             return view('backend.dashboard');
 
         } elseif(Auth::user()->role_id == 3) {
+            $slider = Slider::latest()->get();
             $subcategories = Subcategory::latest()->get();
             $featuredproducts = Product::latest()->where('featured', 1)->get();
             $offerproducts = Product::latest()->where('discount', '>', 0)->take(6)->get();
             $filterproducts = Product::latest()->take(8)->get();
             $ratedproducts = Review::orderBy('rating', 'DESC')->with('product')->take(8)->get();
-            return view('frontend.index', compact('subcategories', 'featuredproducts', 'offerproducts', 'filterproducts', 'ratedproducts'));
+            return view('frontend.index', compact('subcategories', 'featuredproducts', 'offerproducts', 'filterproducts', 'ratedproducts', 'slider'));
         }
     }
     public function shop()
@@ -59,8 +63,9 @@ class FrontController extends Controller
 
     public function contact()
     {
+        $setting = Setting::first();
         $subcategories = Subcategory::latest()->get();
-        return view('frontend.contact', compact('subcategories'));
+        return view('frontend.contact', compact('subcategories', 'setting'));
     }
 
     public function products($slug)
@@ -68,7 +73,7 @@ class FrontController extends Controller
         $product = Product::where('slug', $slug)->first();
         $productimage = ProductImage::where('product_id', $product->id)->first();
         $productimages = ProductImage::where('product_id', $product->id)->get();
-        $relatedproducts = Product::where('subcategory_id', $product->subcategory_id)->where('id', '!=', $product->id)->take(4)->get();
+        $relatedproducts = Product::where('subcategory_id', $product->subcategory_id)->where('id', '!=', $product->id)->take(5)->get();
         $subcategories = Subcategory::latest()->get();
         return view('frontend.products', compact('subcategories', 'product', 'productimage', 'productimages', 'relatedproducts'));
     }
@@ -76,8 +81,22 @@ class FrontController extends Controller
     public function checkout($id)
     {
         $cartproducts = Cart::where('user_id', $id)->get();
-        $subcategories = Subcategory::latest()->get();
-        return view('frontend.checkout', compact('subcategories', 'cartproducts'));
+        if(count($cartproducts) == 0) {
+            return redirect()->back()->with('failure', 'No products in your cart.');
+        }
+
+        $carttotal = 0;
+        foreach ($cartproducts as $cartproduct) {
+            $carttotal = $carttotal + ($cartproduct->price * $cartproduct->quantity);
+        }
+
+        if ($carttotal < 1000) {
+            return redirect()->back()->with('failure', 'Order should be above Rs. 1000 to chekcout.');
+        }
+        else{
+            $subcategories = Subcategory::latest()->get();
+            return view('frontend.checkout', compact('subcategories', 'cartproducts'));
+        }
     }
 
     public static function verifyEmail($name, $email, $verification_code)
@@ -224,8 +243,6 @@ class FrontController extends Controller
 
       }
 
-
-
       public function placeorder(Request $request)
       {
           $data = $this->validate($request, [
@@ -283,11 +300,6 @@ class FrontController extends Controller
 
             foreach ($cartproducts as $cartproduct) {
                 $product = Product::where('id', $cartproduct->product_id)->first();
-                $quantity = $product->quantity - $cartproduct->quantity;
-
-                $product->update([
-                    'quantity' => $quantity
-                ]);
 
                 $ordered_products = OrderedProducts::create([
                     'order_id' => $order->id,
@@ -301,7 +313,7 @@ class FrontController extends Controller
 
                 $ordered_products->save();
             }
-            return redirect()->route('index')->with('success', 'Thank you for ordering. We will call you soon');
+            return redirect()->route('index')->with('success', 'Thank you for ordering. We will call you soon.');
       }
 
       public function myaccount()
@@ -503,24 +515,34 @@ class FrontController extends Controller
             ]);
             $reason = $data['reason'];
         }
-        $quantity = $orderproduct->quantity;
 
         $orderproduct->update([
-            'status_id'=>6,
-            'reason'=>$reason,
-            'quantity'=>0,
+            'status_id' => 6,
+            'reason' => $reason,
+            'quantity' => 0,
         ]);
 
+        return redirect()->back()->with('success', 'Cancellation successful.');
+    }
 
+    public function customerEmail(Request $request)
+    {
+        $email = "info@tajamandi.com";
+        $data = $this->validate($request, [
+            'fullname'=>'required',
+            'customeremail'=>'required',
+            'message'=>'required',
+        ]);
 
-                $product = Product::where('id', $orderproduct->product_id)->first();
+        $mailData = [
+            'fullname' => $request['fullname'],
+            'customeremail' => $request['customeremail'],
+            'message' => $request['message'],
+        ];
 
-                $newquantity = $product->quantity + $quantity;
-                $product->update([
-                    'quantity' => $newquantity,
-                ]);
-            return redirect()->back()->with('success', 'Cancellation successful.');
+        Mail::to($email)->send(new CustomerEmail($mailData));
 
+        return redirect()->back()->with('success', 'Thank you for messaging us. We will get back to you soon.');
     }
 
 }
