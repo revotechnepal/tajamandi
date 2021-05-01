@@ -31,7 +31,7 @@
 
 .aa-input-search:focus {
     outline: 0;
-    border-color: #00aaff;
+    border-color: #7fad39;
     box-shadow: 4px 4px 0 rgba(58, 150, 207, 0.1);
 }
 
@@ -43,7 +43,7 @@
     right: 16px;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
-    fill: #00aaff;
+    fill: #000000;
 }
 
 .aa-hint {

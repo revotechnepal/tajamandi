@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg mt-3" style="background-repeat: no-repeat; background-size:cover;background-position:top center;" data-setbg="{{ asset('frontend/img/breadcrumb.jpg') }}">
+    <section class="breadcrumb-section set-bg mt-3" style="background-repeat: no-repeat; background-size:cover;background-position:top center;"w data-setbg="{{ asset('frontend/img/breadcrumb.jpg') }}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
