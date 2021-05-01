@@ -15,13 +15,13 @@
     <section class="hero-section">
     <div class="hero-items owl-carousel">
         @foreach ($slider as $slideritem)
-            <div onclick="location.href=" style="cursor: pointer; background-repeat: no-repeat;" class="single-hero-items set-bg" data-setbg="{{Storage::disk('uploads')->url($slideritem->images)}}">
+            <div onclick="location.href=" style="cursor: pointer; background-repeat: no-repeat; background-size:cover;background-position:top center;" class="single-hero-items set-bg" data-setbg="{{Storage::disk('uploads')->url($slideritem->images)}}">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-5">
+                        <div class="col-lg-5 text-sm-center">
                             <span>{{$slideritem->subtitle}}</span>
                             <h1>{{$slideritem->title}}</h1>
-                            <p>{{$slideritem->description}}</p>
+                            <p >{{$slideritem->description}}</p>
                             <a href="{{route('shop')}}" class="primary-btn">Shop Now</a>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
     <!-- Banner Section end -->
 
     <!-- Categories Section Begin -->
-    <section class="categories">
+    <section class="categories pt-5">
         <div class="container">
             <div class="row">
             <div class="col-lg-12">

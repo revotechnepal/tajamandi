@@ -199,7 +199,7 @@
                     @php
                         $categories = DB::table('categories')->latest()->get();
                     @endphp
-                    <button class="btn btn-success dropdown-toggle categorydrop" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-success dropdown-toggle categorydrop " type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars px-4"></i>
                       All Departments
                     </button>
                     <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
