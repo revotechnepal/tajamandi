@@ -13,6 +13,7 @@ use App\Models\OrderedProducts;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Review;
+use App\Models\Slider;
 use App\Models\Subcategory;
 use App\Models\User;
 use App\Models\Wishlist;
@@ -32,12 +33,13 @@ class FrontController extends Controller
             return view('backend.dashboard');
 
         } elseif(Auth::user()->role_id == 3) {
+            $slider = Slider::latest()->get();
             $subcategories = Subcategory::latest()->get();
             $featuredproducts = Product::latest()->where('featured', 1)->get();
             $offerproducts = Product::latest()->where('discount', '>', 0)->take(6)->get();
             $filterproducts = Product::latest()->take(8)->get();
             $ratedproducts = Review::orderBy('rating', 'DESC')->with('product')->take(8)->get();
-            return view('frontend.index', compact('subcategories', 'featuredproducts', 'offerproducts', 'filterproducts', 'ratedproducts'));
+            return view('frontend.index', compact('subcategories', 'featuredproducts', 'offerproducts', 'filterproducts', 'ratedproducts', 'slider'));
         }
     }
     public function shop()
