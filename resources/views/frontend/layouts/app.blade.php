@@ -28,6 +28,16 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/algolia.css') }}">
 
     @stack('styles')
+    <style>
+        .hero__search__form{
+            position: absolute;
+        }
+        /* @media (max-width: 1200px) {
+            .hero__search__form{
+            position: absolute;
+        }
+         } */
+    </style>
 </head>
 
 <body>

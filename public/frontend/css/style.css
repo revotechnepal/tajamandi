@@ -2938,6 +2938,7 @@ ol {
     .header__menu ul li {
         margin-right: 45px;
     }
+
     .hero__search__form {
         width: 490px;
     }
@@ -2975,6 +2976,9 @@ ol {
     }
     .hero__search__form {
         width: 485px;
+    }
+    .dropdown {
+        padding-bottom: 40px;
     }
     .categories__slider.owl-carousel .owl-nav button {
         left: -20px;
@@ -3227,6 +3231,12 @@ ol {
     .hero-items .single-hero-items h1 {
         font-size: 40px;
     }
+    .text-sm-center {
+        text-align: center !important;
+    }
+    .dropdown {
+        padding-bottom: 40px;
+    }
     .categories__slider.owl-carousel .owl-nav {
         text-align: center;
         margin-top: 40px;
@@ -3473,6 +3483,9 @@ ol {
 /* Small Device = 320px */
 
 @media only screen and (max-width: 479px) {
+    .dropdown {
+        padding-bottom: 40px;
+    }
     .hero__search__form form .hero__search__categories {
         display: none;
     }
@@ -3516,6 +3529,9 @@ ol {
     }
     .blog__details__hero__text h2 {
         font-size: 24px;
+    }
+    .text-sm-center {
+        text-align: center !important;
     }
 }
 
@@ -3608,12 +3624,11 @@ ol {
 -----------------------*/
 
 .hero-items .single-hero-items {
-    height: 725px;
-    padding-top: 210px;
+    padding: 100px 0px;
 }
 
 .hero-items .single-hero-items span {
-    color: #e7ab3c;
+    color: #008d0c;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -3745,7 +3760,7 @@ ol {
 }
 
 .hero-items .owl-nav button[type="button"]:hover {
-    color: #dfad51;
+    color: #00a108;
 }
 
 .hero-items .owl-nav button[type="button"].owl-next {
