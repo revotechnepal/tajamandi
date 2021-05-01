@@ -501,8 +501,8 @@
             <div class="row">
                 @foreach ($relatedproducts as $product)
                     @if ($product->discount > 0)
-                            <div class="col-lg-4 product-container">
-                                <div class="product__discount__item">
+                            <div class="product-lg-6 product-container" >
+                                <div class="product__discount">
                                     @php
                                         $image = DB::table('product_images')
                                             ->where('product_id', $product->id)
@@ -533,8 +533,8 @@
                                 </div>
                             </div>
                         @else
-                        <div class="col-lg-4 col-md-6 col-sm-6 ">
-                            <div class="product__item ">
+                        <div class="product-lg-6 col-md-6 col-sm-6 product-container">
+                            <div class="product__item">
                             @php
                                 $image = DB::table('product_images')
                                     ->where('product_id', $product->id)
