@@ -87,33 +87,31 @@
                                 </label>
                             </div>
                         </div> --}}
-                        {{-- <div class="sidebar__item">
-                            <h4>Popular Size</h4>
-                            <div class="sidebar__item__size">
-                                <label for="large">
-                                    Large
-                                    <input type="radio" id="large">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="medium">
-                                    Medium
-                                    <input type="radio" id="medium">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="small">
-                                    Small
-                                    <input type="radio" id="small">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="tiny">
-                                    Tiny
-                                    <input type="radio" id="tiny">
-                                </label>
-                            </div>
-                        </div> --}}
+                        <div class="sidebar__item">
+                            <h4>Our Categories</h4>
+                            @php
+                                $i = 1;
+                            @endphp
+                            @foreach ($subcategories as $item)
+                                @php
+                                    if($i > 10)
+                                    {
+                                        $show = 'none';
+                                    }
+                                    else
+                                    {
+                                        $show = '';
+                                        $i = $i+1;
+                                    }
+                                @endphp
+                                <div class="sidebar__item__size" style="display:{{$show}}">
+                                    <label for="large">
+                                        <a href="{{route('subcategory', $item->slug)}}"> {{$item->title}}</a>
+
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
                         <div class="sidebar__item">
                             <div class="latest-product__text">
                                 <h4>Latest Products</h4>
