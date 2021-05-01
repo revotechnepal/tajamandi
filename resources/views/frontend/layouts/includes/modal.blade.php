@@ -13,7 +13,7 @@
                           <a id="google_login" class="circle google" href="{{url('auth/google')}}">
                                 <i class="fa fa-google-plus"></i>
                           </a>
-                          <a id="facebook_login" class="circle facebook" href="#">
+                          <a id="facebook_login" class="circle facebook" href="{{url('auth/facebook')}}">
                                 &nbsp;&nbsp;<i class="fa fa-facebook" aria-hidden="true"></i>&nbsp;&nbsp;
                           </a>
                       </div>
