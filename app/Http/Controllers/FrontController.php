@@ -6,6 +6,7 @@ use App\Mail\EmailChangeVerification;
 use App\Mail\PasswordChangeVerification;
 use App\Mail\VerifyUserEmail;
 use App\Models\Cart;
+use App\Models\Category;
 use App\Models\DelieveryAddress;
 use App\Models\Order;
 use App\Models\OrderedProducts;

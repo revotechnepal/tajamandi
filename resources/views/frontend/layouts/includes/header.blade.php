@@ -194,7 +194,41 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-                <div class="hero__categories">
+
+                <div class="dropdown">
+                    @php
+                        $categories = DB::table('categories')->latest()->get();
+                    @endphp
+                    <button class="btn btn-success dropdown-toggle categorydrop" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      All Departments
+                    </button>
+                    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                        @foreach ($categories as $category)
+                        <li class="dropdown-submenu">
+                            <a  class="dropdown-item" tabindex="-1" href="#">{{$category->title}}</a>
+                            <ul class="dropdown-menu">
+                                @php
+                                    $subcategories = DB::table('subcategories')->where('category_id', $category->id)->get();
+                                @endphp
+                                @if (count($subcategories) > 0)
+                                    @foreach ($subcategories as $item)
+                                        <li class="dropdown-item"><a href="{{route('subcategory', $item->slug)}}">{{$item->title}}</a></li>
+                                    @endforeach
+                                @else
+                                    <li class="dropdown-item"><a href="#">No Subcategories</a></li>
+
+                                @endif
+
+                            </ul>
+                          </li>
+                        @endforeach
+
+
+                      </ul>
+                </div>
+
+
+                {{-- <div class="hero__categories">
                     <div class="hero__categories__all">
                         <i class="fa fa-bars"></i>
                         <span>All departments</span>
@@ -204,7 +238,7 @@
                             <li><a href="{{route('subcategory', $category->slug)}}">{{ $category->title }}</a></li>
                         @endforeach
                     </ul>
-                </div>
+                </div> --}}
             </div>
             <div class="col-lg-9">
                 <div class="hero__search">
