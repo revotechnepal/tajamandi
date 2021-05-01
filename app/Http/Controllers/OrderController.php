@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\DelieveryAddress;
 use App\Models\Order;
 use App\Models\OrderedProducts;
+use App\Models\OrderStatus;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use DataTables;
 use Illuminate\Support\Facades\DB;
@@ -106,7 +108,8 @@ class OrderController extends Controller
         $order = Order::findorFail($id);
         $ordered_products = OrderedProducts::where('order_id', $order->id)->with('product')->with('status')->get();
         $delievery_address = DelieveryAddress::where('id', $order->delievery_address_id)->first();
-        return view('backend.order.show', compact('order', 'ordered_products', 'delievery_address'));
+        $orderstatuses = OrderStatus::get();
+        return view('backend.order.show', compact('order', 'ordered_products', 'delievery_address', 'orderstatuses'));
     }
 
     /**
@@ -181,6 +184,86 @@ class OrderController extends Controller
 
     public function deletefromorder($id)
     {
-        dd($id);
+        $ordered_product = OrderedProducts::findorFail($id);
+        $product = Product::where('id', $ordered_product->product_id)->first();
+        $new_quantity = $product->quantity + $ordered_product->quantity;
+
+        $product->update([
+            'quantity' => $new_quantity
+        ]);
+
+        $ordered_product->update([
+            'quantity' => 0,
+            'reason' => 'Cancelled from admin side.'
+        ]);
+
+        return redirect()->back()->with('success', 'Product is cancelled from order.');
+    }
+
+    public function updatequantity(Request $request, $id)
+    {
+        $ordered_product = OrderedProducts::findorFail($id);
+        $product = Product::where('id', $ordered_product->product_id)->first();
+
+        $total_quantity = $ordered_product->quantity + $product->quantity;
+
+        if($total_quantity < $request['quantity'])
+        {
+            return redirect()->back()->with('failure', 'Quantity cannot be more than available.');
+        }
+        else
+        {
+            if ($request['quantity'] > $ordered_product->quantity) {
+                $more_to_add = $request['quantity'] - $ordered_product->quantity;
+
+                $new_quantity = $product->quantity - $more_to_add;
+
+                $product->update([
+                    'quantity' => $new_quantity
+                ]);
+            }
+            elseif ($request['quantity'] < $ordered_product->quantity) {
+                $product_to_deduct = $ordered_product->quantity - $request['quantity'];
+
+                $new_quantity = $product->quantity + $product_to_deduct;
+
+                $product->update([
+                    'quantity' => $new_quantity
+                ]);
+            }
+
+            $ordered_product->update([
+                'quantity' => $request['quantity']
+            ]);
+
+            return redirect()->back()->with('success', 'Quantity is updated successfully.');
+        }
+    }
+
+    public function changeOrderStatus(Request $request, $id)
+    {
+        $order = Order::findorFail($id);
+        $ordered_products = OrderedProducts::where('order_id', $order->id)->get();
+
+        foreach ($ordered_products as $ordered_product) {
+            if ($request['status_id'] == 6) {
+                $this->validate($request, [
+                    'reason' => 'required'
+                ]);
+                $ordered_product->update([
+                    'status_id' => $request['status_id'],
+                    'reason' => $request['reason']
+                ]);
+            } else {
+                $ordered_product->update([
+                    'status_id' => $request['status_id']
+                ]);
+            }
+        }
+        $order->update([
+            'status_id' => $request['status_id']
+        ]);
+
+        return redirect()->back()->with('success', 'Order Status is updated successfully.');
     }
 }
