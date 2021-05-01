@@ -53,12 +53,12 @@
                                             </td>
                                             <td>
                                                 <div class="product__discount__item__text">
-                                                    <div class="product__item__price">{{$real_product->title}}</div>
+                                                    <div class="product__item__price" style="color: black;">{{$real_product->title}} ({{$real_product->quantity}} {{$real_product->unit}})</div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="product__discount__item__text">
-                                                    <div class="product__item__price">{{$subcategory->title}}</div>
+                                                    <div class="product__item__price" style="color: black;">{{$subcategory->title}}</div>
                                                 </div>
                                             </td>
                                             <td>
@@ -69,10 +69,10 @@
                                                             $afterdiscount = $real_product->price - $discountamount;
                                                         @endphp
 
-                                                        <div class="product__item__price">Rs. {{$afterdiscount}} <span>Rs. {{$real_product->price}}</span></div>
+                                                        <div class="product__item__price" style="color: black;">Rs. {{$afterdiscount}} <span>Rs. {{$real_product->price}}</span></div>
                                                         <p>({{$real_product->discount}} % OFF)</p>
                                                     @else
-                                                        <div class="product__item__price">Rs. {{$real_product->price}} </div>
+                                                        <div class="product__item__price" style="color: black;">Rs. {{$real_product->price}} </div>
                                                     @endif
                                                 </div>
                                             </td>

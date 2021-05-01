@@ -87,33 +87,30 @@
                                 </label>
                             </div>
                         </div> --}}
-                        {{-- <div class="sidebar__item">
-                            <h4>Popular Size</h4>
-                            <div class="sidebar__item__size">
-                                <label for="large">
-                                    Large
-                                    <input type="radio" id="large">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="medium">
-                                    Medium
-                                    <input type="radio" id="medium">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="small">
-                                    Small
-                                    <input type="radio" id="small">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="tiny">
-                                    Tiny
-                                    <input type="radio" id="tiny">
-                                </label>
-                            </div>
-                        </div> --}}
+                        <div class="sidebar__item">
+                            <h4>Our Categories</h4>
+                            @php
+                                $i = 1;
+                            @endphp
+                            @foreach ($subcategories as $item)
+                                @php
+                                    if($i > 10)
+                                    {
+                                        $show = 'none';
+                                    }
+                                    else
+                                    {
+                                        $show = '';
+                                        $i = $i+1;
+                                    }
+                                @endphp
+                                <div class="sidebar__item__size" style="display:{{$show}}">
+                                    <label for="large">
+                                        <a href="{{route('subcategory', $item->slug)}}" style="color: black;"> {{$item->title}}</a>
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
                         <div class="sidebar__item">
                             <div class="latest-product__text">
                                 <h4>Latest Products</h4>
@@ -203,6 +200,95 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="sidebar__item">
+                            <div class="latest-product__text">
+                                <h4>Top Rated Products</h4>
+                                <div class="latest-product__slider owl-carousel">
+                                    <div class="latest-prdouct__slider__item">
+                                            @php
+                                                $i=1;
+                                            @endphp
+                                        @foreach ($ratedproducts as $product)
+                                        @php
+                                            if($i < 4)
+                                            {
+                                                $show = 'block';
+                                                $i = $i+1;
+                                            }
+                                            else {
+                                                $show = 'none';
+                                                $i = $i+1;
+                                            }
+                                        @endphp
+                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item " style="display: {{$show}}">
+                                                <div class="latest-product__item__pic">
+                                                    @php
+                                                        $image = DB::table('product_images')
+                                                            ->where('product_id', $product->id)
+                                                            ->first()
+                                                    @endphp
+                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
+                                                </div>
+                                                <div class="latest-product__item__text">
+                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
+                                                    @if ($product->discount > 0)
+                                                    @php
+                                                        $discountamount = ($product->discount / 100) * $product->price;
+                                                        $afterdiscount = $product->price - $discountamount;
+                                                    @endphp
+                                                        <span>Rs. {{$afterdiscount}}</span>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                    @else
+                                                        <span>Rs. {{$product->price}}</span>
+                                                    @endif
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                    <div class="latest-prdouct__slider__item">
+                                            @php
+                                                $i=1;
+                                            @endphp
+                                        @foreach ($ratedproducts as $product)
+                                        @php
+                                            if($i < 4)
+                                            {
+                                                $show = 'none';
+                                                $i = $i+1;
+                                            }
+                                            else {
+                                                $show = 'block';
+                                                $i = $i+1;
+                                            }
+                                        @endphp
+                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item" style="display: {{$show}}">
+                                                <div class="latest-product__item__pic">
+                                                    @php
+                                                        $image = DB::table('product_images')
+                                                            ->where('product_id', $product->id)
+                                                            ->first()
+                                                    @endphp
+                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
+                                                </div>
+                                                <div class="latest-product__item__text">
+                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
+                                                    @if ($product->discount > 0)
+                                                    @php
+                                                        $discountamount = ($product->discount / 100) * $product->price;
+                                                        $afterdiscount = $product->price - $discountamount;
+                                                    @endphp
+                                                        <span>Rs. {{$afterdiscount}}</span>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                    @else
+                                                        <span>Rs. {{$product->price}}</span>
+                                                    @endif
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-7">
@@ -245,6 +331,7 @@
                                         </ul>
                                     </div>
                                     <div class="product__discount__item__text">
+                                        <b>({{$product->quantity}} {{$product->unit}})</b>
                                         <h5><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
                                         <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
                                                 {{ $product->price }}</span></div>

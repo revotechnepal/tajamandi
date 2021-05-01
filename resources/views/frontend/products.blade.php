@@ -59,424 +59,694 @@
 
     <!-- Product Details Section Begin -->
     <section class="product-details spad">
-        <div class="container ">
+        <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="product__details__pic">
-                        <div class="product__details__pic__item">
-                            <img class="product__details__pic__item--large"
-                                src="{{ Storage::disk('uploads')->url($productimage->filename) }}" alt="{{$product->title}}">
-                        </div>
-                        <div class="product__details__pic__slider owl-carousel">
-                            @foreach ($productimages as $image)
-                                <img data-imgbigurl="{{ Storage::disk('uploads')->url($image->filename) }}"
-                                    src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}">
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-                <div class=" col-lg-6 col-md-6 ml-4">
-                    <div class="product__details__text">
-                        <h3>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h3>
-                        <div class="product__details__rating">
-                            <div class="row">
-                                <div class="rateyos-readonly-widg"></div>
-                                {{-- <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-half-o"></i> --}}
-                                <span>({{$noofreviews}} reviews)</span>
-                            </div>
-                        </div>
-                        @if ($product->discount > 0)
-                            @php
-                                $discountamount = ($product->discount / 100) * $product->price;
-                                $afterdiscount = $product->price - $discountamount;
-                            @endphp
-                            <div class="product__details__price">Rs. {{$afterdiscount}} <span style="color: black; font-size: 18px;"><strike>Rs. {{$product->price}}</strike><span></div>
-                        @else
-                            <div class="product__details__price">Rs. {{$product->price}}</div>
-                        @endif
-                        @if (Auth::guest() || Auth::user()->role_id != 3)
-                            <div class="product__details__quantity">
-                                <div class="quantity">
-                                    <div class="pro-qty">
-                                        <input type="text" value="1">
-                                    </div>
+                <div class="col-lg-9 col-md-7">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-3">
+                            <div class="product__details__pic">
+                                <div class="product__details__pic__item">
+                                    <img class="product__details__pic__item--large"
+                                        src="{{ Storage::disk('uploads')->url($productimage->filename) }}" alt="{{$product->title}}">
+                                </div>
+                                <div class="product__details__pic__slider owl-carousel">
+                                    @foreach ($productimages as $image)
+                                        <img data-imgbigurl="{{ Storage::disk('uploads')->url($image->filename) }}"
+                                            src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}">
+                                    @endforeach
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" onclick="openLoginModal();" class="primary-btn">ADD TO CART</a>
-                            <a href="javascript:void(0)" onclick="openLoginModal();" class="heart-icon"><span class="icon_heart_alt"></span></a>
-                        @elseif(Auth::user()->role_id==3)
-                            <form action="{{route('addtocart', $product->id)}}" method="POST">
-                                @csrf
-                                @method('POST')
-                                <div class="product__details__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1" name="quantity" min="1">
+                        </div>
+                        <div class=" col-lg-7 col-md-9 ml-4">
+                            <div class="product__details__text">
+                                <h3>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h3>
+                                <div class="product__details__rating">
+                                    <div class="row">
+                                        <div class="rateyos-readonly-widg"></div>
+                                        {{-- <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i> --}}
+                                        <span>({{$noofreviews}} reviews)</span>
+                                    </div>
+                                </div>
+                                @if ($product->discount > 0)
+                                    @php
+                                        $discountamount = ($product->discount / 100) * $product->price;
+                                        $afterdiscount = $product->price - $discountamount;
+                                    @endphp
+                                    <div class="product__details__price">Rs. {{$afterdiscount}} <span style="color: black; font-size: 18px;"><strike>Rs. {{$product->price}}</strike><span></div>
+                                @else
+                                    <div class="product__details__price">Rs. {{$product->price}}</div>
+                                @endif
+                                @if (Auth::guest() || Auth::user()->role_id != 3)
+                                    <div class="product__details__quantity">
+                                        <div class="quantity">
+                                            <div class="pro-qty">
+                                                <input type="text" value="1">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="hidden" value="{{$product->price}}" name="price" class="form-control">
-                                </div>
-                                <a href="#" class="primary-btn" onclick="this.parentNode.submit()">ADD TO CART</a>
-                                <a href="{{route('addtowishlist', $product->id)}}" class="heart-icon"><span class="icon_heart_alt"></span></a>
-                            </form>
-                        @endif
-                        <ul>
-                            <li><b>Availability</b> <span class="text-danger">In stock.</span></li>
-                            <li><b>Shipping</b> <span>01 day shipping. <samp> Free pickup today</samp></span></li>
-                            {{-- <li><b>Weight</b> <span>{{$product->quantity}} {{$product->unit}}</span></li> --}}
-                            <li><b>Vendor</b> <span>{{$product->vendor->name}}</span></li>
-                            {{-- <li><b>Share on</b>
-                                <div class="share">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                </div>
-                            </li> --}}
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="product__details__tab">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                                    aria-selected="true">Description</a>
-                            </li>
-                            {{-- <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
-                                    aria-selected="false">Information</a>
-                            </li> --}}
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
-                                    aria-selected="false">Reviews <span>({{$noofreviews}})</span></a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <div class="product__details__tab__desc">
-                                    <h6>Products Description</h6>
-                                    <p>{!! $product->details !!}</p>
-
-                                </div>
-                            </div>
-                            {{-- <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                        Proin eget tortor risus.</p>
-                                    <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
-                                        ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
-                                        elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
-                                        porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
-                                        nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
-                                </div>
-                            </div> --}}
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                <div class="product__details__tab__desc">
-                                    <h6>User Reviews</h6>
-
-                                    <div class="mod-rating">
-                                        <div class="content">
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <p style="font-size: 50px"><b>{{$avgRating}}</b><span style="font-size: 30px">/5</span></p>
-                                                    <div class="rateyo-readonly-widg"></div>
-                                                    <p>{{$noofreviews}} ratings</p>
-
+                                    <a href="javascript:void(0)" onclick="openLoginModal();" class="primary-btn">ADD TO CART</a>
+                                    <a href="javascript:void(0)" onclick="openLoginModal();" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                @elseif(Auth::user()->role_id==3)
+                                    <form action="{{route('addtocart', $product->id)}}" method="POST">
+                                        @csrf
+                                        @method('POST')
+                                        <div class="product__details__quantity">
+                                            <div class="quantity">
+                                                <div class="pro-qty">
+                                                    <input type="text" value="1" name="quantity" min="1">
                                                 </div>
-                                                <div class="col-md-8">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" value="{{$product->price}}" name="price" class="form-control">
+                                        </div>
+                                        <a href="#" class="primary-btn" onclick="this.parentNode.submit()">ADD TO CART</a>
+                                        <a href="{{route('addtowishlist', $product->id)}}" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                    </form>
+                                @endif
+                                <ul>
+                                    <li><b>Availability</b> <span class="text-danger">In stock.</span></li>
+                                    <li><b>Shipping</b> <span>01 day shipping. <samp> Free pickup today</samp></span></li>
+                                    {{-- <li><b>Weight</b> <span>{{$product->quantity}} {{$product->unit}}</span></li> --}}
+                                    <li><b>Vendor</b> <span>{{$product->vendor->name}}</span></li>
+                                    {{-- <li><b>Share on</b>
+                                        <div class="share">
+                                            <a href="#"><i class="fa fa-facebook"></i></a>
+                                            <a href="#"><i class="fa fa-twitter"></i></a>
+                                            <a href="#"><i class="fa fa-instagram"></i></a>
+                                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                                        </div>
+                                    </li> --}}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="product__details__tab">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                            aria-selected="true">Description</a>
+                                    </li>
+                                    {{-- <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                            aria-selected="false">Information</a>
+                                    </li> --}}
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                                            aria-selected="false">Reviews <span>({{$noofreviews}})</span></a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                        <div class="product__details__tab__desc">
+                                            <h6>Products Description</h6>
+                                            <p>{!! $product->details !!}</p>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                        <div class="product__details__tab__desc">
+                                            <h6>Products Infomation</h6>
+                                            <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+                                                Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
+                                                Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
+                                                sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
+                                                eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
+                                                Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
+                                                sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
+                                                diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
+                                                ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                                                Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
+                                                Proin eget tortor risus.</p>
+                                            <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
+                                                ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
+                                                elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
+                                                porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
+                                                nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
+                                        </div>
+                                    </div> --}}
+                                    <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                        <div class="product__details__tab__desc">
+                                            <h6>User Reviews</h6>
+
+                                            <div class="mod-rating">
+                                                <div class="content">
                                                     <div class="row">
-                                                        <div class="col-md-2">
-                                                            @for ($i = 5; $i > 0; $i--)
-                                                                <i class="fa fa-star" style="font-size: 15px; color: orange;"></i>
-                                                            @endfor
+                                                        <div class="col-md-4">
+                                                            <p style="font-size: 50px"><b>{{$avgRating}}</b><span style="font-size: 30px">/5</span></p>
+                                                            <div class="rateyo-readonly-widg"></div>
+                                                            <p>{{$noofreviews}} ratings</p>
+
                                                         </div>
-                                                        <div class="col-md-5">
-                                                            <div class="progress" style="width: 300px; height: 15px; margin-top: 5px;">
-                                                                <div class="progress-bar bg-warning" style="width:{{$per5stars}}%"></div>
+                                                        <div class="col-md-8">
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    @for ($i = 5; $i > 0; $i--)
+                                                                        <i class="fa fa-star" style="font-size: 15px; color: orange;"></i>
+                                                                    @endfor
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <div class="progress" style="width: 300px; height: 15px; margin-top: 5px;">
+                                                                        <div class="progress-bar bg-warning" style="width:{{$per5stars}}%"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    {{$noof5stars}}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            {{$noof5stars}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-2">
-                                                            @for ($i = 4; $i > 0; $i--)
-                                                                <i class="fa fa-star" style="font-size: 15px; color: orange;"></i>
-                                                            @endfor
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <div class="progress" style="width: 300px; height: 15px; margin-top: 5px;">
-                                                                <div class="progress-bar bg-warning" style="width:{{$per4stars}}%"></div>
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    @for ($i = 4; $i > 0; $i--)
+                                                                        <i class="fa fa-star" style="font-size: 15px; color: orange;"></i>
+                                                                    @endfor
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <div class="progress" style="width: 300px; height: 15px; margin-top: 5px;">
+                                                                        <div class="progress-bar bg-warning" style="width:{{$per4stars}}%"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    {{$noof4stars}}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            {{$noof4stars}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-2">
-                                                            @for ($i = 3; $i > 0; $i--)
-                                                                <i class="fa fa-star" style="font-size: 15px; color: orange;"></i>
-                                                            @endfor
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <div class="progress" style="width: 300px; height: 15px; margin-top: 5px;">
-                                                                <div class="progress-bar bg-warning" style="width:{{$per3stars}}%"></div>
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    @for ($i = 3; $i > 0; $i--)
+                                                                        <i class="fa fa-star" style="font-size: 15px; color: orange;"></i>
+                                                                    @endfor
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <div class="progress" style="width: 300px; height: 15px; margin-top: 5px;">
+                                                                        <div class="progress-bar bg-warning" style="width:{{$per3stars}}%"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    {{$noof3stars}}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            {{$noof3stars}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-2">
-                                                            @for ($i = 2; $i > 0; $i--)
-                                                                <i class="fa fa-star" style="font-size: 15px; color: orange;"></i>
-                                                            @endfor
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <div class="progress" style="width: 300px; height: 15px; margin-top: 5px;">
-                                                                <div class="progress-bar bg-warning" style="width:{{$per2stars}}%"></div>
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    @for ($i = 2; $i > 0; $i--)
+                                                                        <i class="fa fa-star" style="font-size: 15px; color: orange;"></i>
+                                                                    @endfor
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <div class="progress" style="width: 300px; height: 15px; margin-top: 5px;">
+                                                                        <div class="progress-bar bg-warning" style="width:{{$per2stars}}%"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    {{$noof2stars}}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            {{$noof2stars}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-2">
-                                                            @for ($i = 1; $i > 0; $i--)
-                                                                <i class="fa fa-star" style="font-size: 15px; color: orange;"></i>
-                                                            @endfor
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <div class="progress" style="width: 300px; height: 15px; margin-top: 5px;">
-                                                                <div class="progress-bar bg-warning" style="width:{{$per1stars}}%"></div>
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    @for ($i = 1; $i > 0; $i--)
+                                                                        <i class="fa fa-star" style="font-size: 15px; color: orange;"></i>
+                                                                    @endfor
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <div class="progress" style="width: 300px; height: 15px; margin-top: 5px;">
+                                                                        <div class="progress-bar bg-warning" style="width:{{$per1stars}}%"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    {{$noof1stars}}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            {{$noof1stars}}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="customer-review-option">
-                                        @if (Auth::guest())
-                                            <a href="javascript:void(0)" onclick="openLoginModal();" class="btn btn-primary" style="background-color: #f39c12; border: none;">Login to leave or modify Review</a>
-                                            <br><hr>
-                                        @else
-                                            @php
-                                                $userreview = DB::table('reviews')->where('user_id', Auth::user()->id)->where('product_id', $product->id)->first();
-                                            @endphp
-                                            @if ($userreview)
-                                                <hr>
-                                                <h5 style="color: #b83955; margin-bottom:1rem;">Your Review
-                                                    {{-- <a href="#" class="btn btn-success btn-sm ml-4">&nbsp; Edit &nbsp;</a> --}}
-                                                    <button type="button" class="btn btn-success btn-sm ml-4" data-toggle="modal" data-target="#editreviewModal{{$product->id . Auth::user()->id}}">&nbsp; Edit &nbsp;</button>
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="editreviewModal{{$product->id . Auth::user()->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                            <h5 class="modal-title" id="editreviewModalLabel">Update your Review</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                            </div>
-                                                            <form action="{{route('updatereview', $userreview->id)}}" method="POST">
-                                                                @csrf
-                                                                @method('PUT')
-                                                                <div class="modal-body">
-                                                                        <div class="form-group">
-                                                                            <div class="container d-flex justify-content-center">
-                                                                                <div class="row">
-                                                                                    <div class="col-md-2">
-                                                                                    </div>
-                                                                                    <div class="col-md-9">
-                                                                                        <div class="stars">
-                                                                                            <input class="star star-5" id="starrating-5{{$product->id . Auth::user()->id}}" type="radio" name="star" value="5"
+                                            <div class="customer-review-option mt-1">
+                                                @if (Auth::guest())
+                                                    <a href="javascript:void(0)" onclick="openLoginModal();" class="btn btn-primary" style="background-color: #f39c12; border: none;">Login to leave or modify Review</a>
+                                                    <br><hr>
+                                                @else
+                                                    @php
+                                                        $userreview = DB::table('reviews')->where('user_id', Auth::user()->id)->where('product_id', $product->id)->first();
+                                                    @endphp
+                                                    @if ($userreview)
+                                                        <hr>
+                                                        <h5 style="color: #b83955; margin-bottom:1rem;">Your Review
+                                                            {{-- <a href="#" class="btn btn-success btn-sm ml-4">&nbsp; Edit &nbsp;</a> --}}
+                                                            <button type="button" class="btn btn-success btn-sm ml-4" data-toggle="modal" data-target="#editreviewModal{{$product->id . Auth::user()->id}}">&nbsp; Edit &nbsp;</button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="editreviewModal{{$product->id . Auth::user()->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="editreviewModalLabel">Update your Review</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <form action="{{route('updatereview', $userreview->id)}}" method="POST">
+                                                                        @csrf
+                                                                        @method('PUT')
+                                                                        <div class="modal-body">
+                                                                                <div class="form-group">
+                                                                                    <div class="container d-flex justify-content-center">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-2">
+                                                                                            </div>
+                                                                                            <div class="col-md-9">
+                                                                                                <div class="stars">
+                                                                                                    <input class="star star-5" id="starrating-5{{$product->id . Auth::user()->id}}" type="radio" name="star" value="5"
 
-                                                                                            @if ($userreview->rating == 5)
-                                                                                                checked
-                                                                                            @endif />
-                                                                                            <label class="star star-5" for="starrating-5{{$product->id . Auth::user()->id}}"></label>
-                                                                                            <input class="star star-4" id="starrating-4{{$product->id . Auth::user()->id}}" type="radio" name="star" value="4"
+                                                                                                    @if ($userreview->rating == 5)
+                                                                                                        checked
+                                                                                                    @endif />
+                                                                                                    <label class="star star-5" for="starrating-5{{$product->id . Auth::user()->id}}"></label>
+                                                                                                    <input class="star star-4" id="starrating-4{{$product->id . Auth::user()->id}}" type="radio" name="star" value="4"
 
-                                                                                            @if ($userreview->rating == 4)
-                                                                                                checked
-                                                                                            @endif />
-                                                                                            <label class="star star-4" for="starrating-4{{$product->id . Auth::user()->id}}"></label>
-                                                                                            <input class="star star-3" id="starrating-3{{$product->id . Auth::user()->id}}" type="radio" name="star" value="3"
+                                                                                                    @if ($userreview->rating == 4)
+                                                                                                        checked
+                                                                                                    @endif />
+                                                                                                    <label class="star star-4" for="starrating-4{{$product->id . Auth::user()->id}}"></label>
+                                                                                                    <input class="star star-3" id="starrating-3{{$product->id . Auth::user()->id}}" type="radio" name="star" value="3"
 
-                                                                                            @if ($userreview->rating == 3)
-                                                                                                checked
-                                                                                            @endif />
-                                                                                            <label class="star star-3" for="starrating-3{{$product->id . Auth::user()->id}}"></label>
-                                                                                            <input class="star star-2" id="starrating-2{{$product->id . Auth::user()->id}}" type="radio" name="star" value="2"
+                                                                                                    @if ($userreview->rating == 3)
+                                                                                                        checked
+                                                                                                    @endif />
+                                                                                                    <label class="star star-3" for="starrating-3{{$product->id . Auth::user()->id}}"></label>
+                                                                                                    <input class="star star-2" id="starrating-2{{$product->id . Auth::user()->id}}" type="radio" name="star" value="2"
 
-                                                                                            @if ($userreview->rating == 2)
-                                                                                                checked
-                                                                                            @endif />
-                                                                                            <label class="star star-2" for="starrating-2{{$product->id . Auth::user()->id}}"></label>
-                                                                                            <input class="star star-1" id="starrating-1{{$product->id . Auth::user()->id}}" type="radio" name="star" value="1"
+                                                                                                    @if ($userreview->rating == 2)
+                                                                                                        checked
+                                                                                                    @endif />
+                                                                                                    <label class="star star-2" for="starrating-2{{$product->id . Auth::user()->id}}"></label>
+                                                                                                    <input class="star star-1" id="starrating-1{{$product->id . Auth::user()->id}}" type="radio" name="star" value="1"
 
-                                                                                            @if ($userreview->rating == 1)
-                                                                                                checked
-                                                                                            @endif />
-                                                                                            <label class="star star-1" for="starrating-1{{$product->id . Auth::user()->id}}"></label>
+                                                                                                    @if ($userreview->rating == 1)
+                                                                                                        checked
+                                                                                                    @endif />
+                                                                                                    <label class="star star-1" for="starrating-1{{$product->id . Auth::user()->id}}"></label>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-12">
+                                                                                                <textarea rows="4" cols="40" class="form-control" placeholder="Describe your experience (optional)" name="ratingdescription">{{$userreview->description}}</textarea>
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <textarea rows="4" cols="40" class="form-control" placeholder="Describe your experience (optional)" name="ratingdescription">{{$userreview->description}}</textarea>
-                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        </div>
 
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                        </div>
+                                                                    </form>
                                                                 </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                                 </div>
+                                                            </div>
+                                                            <!-- Modal Ends -->
+
+                                                            <form action="{{route('deleteuserreview', $userreview->id)}}" method="POST" style="display: inline;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                                                             </form>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Modal Ends -->
-
-                                                    <form action="{{route('deleteuserreview', $userreview->id)}}" method="POST" style="display: inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                                                    </form>
-                                                    </h5>
-
-
-                                                <div class="co-item">
-                                                    <div class="avatar-text">
-                                                            <h5 style="color: #3B5998">{{$userreview->username}} - <span style="font-size: 15px">{{ \Carbon\Carbon::parse($userreview->updated_at)->diffForHumans() }}</span></h5>
-                                                            <div class="at-rating mb-2">
-                                                                @for ($i = $userreview->rating; $i > 0; $i--)
-                                                                    <i class="fa fa-star" style="color: #ffc107"></i>
-                                                                @endfor
-                                                                @for ($i =5 - $userreview->rating; $i > 0; $i--)
-                                                                    <i class="fa fa-star-o" style="color: grey"></i>
-                                                                @endfor
-                                                            </div>
-                                                            <div class="at-reply">{{$userreview->description}}</div>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <h5 style="color: #b83955">All Reviews</h5>
-                                                <br>
-                                            @else
-                                                {{-- <a href="#" class="btn btn-primary" style="background-color: #f39c12; border: none;">Leave a Review</a> --}}
-                                                <button type="button" class="btn btn-primary" style="background-color: #f39c12; border: none;" data-toggle="modal" data-target="#reviewModal{{$product->id . Auth::user()->id}}">Leave a Review</button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="reviewModal{{$product->id . Auth::user()->id}}" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                        <h5 class="modal-title" id="reviewModalLabel">Leave a Review</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        </div>
-                                                        <form action="{{route('addreview')}}" method="POST">
-                                                            @csrf
-                                                            <div class="modal-body">
-                                                                    <div class="form-group">
-                                                                        <div class="container d-flex justify-content-center">
-                                                                            <div class="row">
-                                                                                <div class="col-md-2">
-                                                                                </div>
-                                                                                <div class="col-md-9">
-                                                                                    <div class="stars">
-                                                                                        <input class="star star-5" id="star-5{{$product->id . Auth::user()->id}}" type="radio" name="star" value="5"/>
-                                                                                        <label class="star star-5" for="star-5{{$product->id . Auth::user()->id}}"></label>
-                                                                                        <input class="star star-4" id="star-4{{$product->id . Auth::user()->id}}" type="radio" name="star" value="4"/>
-                                                                                        <label class="star star-4" for="star-4{{$product->id . Auth::user()->id}}"></label>
-                                                                                        <input class="star star-3" id="star-3{{$product->id . Auth::user()->id}}" type="radio" name="star" value="3"/>
-                                                                                        <label class="star star-3" for="star-3{{$product->id . Auth::user()->id}}"></label>
-                                                                                        <input class="star star-2" id="star-2{{$product->id . Auth::user()->id}}" type="radio" name="star" value="2"/>
-                                                                                        <label class="star star-2" for="star-2{{$product->id . Auth::user()->id}}"></label>
-                                                                                        <input class="star star-1" id="star-1{{$product->id . Auth::user()->id}}" type="radio" name="star" value="1"/>
-                                                                                        <label class="star star-1" for="star-1{{$product->id . Auth::user()->id}}"></label>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-12">
-                                                                                    <input type="hidden" name="username" value="{{Auth::user()->name}}">
-                                                                                    <input type="hidden" name="product_id" value="{{$product->id}}">
-                                                                                    <textarea rows="4" cols="40" class="form-control" placeholder="Describe your experience (optional)" name="ratingdescription"></textarea>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Modal Ends -->
-                                                <br><hr>
-                                            @endif
-
-                                        @endif
-                                        @if ($noofreviews == 0)
-                                            <p style="color: gray">No reviews for this product</p>
-
-                                        @else
-                                            @if (count($reviews) == 0)
-                                                    <p style="color: gray">No reviews given by others for this product</p>
-                                            @else
-                                                @foreach ($reviews as $review)
+                                                            </h5>
 
 
                                                         <div class="co-item">
                                                             <div class="avatar-text">
-                                                                    <h5 style="color: #3B5998">{{$review->username}} - <span style="font-size: 15px">{{ \Carbon\Carbon::parse($review->updated_at)->diffForHumans() }}</span></h5>
+                                                                    <h5 style="color: #3B5998">{{$userreview->username}} - <span style="font-size: 15px">{{ \Carbon\Carbon::parse($userreview->updated_at)->diffForHumans() }}</span></h5>
                                                                     <div class="at-rating mb-2">
-                                                                        @for ($i = $review->rating; $i > 0; $i--)
+                                                                        @for ($i = $userreview->rating; $i > 0; $i--)
                                                                             <i class="fa fa-star" style="color: #ffc107"></i>
                                                                         @endfor
-                                                                        @for ($i =5 - $review->rating; $i > 0; $i--)
+                                                                        @for ($i =5 - $userreview->rating; $i > 0; $i--)
                                                                             <i class="fa fa-star-o" style="color: grey"></i>
                                                                         @endfor
                                                                     </div>
-                                                                    <div class="at-reply">{{$review->description}}</div>
+                                                                    <div class="at-reply">{{$userreview->description}}</div>
                                                             </div>
                                                         </div>
                                                         <hr>
+                                                        <h5 style="color: #b83955">All Reviews</h5>
+                                                        <br>
+                                                    @else
+                                                        {{-- <a href="#" class="btn btn-primary" style="background-color: #f39c12; border: none;">Leave a Review</a> --}}
+                                                        <button type="button" class="btn btn-primary" style="background-color: #f39c12; border: none;" data-toggle="modal" data-target="#reviewModal{{$product->id . Auth::user()->id}}">Leave a Review</button>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="reviewModal{{$product->id . Auth::user()->id}}" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                <h5 class="modal-title" id="reviewModalLabel">Leave a Review</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                                </div>
+                                                                <form action="{{route('addreview')}}" method="POST">
+                                                                    @csrf
+                                                                    <div class="modal-body">
+                                                                            <div class="form-group">
+                                                                                <div class="container d-flex justify-content-center">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-2">
+                                                                                        </div>
+                                                                                        <div class="col-md-9">
+                                                                                            <div class="stars">
+                                                                                                <input class="star star-5" id="star-5{{$product->id . Auth::user()->id}}" type="radio" name="star" value="5"/>
+                                                                                                <label class="star star-5" for="star-5{{$product->id . Auth::user()->id}}"></label>
+                                                                                                <input class="star star-4" id="star-4{{$product->id . Auth::user()->id}}" type="radio" name="star" value="4"/>
+                                                                                                <label class="star star-4" for="star-4{{$product->id . Auth::user()->id}}"></label>
+                                                                                                <input class="star star-3" id="star-3{{$product->id . Auth::user()->id}}" type="radio" name="star" value="3"/>
+                                                                                                <label class="star star-3" for="star-3{{$product->id . Auth::user()->id}}"></label>
+                                                                                                <input class="star star-2" id="star-2{{$product->id . Auth::user()->id}}" type="radio" name="star" value="2"/>
+                                                                                                <label class="star star-2" for="star-2{{$product->id . Auth::user()->id}}"></label>
+                                                                                                <input class="star star-1" id="star-1{{$product->id . Auth::user()->id}}" type="radio" name="star" value="1"/>
+                                                                                                <label class="star star-1" for="star-1{{$product->id . Auth::user()->id}}"></label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-md-12">
+                                                                                            <input type="hidden" name="username" value="{{Auth::user()->name}}">
+                                                                                            <input type="hidden" name="product_id" value="{{$product->id}}">
+                                                                                            <textarea rows="4" cols="40" class="form-control" placeholder="Describe your experience (optional)" name="ratingdescription"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
 
-                                                @endforeach
-                                            @endif
-                                        @endif
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Modal Ends -->
+                                                        <br><hr>
+                                                    @endif
+
+                                                @endif
+                                                @if ($noofreviews == 0)
+                                                    <p style="color: gray">No reviews for this product</p>
+
+                                                @else
+                                                    @if (count($reviews) == 0)
+                                                            <p style="color: gray">No reviews given by others for this product</p>
+                                                    @else
+                                                        @foreach ($reviews as $review)
+                                                                <div class="co-item">
+                                                                    <div class="avatar-text">
+                                                                            <h5 style="color: #3B5998">{{$review->username}} - <span style="font-size: 15px">{{ \Carbon\Carbon::parse($review->updated_at)->diffForHumans() }}</span></h5>
+                                                                            <div class="at-rating mb-2">
+                                                                                @for ($i = $review->rating; $i > 0; $i--)
+                                                                                    <i class="fa fa-star" style="color: #ffc107"></i>
+                                                                                @endfor
+                                                                                @for ($i =5 - $review->rating; $i > 0; $i--)
+                                                                                    <i class="fa fa-star-o" style="color: grey"></i>
+                                                                                @endfor
+                                                                            </div>
+                                                                            <div class="at-reply">{{$review->description}}</div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+
+                                                        @endforeach
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-5 mt-1">
+                    <div class="sidebar">
+                        {{-- <div class="blog__sidebar__search">
+                            <form action="#">
+                                <input type="text" placeholder="Search...">
+                                <button type="submit"><span class="icon_search"></span></button>
+                            </form>
+                        </div> --}}
+                        {{-- <div class="sidebar__item">
+                            <h4>Price</h4>
+                            <div class="price-range-wrap">
+                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                    data-min="10" data-max="540">
+                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                </div>
+                                <div class="range-slider">
+                                    <div class="price-input">
+                                        <input type="text" id="minamount">
+                                        <input type="text" id="maxamount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div> --}}
+                        {{-- <div class="sidebar__item sidebar__item__color--option">
+                            <h4>Colors</h4>
+                            <div class="sidebar__item__color sidebar__item__color--white">
+                                <label for="white">
+                                    White
+                                    <input type="radio" id="white">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__color sidebar__item__color--gray">
+                                <label for="gray">
+                                    Gray
+                                    <input type="radio" id="gray">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__color sidebar__item__color--red">
+                                <label for="red">
+                                    Red
+                                    <input type="radio" id="red">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__color sidebar__item__color--black">
+                                <label for="black">
+                                    Black
+                                    <input type="radio" id="black">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__color sidebar__item__color--blue">
+                                <label for="blue">
+                                    Blue
+                                    <input type="radio" id="blue">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__color sidebar__item__color--green">
+                                <label for="green">
+                                    Green
+                                    <input type="radio" id="green">
+                                </label>
+                            </div>
+                        </div> --}}
+                        <div class="sidebar__item">
+                            <h4>Our Categories</h4>
+                            @php
+                                $i = 1;
+                            @endphp
+                            @foreach ($subcategories as $item)
+                                @php
+                                    if($i > 10)
+                                    {
+                                        $show = 'none';
+                                    }
+                                    else
+                                    {
+                                        $show = '';
+                                        $i = $i+1;
+                                    }
+                                @endphp
+                                <div class="sidebar__item__size" style="display:{{$show}}">
+                                    <label for="large">
+                                        <a href="{{route('subcategory', $item->slug)}}" style="color: black;"> {{$item->title}}</a>
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="sidebar__item">
+                            <div class="latest-product__text">
+                                <h4>Latest Products</h4>
+                                <div class="latest-product__slider owl-carousel">
+                                    <div class="latest-prdouct__slider__item">
+                                            @php
+                                                $i=1;
+                                            @endphp
+                                        @foreach ($filterproducts as $product)
+                                        @php
+                                            if($i < 4)
+                                            {
+                                                $show = 'block';
+                                                $i = $i+1;
+                                            }
+                                            else {
+                                                $show = 'none';
+                                                $i = $i+1;
+                                            }
+                                        @endphp
+                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item " style="display: {{$show}}">
+                                                <div class="latest-product__item__pic">
+                                                    @php
+                                                        $image = DB::table('product_images')
+                                                            ->where('product_id', $product->id)
+                                                            ->first()
+                                                    @endphp
+                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
+                                                </div>
+                                                <div class="latest-product__item__text">
+                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
+                                                    @if ($product->discount > 0)
+                                                    @php
+                                                        $discountamount = ($product->discount / 100) * $product->price;
+                                                        $afterdiscount = $product->price - $discountamount;
+                                                    @endphp
+                                                        <span>Rs. {{$afterdiscount}}</span>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                    @else
+                                                        <span>Rs. {{$product->price}}</span>
+                                                    @endif
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                    <div class="latest-prdouct__slider__item">
+                                            @php
+                                                $i=1;
+                                            @endphp
+                                        @foreach ($filterproducts as $product)
+                                        @php
+                                            if($i < 4)
+                                            {
+                                                $show = 'none';
+                                                $i = $i+1;
+                                            }
+                                            else {
+                                                $show = 'block';
+                                                $i = $i+1;
+                                            }
+                                        @endphp
+                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item" style="display: {{$show}}">
+                                                <div class="latest-product__item__pic">
+                                                    @php
+                                                        $image = DB::table('product_images')
+                                                            ->where('product_id', $product->id)
+                                                            ->first()
+                                                    @endphp
+                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
+                                                </div>
+                                                <div class="latest-product__item__text">
+                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
+                                                    @if ($product->discount > 0)
+                                                    @php
+                                                        $discountamount = ($product->discount / 100) * $product->price;
+                                                        $afterdiscount = $product->price - $discountamount;
+                                                    @endphp
+                                                        <span>Rs. {{$afterdiscount}}</span>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                    @else
+                                                        <span>Rs. {{$product->price}}</span>
+                                                    @endif
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sidebar__item">
+                            <div class="latest-product__text">
+                                <h4>Top Rated Products</h4>
+                                <div class="latest-product__slider owl-carousel">
+                                    <div class="latest-prdouct__slider__item">
+                                            @php
+                                                $i=1;
+                                            @endphp
+                                        @foreach ($ratedproducts as $product)
+                                        @php
+                                            if($i < 4)
+                                            {
+                                                $show = 'block';
+                                                $i = $i+1;
+                                            }
+                                            else {
+                                                $show = 'none';
+                                                $i = $i+1;
+                                            }
+                                        @endphp
+                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item " style="display: {{$show}}">
+                                                <div class="latest-product__item__pic">
+                                                    @php
+                                                        $image = DB::table('product_images')
+                                                            ->where('product_id', $product->id)
+                                                            ->first()
+                                                    @endphp
+                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
+                                                </div>
+                                                <div class="latest-product__item__text">
+                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
+                                                    @if ($product->discount > 0)
+                                                    @php
+                                                        $discountamount = ($product->discount / 100) * $product->price;
+                                                        $afterdiscount = $product->price - $discountamount;
+                                                    @endphp
+                                                        <span>Rs. {{$afterdiscount}}</span>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                    @else
+                                                        <span>Rs. {{$product->price}}</span>
+                                                    @endif
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                    <div class="latest-prdouct__slider__item">
+                                            @php
+                                                $i=1;
+                                            @endphp
+                                        @foreach ($ratedproducts as $product)
+                                        @php
+                                            if($i < 4)
+                                            {
+                                                $show = 'none';
+                                                $i = $i+1;
+                                            }
+                                            else {
+                                                $show = 'block';
+                                                $i = $i+1;
+                                            }
+                                        @endphp
+                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item" style="display: {{$show}}">
+                                                <div class="latest-product__item__pic">
+                                                    @php
+                                                        $image = DB::table('product_images')
+                                                            ->where('product_id', $product->id)
+                                                            ->first()
+                                                    @endphp
+                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
+                                                </div>
+                                                <div class="latest-product__item__text">
+                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
+                                                    @if ($product->discount > 0)
+                                                    @php
+                                                        $discountamount = ($product->discount / 100) * $product->price;
+                                                        $afterdiscount = $product->price - $discountamount;
+                                                    @endphp
+                                                        <span>Rs. {{$afterdiscount}}</span>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                    @else
+                                                        <span>Rs. {{$product->price}}</span>
+                                                    @endif
+                                                </div>
+                                            </a>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>

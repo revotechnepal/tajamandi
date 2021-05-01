@@ -59,15 +59,16 @@
             </li>
             <li class="active"><a href="{{ route('index') }}">Home</a></li>
             <li><a href="{{ route('shop') }}">Shop</a></li>
-            <li><a href="#">Pages</a>
+            {{-- <li><a href="#">Pages</a>
                 <ul class="header__menu__dropdown text-center">
                     <li><a href="./shop-details.html">Shop Details</a></li>
                     <li><a href="./shoping-cart.html">Shoping Cart</a></li>
                     <li><a href="./checkout.html">Check Out</a></li>
                     <li><a href="./blog-details.html">Blog Details</a></li>
                 </ul>
-            </li>
+            </li> --}}
             <li><a href="{{ route('contact') }}">Contact</a></li>
+            <li><a href="{{route('about')}}">About Us</a></li>
         </ul>
     </nav>
     <div id="mobile-menu-wrap"></div>
@@ -151,16 +152,17 @@
                     <ul>
                         <li class="active"><a href="{{ route('index') }}">Home</a></li>
                         <li><a href="{{ route('shop') }}">Shop</a></li>
-                        <li><a href="#">Pages</a>
+                        {{-- <li><a href="#">Pages</a>
                             <ul class="header__menu__dropdown">
                                 <li><a href="./shop-details.html">Shop Details</a></li>
                                 <li><a href="./shoping-cart.html">Shoping Cart</a></li>
                                 <li><a href="./checkout.html">Check Out</a></li>
                                 <li><a href="./blog-details.html">Blog Details</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
                         {{-- <li><a href="./blog.html">Blog</a></li> --}}
                         <li><a href="{{ route('contact') }}">Contact</a></li>
+                        <li><a href="{{route('about')}}">About Us</a></li>
                     </ul>
                 </nav>
             </div>
@@ -194,7 +196,6 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-
                 <div class="dropdown">
                     @php
                         $categories = DB::table('categories')->latest()->get();
@@ -222,12 +223,8 @@
                             </ul>
                           </li>
                         @endforeach
-
-
                       </ul>
                 </div>
-
-
                 {{-- <div class="hero__categories">
                     <div class="hero__categories__all">
                         <i class="fa fa-bars"></i>
