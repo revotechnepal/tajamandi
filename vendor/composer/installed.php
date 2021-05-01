@@ -6,11 +6,29 @@
     'aliases' => 
     array (
     ),
-    'reference' => '479aa8121be530eac01fe8b21da6b7c979d97419',
+    'reference' => 'ec24ad4c4dcec7fe47ca42a645a8bd6b1bb7ce2d',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
   array (
+    'algolia/algoliasearch-client-php' => 
+    array (
+      'pretty_version' => '3.0.1',
+      'version' => '3.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '17083be5fec3876b8548169c178a1735d8e16530',
+    ),
+    'algolia/scout-extended' => 
+    array (
+      'pretty_version' => 'v1.18.0',
+      'version' => '1.18.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f0434c48ff667dbcffe98796f4438f049bbc987b',
+    ),
     'asm89/stack-cors' => 
     array (
       'pretty_version' => 'v2.0.3',
@@ -445,7 +463,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '479aa8121be530eac01fe8b21da6b7c979d97419',
+      'reference' => 'ec24ad4c4dcec7fe47ca42a645a8bd6b1bb7ce2d',
     ),
     'laravel/sail' => 
     array (
@@ -455,6 +473,15 @@
       array (
       ),
       'reference' => '7f2d520f8c7d6fc0e5e4949c1363f6ddff0ff116',
+    ),
+    'laravel/scout' => 
+    array (
+      'pretty_version' => 'v9.0.0',
+      'version' => '9.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'aec8fb9df550cb9b1aade83a848ca0b3665ac416',
     ),
     'laravel/socialite' => 
     array (
@@ -851,6 +878,15 @@
       array (
         0 => '4.1.1',
       ),
+    ),
+    'riimu/kit-phpencoder' => 
+    array (
+      'pretty_version' => 'v2.4.1',
+      'version' => '2.4.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ca6f004e1290aec7ef4bebf6c0807b30fcf981d7',
     ),
     'sebastian/cli-parser' => 
     array (
