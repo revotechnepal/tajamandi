@@ -80,10 +80,11 @@ Route::get('/otpvalidation', [FrontController::class, 'otpvalidation'])->name('o
 Route::put('/updatepassword', [FrontController::class, 'updatePassword'])->name('updatepassword');
 Route::get('/myorders', [FrontController::class, 'myorders'])->name('myorders');
 Route::put('/cancelorder/{id}', [FrontController::class, 'cancelorder'])->name('cancelorder');
-
-
 Route::get('/editaddress', [FrontController::class, 'editaddress'])->name('editaddress');
 Route::put('/updateaddress/{id}', [FrontController::class, 'updateaddress'])->name('updateaddress');
+
+// Customer Email
+Route::get('/customerEmail', [FrontController::class, 'customerEmail'])->name('customerEmail');
 
 
 Auth::routes();
