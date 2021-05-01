@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
@@ -107,6 +108,8 @@ Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.us
     Route::get('review', [ReviewController::class, 'getreviews'])->name('review');
     Route::put('enablereview/{id}', [ReviewController::class, 'enableurl'])->name('review.enable');
     Route::put('disablereview/{id}', [ReviewController::class, 'disableurl'])->name('review.disable');
+    Route::resource('slider', SliderController::class);
+
 });
 
 
