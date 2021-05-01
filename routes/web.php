@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $slider = Slider::latest()->get();
     $subcategories = Subcategory::latest()->get();
-    $featuredproducts = Product::latest()->where('featured', 1)->get();
+    $featuredproducts = Product::latest()->where('featured', 1)->take(15)->get();
     $offerproducts = Product::latest()->where('discount', '>', 0)->take(6)->get();
     $filterproducts = Product::latest()->take(8)->get();
     $ratedproducts = Review::orderBy('rating', 'DESC')->with('product')->take(8)->get();
@@ -85,7 +85,7 @@ Route::put('/updatepassword', [FrontController::class, 'updatePassword'])->name(
 Route::get('/myorders', [FrontController::class, 'myorders'])->name('myorders');
 Route::put('/cancelorder/{id}', [FrontController::class, 'cancelorder'])->name('cancelorder');
 
-Route::get('/editaddress', [FrontController::class, 'editaddress'])->name('editaddress');
+Route::get('/editcustomeraddress', [FrontController::class, 'editcustomeraddress'])->name('editcustomeraddress');
 Route::put('/updateaddress/{id}', [FrontController::class, 'updateaddress'])->name('updateaddress');
 
 // Customer Email

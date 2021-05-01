@@ -62,7 +62,7 @@
                                     No default address.<br>
                                     Your default address will appear when you will order your first product.
                                 @else
-                                <h4 class="billing-heading mt-3 mb-3">My Address (Default) | <a href="{{route('editaddress')}}">Edit</a></h4>
+                                <h4 class="billing-heading mt-3 mb-3">My Address (Default) | <a href="{{route('editcustomeraddress')}}">Edit</a></h4>
                                     {{$delieveryaddress->address}}, {{$delieveryaddress->town}},<br>
                                     {{$delieveryaddress->district}} ({{$delieveryaddress->postcode}}), Nepal<br>
                                     +977 {{$delieveryaddress->phone}}

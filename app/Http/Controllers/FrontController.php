@@ -37,7 +37,7 @@ class FrontController extends Controller
         } elseif(Auth::user()->role_id == 3) {
             $slider = Slider::latest()->get();
             $subcategories = Subcategory::latest()->get();
-            $featuredproducts = Product::latest()->where('featured', 1)->get();
+            $featuredproducts = Product::latest()->where('featured', 1)->take(15)->get();
             $offerproducts = Product::latest()->where('discount', '>', 0)->take(6)->get();
             $filterproducts = Product::latest()->take(8)->get();
             $ratedproducts = Review::orderBy('rating', 'DESC')->with('product')->take(8)->get();
@@ -96,7 +96,7 @@ class FrontController extends Controller
         $relatedproducts = Product::where('subcategory_id', $product->subcategory_id)->where('id', '!=', $product->id)->take(5)->get();
         $subcategories = Subcategory::latest()->get();
         $filterproducts = Product::latest()->take(6)->get();
-        $ratedproducts = Review::orderBy('rating', 'DESC')->with('product')->take(6)->get();
+        $ratedproducts = Review::orderBy('rating', 'DESC')->take(6)->get();
         return view('frontend.products', compact('subcategories', 'product', 'productimage', 'productimages', 'relatedproducts', 'filterproducts', 'ratedproducts'));
     }
 
@@ -214,7 +214,9 @@ class FrontController extends Controller
         return redirect()->back()->with('success', 'Product is removed from wishlist successfully.');
     }
 
-    public function addreview(Request $request){
+    public function addreview(Request $request)
+    {
+        // dd($request['product_id']);
         $data = $this->validate($request, [
             'star' => 'required',
             'username' => 'required',
@@ -231,7 +233,7 @@ class FrontController extends Controller
 
         $review->save();
 
-        return redirect()->back()->with('success', 'Review added successfully');
+        return redirect()->back()->with('success', 'Review added successfully.');
     }
 
     public function updatereview(Request $request, $id)
@@ -262,7 +264,6 @@ class FrontController extends Controller
             $subcategories = Subcategory::latest()->get();
 
             return view('frontend.myreviews', compact('reviews', 'subcategories'));
-
       }
 
       public function placeorder(Request $request)
@@ -347,7 +348,7 @@ class FrontController extends Controller
         return view('frontend.myaccount', compact('user', 'delieveryaddress', 'subcategories'));
     }
 
-    public function editaddress()
+    public function editcustomeraddress()
     {
         // $title = $user->name;
         $address = DelieveryAddress::where('user_id', Auth::user()->id)->where('is_default', 1)->first();

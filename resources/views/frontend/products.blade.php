@@ -581,7 +581,7 @@
                                             @php
                                                 $i=1;
                                             @endphp
-                                        @foreach ($filterproducts as $product)
+                                        @foreach ($filterproducts as $filterproduct)
                                         @php
                                             if($i < 4)
                                             {
@@ -593,26 +593,26 @@
                                                 $i = $i+1;
                                             }
                                         @endphp
-                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item " style="display: {{$show}}">
+                                            <a href="{{route('products', $filterproduct->slug)}}" class="latest-product__item " style="display: {{$show}}">
                                                 <div class="latest-product__item__pic">
                                                     @php
                                                         $image = DB::table('product_images')
-                                                            ->where('product_id', $product->id)
+                                                            ->where('product_id', $filterproduct->id)
                                                             ->first()
                                                     @endphp
-                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
+                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$filterproduct->title}}" style="max-width: 110px; max-height: 110px;">
                                                 </div>
                                                 <div class="latest-product__item__text">
-                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
-                                                    @if ($product->discount > 0)
+                                                    <h6>{{$filterproduct->title}} ({{$filterproduct->quantity}} {{$filterproduct->unit}})</h6>
+                                                    @if ($filterproduct->discount > 0)
                                                     @php
-                                                        $discountamount = ($product->discount / 100) * $product->price;
-                                                        $afterdiscount = $product->price - $discountamount;
+                                                        $discountamount = ($filterproduct->discount / 100) * $filterproduct->price;
+                                                        $afterdiscount = $filterproduct->price - $discountamount;
                                                     @endphp
                                                         <span>Rs. {{$afterdiscount}}</span>
-                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$filterproduct->price}}</strike>
                                                     @else
-                                                        <span>Rs. {{$product->price}}</span>
+                                                        <span>Rs. {{$filterproduct->price}}</span>
                                                     @endif
                                                 </div>
                                             </a>
@@ -622,7 +622,7 @@
                                             @php
                                                 $i=1;
                                             @endphp
-                                        @foreach ($filterproducts as $product)
+                                        @foreach ($filterproducts as $filterproduct)
                                         @php
                                             if($i < 4)
                                             {
@@ -634,26 +634,26 @@
                                                 $i = $i+1;
                                             }
                                         @endphp
-                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item" style="display: {{$show}}">
+                                            <a href="{{route('products', $filterproduct->slug)}}" class="latest-product__item" style="display: {{$show}}">
                                                 <div class="latest-product__item__pic">
                                                     @php
                                                         $image = DB::table('product_images')
-                                                            ->where('product_id', $product->id)
+                                                            ->where('product_id', $filterproduct->id)
                                                             ->first()
                                                     @endphp
-                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
+                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$filterproduct->title}}" style="max-width: 110px; max-height: 110px;">
                                                 </div>
                                                 <div class="latest-product__item__text">
-                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
-                                                    @if ($product->discount > 0)
+                                                    <h6>{{$filterproduct->title}} ({{$filterproduct->quantity}} {{$filterproduct->unit}})</h6>
+                                                    @if ($filterproduct->discount > 0)
                                                     @php
-                                                        $discountamount = ($product->discount / 100) * $product->price;
-                                                        $afterdiscount = $product->price - $discountamount;
+                                                        $discountamount = ($filterproduct->discount / 100) * $filterproduct->price;
+                                                        $afterdiscount = $filterproduct->price - $discountamount;
                                                     @endphp
                                                         <span>Rs. {{$afterdiscount}}</span>
-                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$filterproduct->price}}</strike>
                                                     @else
-                                                        <span>Rs. {{$product->price}}</span>
+                                                        <span>Rs. {{$filterproduct->price}}</span>
                                                     @endif
                                                 </div>
                                             </a>
@@ -670,7 +670,10 @@
                                             @php
                                                 $i=1;
                                             @endphp
-                                        @foreach ($ratedproducts as $product)
+                                        @foreach ($ratedproducts as $ratedproduct)
+                                        @php
+                                            $productis = DB::table('products')->where('id', $ratedproduct->product_id)->first();
+                                        @endphp
                                         @php
                                             if($i < 4)
                                             {
@@ -682,26 +685,26 @@
                                                 $i = $i+1;
                                             }
                                         @endphp
-                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item " style="display: {{$show}}">
+                                            <a href="{{route('products', $productis->slug)}}" class="latest-product__item " style="display: {{$show}}">
                                                 <div class="latest-product__item__pic">
                                                     @php
                                                         $image = DB::table('product_images')
-                                                            ->where('product_id', $product->id)
+                                                            ->where('product_id', $productis->id)
                                                             ->first()
                                                     @endphp
-                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
+                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$productis->title}}" style="max-width: 110px; max-height: 110px;">
                                                 </div>
                                                 <div class="latest-product__item__text">
-                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
-                                                    @if ($product->discount > 0)
+                                                    <h6>{{$productis->title}} ({{$productis->quantity}} {{$productis->unit}})</h6>
+                                                    @if ($productis->discount > 0)
                                                     @php
-                                                        $discountamount = ($product->discount / 100) * $product->price;
-                                                        $afterdiscount = $product->price - $discountamount;
+                                                        $discountamount = ($productis->discount / 100) * $productis->price;
+                                                        $afterdiscount = $productis->price - $discountamount;
                                                     @endphp
                                                         <span>Rs. {{$afterdiscount}}</span>
-                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$productis->price}}</strike>
                                                     @else
-                                                        <span>Rs. {{$product->price}}</span>
+                                                        <span>Rs. {{$productis->price}}</span>
                                                     @endif
                                                 </div>
                                             </a>
@@ -711,7 +714,10 @@
                                             @php
                                                 $i=1;
                                             @endphp
-                                        @foreach ($ratedproducts as $product)
+                                        @foreach ($ratedproducts as $ratedproduct)
+                                        @php
+                                            $productis = DB::table('products')->where('id', $ratedproduct->product_id)->first();
+                                        @endphp
                                         @php
                                             if($i < 4)
                                             {
@@ -723,26 +729,26 @@
                                                 $i = $i+1;
                                             }
                                         @endphp
-                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item" style="display: {{$show}}">
+                                            <a href="{{route('products', $productis->slug)}}" class="latest-product__item" style="display: {{$show}}">
                                                 <div class="latest-product__item__pic">
                                                     @php
                                                         $image = DB::table('product_images')
-                                                            ->where('product_id', $product->id)
+                                                            ->where('product_id', $productis->id)
                                                             ->first()
                                                     @endphp
-                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
+                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$productis->title}}" style="max-width: 110px; max-height: 110px;">
                                                 </div>
                                                 <div class="latest-product__item__text">
-                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
-                                                    @if ($product->discount > 0)
+                                                    <h6>{{$productis->title}} ({{$productis->quantity}} {{$productis->unit}})</h6>
+                                                    @if ($productis->discount > 0)
                                                     @php
-                                                        $discountamount = ($product->discount / 100) * $product->price;
-                                                        $afterdiscount = $product->price - $discountamount;
+                                                        $discountamount = ($productis->discount / 100) * $productis->price;
+                                                        $afterdiscount = $productis->price - $discountamount;
                                                     @endphp
                                                         <span>Rs. {{$afterdiscount}}</span>
-                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$productis->price}}</strike>
                                                     @else
-                                                        <span>Rs. {{$product->price}}</span>
+                                                        <span>Rs. {{$productis->price}}</span>
                                                     @endif
                                                 </div>
                                             </a>
@@ -769,36 +775,36 @@
                 </div>
             </div>
             <div class="row">
-                @foreach ($relatedproducts as $product)
-                    @if ($product->discount > 0)
+                @foreach ($relatedproducts as $relatedproduct)
+                    @if ($relatedproduct->discount > 0)
                             <div class="product-lg-6 product-container" >
                                 <div class="product__discount">
                                     @php
                                         $image = DB::table('product_images')
-                                            ->where('product_id', $product->id)
+                                            ->where('product_id', $relatedproduct->id)
                                             ->first();
-                                        $discountamount = ($product->discount / 100) * $product->price;
-                                        $afterdiscount = $product->price - $discountamount;
+                                        $discountamount = ($relatedproduct->discount / 100) * $relatedproduct->price;
+                                        $afterdiscount = $relatedproduct->price - $discountamount;
                                     @endphp
-                                    <div onclick="location.href='{{route('products', $product->slug)}}';" style="cursor: pointer;" class="product__discount__item__pic set-bg"
+                                    <div onclick="location.href='{{route('products', $relatedproduct->slug)}}';" style="cursor: pointer;" class="product__discount__item__pic set-bg"
                                         data-setbg="{{ Storage::disk('uploads')->url($image->filename) }}">
-                                        <div class="product__discount__percent">-{{ $product->discount }}%</div>
+                                        <div class="product__discount__percent">-{{ $relatedproduct->discount }}%</div>
                                         <ul class="product__item__pic__hover">
                                             @if (Auth::guest() || Auth::user()->role_id != 3)
                                                 <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
                                                 <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
 
                                             @elseif(Auth::user()->role_id==3)
-                                                <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
-                                                <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+                                                <li><a href="{{ route('addtowishlist', $relatedproduct->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                                <li><a href="{{ route('products', $relatedproduct->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
                                             @endif
                                         </ul>
                                     </div>
                                     <div class="product__discount__item__text">
-                                        <h5><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
-                                        <h6>({{$product->quantity}} {{$product->unit}})</h6>
+                                        <h5><a href="{{ route('products', $relatedproduct->slug) }}">{{ $relatedproduct->title }}</a></h5>
+                                        <h6>({{$relatedproduct->quantity}} {{$relatedproduct->unit}})</h6>
                                         <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
-                                                {{ $product->price }}</span></div>
+                                                {{ $relatedproduct->price }}</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -807,7 +813,7 @@
                             <div class="product__item">
                             @php
                                 $image = DB::table('product_images')
-                                    ->where('product_id', $product->id)
+                                    ->where('product_id', $relatedproduct->id)
                                     ->first();
                             @endphp
                                 <div class="product__item__pic set-bg"
@@ -818,16 +824,16 @@
                                             <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
 
                                         @elseif(Auth::user()->role_id==3)
-                                            <li><a href="{{ route('addtowishlist', $product->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
-                                            <li><a href="{{ route('products', $product->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
+                                            <li><a href="{{ route('addtowishlist', $relatedproduct->id)}}"><i class="fa fa-heart" title="Add To Wishlist"></i></a></li>
+                                            <li><a href="{{ route('products', $relatedproduct->slug) }}"><i class="fa fa-shopping-cart" title="Add To Cart"></i></a></li>
                                         @endif
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h5><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h5>
+                                    <h5><a href="{{route('products', $relatedproduct->slug)}}">{{$relatedproduct->title}}</a></h5>
 
-                                    <h6>({{$product->quantity}} {{$product->unit}})</h6>
-                                    <div class="product__item__price"><span>Rs. {{$product->price}}</span></div>
+                                    <h6>({{$relatedproduct->quantity}} {{$relatedproduct->unit}})</h6>
+                                    <div class="product__item__price"><span>Rs. {{$relatedproduct->price}}</span></div>
                                 </div>
                             </div>
                         </div>

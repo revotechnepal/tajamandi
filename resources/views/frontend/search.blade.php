@@ -208,7 +208,10 @@
                                             @php
                                                 $i=1;
                                             @endphp
-                                        @foreach ($ratedproducts as $product)
+                                        @foreach ($ratedproducts as $ratedproduct)
+                                        @php
+                                            $productis = DB::table('products')->where('id', $ratedproduct->product_id)->first();
+                                        @endphp
                                         @php
                                             if($i < 4)
                                             {
@@ -220,26 +223,26 @@
                                                 $i = $i+1;
                                             }
                                         @endphp
-                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item " style="display: {{$show}}">
+                                            <a href="{{route('products', $productis->slug)}}" class="latest-product__item " style="display: {{$show}}">
                                                 <div class="latest-product__item__pic">
                                                     @php
                                                         $image = DB::table('product_images')
-                                                            ->where('product_id', $product->id)
+                                                            ->where('product_id', $productis->id)
                                                             ->first()
                                                     @endphp
-                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
+                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$productis->title}}" style="max-width: 110px; max-height: 110px;">
                                                 </div>
                                                 <div class="latest-product__item__text">
-                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
-                                                    @if ($product->discount > 0)
+                                                    <h6>{{$productis->title}} ({{$productis->quantity}} {{$productis->unit}})</h6>
+                                                    @if ($productis->discount > 0)
                                                     @php
-                                                        $discountamount = ($product->discount / 100) * $product->price;
-                                                        $afterdiscount = $product->price - $discountamount;
+                                                        $discountamount = ($productis->discount / 100) * $productis->price;
+                                                        $afterdiscount = $productis->price - $discountamount;
                                                     @endphp
                                                         <span>Rs. {{$afterdiscount}}</span>
-                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$productis->price}}</strike>
                                                     @else
-                                                        <span>Rs. {{$product->price}}</span>
+                                                        <span>Rs. {{$productis->price}}</span>
                                                     @endif
                                                 </div>
                                             </a>
@@ -249,7 +252,10 @@
                                             @php
                                                 $i=1;
                                             @endphp
-                                        @foreach ($ratedproducts as $product)
+                                        @foreach ($ratedproducts as $ratedproduct)
+                                        @php
+                                            $productis = DB::table('products')->where('id', $ratedproduct->product_id)->first();
+                                        @endphp
                                         @php
                                             if($i < 4)
                                             {
@@ -261,26 +267,26 @@
                                                 $i = $i+1;
                                             }
                                         @endphp
-                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item" style="display: {{$show}}">
+                                            <a href="{{route('products', $productis->slug)}}" class="latest-product__item" style="display: {{$show}}">
                                                 <div class="latest-product__item__pic">
                                                     @php
                                                         $image = DB::table('product_images')
-                                                            ->where('product_id', $product->id)
+                                                            ->where('product_id', $productis->id)
                                                             ->first()
                                                     @endphp
-                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
+                                                    <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$productis->title}}" style="max-width: 110px; max-height: 110px;">
                                                 </div>
                                                 <div class="latest-product__item__text">
-                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
-                                                    @if ($product->discount > 0)
+                                                    <h6>{{$productis->title}} ({{$productis->quantity}} {{$productis->unit}})</h6>
+                                                    @if ($productis->discount > 0)
                                                     @php
-                                                        $discountamount = ($product->discount / 100) * $product->price;
-                                                        $afterdiscount = $product->price - $discountamount;
+                                                        $discountamount = ($productis->discount / 100) * $productis->price;
+                                                        $afterdiscount = $productis->price - $discountamount;
                                                     @endphp
                                                         <span>Rs. {{$afterdiscount}}</span>
-                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$productis->price}}</strike>
                                                     @else
-                                                        <span>Rs. {{$product->price}}</span>
+                                                        <span>Rs. {{$productis->price}}</span>
                                                     @endif
                                                 </div>
                                             </a>
