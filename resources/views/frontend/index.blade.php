@@ -59,7 +59,6 @@
     </section>
     <!-- Categories Section End -->
     {{-- <div class="aa-input-container" id="aa-input-container"> --}}
-
         {{-- <input type="search" id="aa-search-input-algolia" class="aa-input-search" placeholder="Find the phone of your choice...." name="search"
             autocomplete="off" />
         <svg class="aa-input-icon" viewBox="654 -372 1664 1664">
