@@ -25,8 +25,19 @@
     <link href="{{asset('frontend/modalassets/css/login-register.css')}}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}" type="text/css">
     <link rel="stylesheet" href="{{asset('frontend/css/rating.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/algolia.css') }}">
 
     @stack('styles')
+    <style>
+        .hero__search__form{
+            position: absolute;
+        }
+        /* @media (max-width: 1200px) {
+            .hero__search__form{
+            position: absolute;
+        }
+         } */
+    </style>
 </head>
 
 <body>
@@ -48,6 +59,10 @@
     <script src="{{ asset('frontend/js/owl.carousel.min.js') }}"></script>
   <script src="{{asset('frontend/modalassets/js/login-register.js')}}" type="text/javascript"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
+    <!-- Include AlgoliaSearch JS Client and autocomplete.js library -->
+  <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+  <script src="{{ asset('frontend/js/algolia.js') }}"></script>
     <script>
         function showPasswordForm(){
         $('.loginBox').fadeOut('fast',function(){

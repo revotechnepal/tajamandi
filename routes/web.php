@@ -44,6 +44,9 @@ Route::get('/', function () {
 
 Route::get('/home', [FrontController::class, 'index'])->name('home');
 Route::get('/shop', [FrontController::class, 'shop'])->name('shop');
+Route::get('/about', [FrontController::class, 'about'])->name('about');
+Route::get('/termsandconditions', [FrontController::class, 'termsandconditions'])->name('termsandconditions');
+Route::get('/privacypolicy', [FrontController::class, 'privacypolicy'])->name('privacypolicy');
 Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
 Route::get('/products/{slug}', [FrontController::class, 'products'])->name('products');
 Route::get('/checkout', [FrontController::class, 'checkout'])->name('checkout');
@@ -96,6 +99,9 @@ Route::get('auth/google/callback', [SocialMediaController::class, 'handleGoogleC
 Route::get('auth/facebook', [SocialMediaController::class, 'redirectToFacebook']);
 Route::get('auth/facebook/callback', [SocialMediaController::class, 'facebookSignin']);
 
+//Search
+Route::get('/search/{slug}', [FrontController::class, 'search'])->name('search');
+
 Auth::routes();
 
 Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.user');
@@ -121,7 +127,6 @@ Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.us
     Route::put('enablereview/{id}', [ReviewController::class, 'enableurl'])->name('review.enable');
     Route::put('disablereview/{id}', [ReviewController::class, 'disableurl'])->name('review.disable');
     Route::resource('slider', SliderController::class);
-
 });
 
 
