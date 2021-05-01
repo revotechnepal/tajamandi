@@ -567,4 +567,10 @@ class FrontController extends Controller
         return redirect()->back()->with('success', 'Thank you for messaging us. We will get back to you soon.');
     }
 
+    public function search($slug)
+    {
+        // $subcategories = Subcategory::latest()->get();
+        // $product = Product::where('slug', $slug)->first();
+        // return view('', compact('subcategories', 'product'));
+    }
 }

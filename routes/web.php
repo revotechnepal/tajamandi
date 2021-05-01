@@ -99,6 +99,9 @@ Route::get('auth/google/callback', [SocialMediaController::class, 'handleGoogleC
 Route::get('auth/facebook', [SocialMediaController::class, 'redirectToFacebook']);
 Route::get('auth/facebook/callback', [SocialMediaController::class, 'facebookSignin']);
 
+//Search
+Route::get('/search/{slug}', [FrontController::class, 'search'])->name('search');
+
 Auth::routes();
 
 Route::get('/verify',[RegisterController::class, 'verifyUser'])->name('verify.user');

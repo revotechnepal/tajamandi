@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
     use HasFactory;
+    use Searchable;
     protected $fillable = [
         'vendor_id',
                 'subcategory_id',
@@ -22,6 +24,11 @@ class Product extends Model
                 'status',
                 'featured',
     ];
+
+    public function searchableAs()
+    {
+        return 'tajamandi_products';
+    }
 
     public function vendor(){
         return $this->belongsTo(Vendor::class);
