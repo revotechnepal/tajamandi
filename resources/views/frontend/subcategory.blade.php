@@ -134,7 +134,7 @@
                                                 $i = $i+1;
                                             }
                                         @endphp
-                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item" style="display: {{$show}}">
+                                            <a href="{{route('products', $product->slug)}}" class="latest-product__item " style="display: {{$show}}">
                                                 <div class="latest-product__item__pic">
                                                     @php
                                                         $image = DB::table('product_images')
@@ -144,8 +144,17 @@
                                                     <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
                                                 </div>
                                                 <div class="latest-product__item__text">
-                                                    <h6>{{$product->title}}</h6>
-                                                    <span>Rs. {{$product->price}}</span>
+                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
+                                                    @if ($product->discount > 0)
+                                                    @php
+                                                        $discountamount = ($product->discount / 100) * $product->price;
+                                                        $afterdiscount = $product->price - $discountamount;
+                                                    @endphp
+                                                        <span>Rs. {{$afterdiscount}}</span>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                    @else
+                                                        <span>Rs. {{$product->price}}</span>
+                                                    @endif
                                                 </div>
                                             </a>
                                         @endforeach
@@ -176,8 +185,17 @@
                                                     <img src="{{ Storage::disk('uploads')->url($image->filename) }}" alt="{{$product->title}}" style="max-width: 110px; max-height: 110px;">
                                                 </div>
                                                 <div class="latest-product__item__text">
-                                                    <h6>{{$product->title}}</h6>
-                                                    <span>Rs. {{$product->price}}</span>
+                                                    <h6>{{$product->title}} ({{$product->quantity}} {{$product->unit}})</h6>
+                                                    @if ($product->discount > 0)
+                                                    @php
+                                                        $discountamount = ($product->discount / 100) * $product->price;
+                                                        $afterdiscount = $product->price - $discountamount;
+                                                    @endphp
+                                                        <span>Rs. {{$afterdiscount}}</span>
+                                                        <strike style="font-size: 15px; color: black;">Rs. {{$product->price}}</strike>
+                                                    @else
+                                                        <span>Rs. {{$product->price}}</span>
+                                                    @endif
                                                 </div>
                                             </a>
                                         @endforeach
@@ -203,8 +221,8 @@
                         @else
                         @foreach ($products as $product)
                         @if ($product->discount > 0)
-                            <div class="col-lg-4">
-                                <div class="product__discount__item">
+                            <div class="col-lg-3 product-container">
+                                <div class="product__discount__item product__discount">
                                     @php
                                         $image = DB::table('product_images')
                                             ->where('product_id', $product->id)
@@ -234,7 +252,7 @@
                                 </div>
                             </div>
                         @else
-                        <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="col-lg-3 col-md-6 col-sm-6 product-container">
                             <div class="product__item">
                             @php
                                 $image = DB::table('product_images')
@@ -255,8 +273,9 @@
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h6>
-                                    <h5>Rs. {{$product->price}}</h5>
+                                    <b>({{$product->quantity}} {{$product->unit}})</b>
+                                        <h5><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h5>
+                                        <div class="product__item__price">Rs. {{$product->price}}</div>
                                 </div>
                             </div>
                         </div>

@@ -46,7 +46,7 @@ class SocialMediaController extends Controller
                 return redirect()->intended('/')->with('success', 'You have successfully signed in with google.');
             }
         } catch (Exception $e) {
-            return redirect()->route('index')->with('error', 'You already have an account with this gmail address.');
+            return redirect()->route('index')->with('failure', 'You already have an account with this gmail address.');
         }
     }
 
@@ -80,7 +80,7 @@ class SocialMediaController extends Controller
             }
 
         } catch (Exception $e) {
-            return redirect()->route('index')->with('error', 'You already have an account with this gmail address.');
+            return redirect()->route('index')->with('failure', 'You already have an account with this gmail address.');
         }
     }
 }
