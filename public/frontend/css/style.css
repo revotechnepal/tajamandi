@@ -555,6 +555,13 @@ ol {
 .humberger__open {
     display: none;
 }
+.humberger__menu__wrapper2 {
+    display: none;
+}
+
+/* .humberger__open2 {
+    display: none;
+} */
 
 /*---------------------
   Hero
@@ -3023,6 +3030,18 @@ ol {
         right: 15px;
         top: 22px;
     }
+    .humberger__open2 {
+        display: block;
+        font-size: 22px;
+        line-height: 33px;
+        text-align: center;
+        cursor: pointer;
+        right: 15px;
+        top: 22px;
+    }
+    .dropdown-menu.show {
+        display: none;
+    }
     .header .container {
         position: relative;
     }
@@ -3049,6 +3068,30 @@ ol {
         opacity: 1;
         left: 0;
     }
+    .humberger__menu__wrapper2 {
+        width: 300px;
+        background: #ffffff;
+        position: fixed;
+        left: -300px;
+        top: 0;
+        height: 100%;
+        overflow-y: auto;
+        z-index: 99;
+        padding: 30px;
+        padding-top: 50px;
+        opacity: 0;
+        display: block;
+        -webkit-transition: all, 0.6s;
+        -moz-transition: all, 0.6s;
+        -ms-transition: all, 0.6s;
+        -o-transition: all, 0.6s;
+        transition: all, 0.6s;
+    }
+    .humberger__menu__wrapper2.show__humberger__menu__wrapper2 {
+        opacity: 1;
+        left: 0;
+    }
+
     .humberger__menu__logo {
         margin-bottom: 30px;
     }
@@ -3182,6 +3225,67 @@ ol {
     .humberger__menu__overlay.active {
         visibility: visible;
     }
+
+    /* Testing */
+
+    .humberger__menu__wrapper2 .slicknav_btn {
+        display: none;
+    }
+    .humberger__menu__wrappe2 .slicknav_nav .slicknav_item a {
+        border-bottom: none !important;
+    }
+    .humberger__menu__wrapper2 .slicknav_nav {
+        display: block !important;
+    }
+    .humberger__menu__wrapper2 .slicknav_menu {
+        background: transparent;
+        padding: 0;
+        margin-bottom: 30px;
+    }
+    .humberger__menu__wrapper2 .slicknav_nav ul {
+        margin: 0;
+    }
+    .humberger__menu__wrapper2 .slicknav_nav a {
+        color: #1c1c1c;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+        border-bottom: 1px solid #e1e1e1;
+    }
+    .humberger__menu__wrapper2 .slicknav_nav a:hover {
+        -webkit-border-radius: 0;
+        border-radius: 0;
+        background: transparent;
+        color: #7fad39;
+    }
+    .humberger__menu__wrapper2 .slicknav_nav .slicknav_row,
+    .humberger__menu__wrapper2 .slicknav_nav a {
+        padding: 8px 0;
+    }
+
+    .humberger__menu__nav2 {
+        display: none;
+    }
+    .humberger__menu__overlay2 {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        content: "";
+        z-index: 98;
+        visibility: hidden;
+        -webkit-transition: all, 0.6s;
+        -moz-transition: all, 0.6s;
+        -ms-transition: all, 0.6s;
+        -o-transition: all, 0.6s;
+        transition: all, 0.6s;
+    }
+    .humberger__menu__overlay2.active {
+        visibility: visible;
+    }
+
     .header__top {
         display: none;
     }
@@ -3207,6 +3311,10 @@ ol {
 /* Wide Mobile = 480px */
 
 @media only screen and (max-width: 767px) {
+    .dropdown-menu.show {
+        display: none;
+    }
+
     .latest-product__slider2.owl-carousel .owl-nav {
         position: absolute;
         right: 20px;
@@ -3399,6 +3507,12 @@ ol {
         right: 15px;
         top: 22px;
     }
+    .humberger__open2 {
+        display: block;
+        font-size: 22px;
+        text-align: center;
+        cursor: pointer;
+    }
     .header .container {
         position: relative;
     }
@@ -3422,6 +3536,29 @@ ol {
         transition: all, 0.6s;
     }
     .humberger__menu__wrapper.show__humberger__menu__wrapper {
+        opacity: 1;
+        left: 0;
+    }
+    .humberger__menu__wrapper2 {
+        width: 300px;
+        background: #ffffff;
+        position: fixed;
+        left: -300px;
+        top: 0;
+        height: 100%;
+        overflow-y: auto;
+        z-index: 99;
+        padding: 30px;
+        padding-top: 50px;
+        opacity: 0;
+        display: block;
+        -webkit-transition: all, 0.6s;
+        -moz-transition: all, 0.6s;
+        -ms-transition: all, 0.6s;
+        -o-transition: all, 0.6s;
+        transition: all, 0.6s;
+    }
+    .humberger__menu__wrapper2.show__humberger__menu__wrapper2 {
         opacity: 1;
         left: 0;
     }
@@ -3558,6 +3695,62 @@ ol {
     .humberger__menu__overlay.active {
         visibility: visible;
     }
+    .humberger__menu__wrapper2 .slicknav_btn {
+        display: none;
+    }
+    .humberger__menu__wrapper2 .slicknav_nav .slicknav_item a {
+        border-bottom: none !important;
+    }
+    .humberger__menu__wrapper2 .slicknav_nav {
+        display: block !important;
+    }
+    .humberger__menu__wrapper2 .slicknav_menu {
+        background: transparent;
+        padding: 0;
+        margin-bottom: 30px;
+    }
+    .humberger__menu__wrapper2 .slicknav_nav ul {
+        margin: 0;
+    }
+    .humberger__menu__wrapper2 .slicknav_nav a {
+        color: #1c1c1c;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+        border-bottom: 1px solid #e1e1e1;
+    }
+    .humberger__menu__wrapper2 .slicknav_nav a:hover {
+        -webkit-border-radius: 0;
+        border-radius: 0;
+        background: transparent;
+        color: #7fad39;
+    }
+    .humberger__menu__wrapper2 .slicknav_nav .slicknav_row,
+    .humberger__menu__wrapper2 .slicknav_nav a {
+        padding: 8px 0;
+    }
+    .humberger__menu__nav2 {
+        display: none;
+    }
+    .humberger__menu__overlay2 {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        content: "";
+        z-index: 98;
+        visibility: hidden;
+        -webkit-transition: all, 0.6s;
+        -moz-transition: all, 0.6s;
+        -ms-transition: all, 0.6s;
+        -o-transition: all, 0.6s;
+        transition: all, 0.6s;
+    }
+    .humberger__menu__overlay2.active {
+        visibility: visible;
+    }
     .header__top {
         display: none;
     }
@@ -3660,7 +3853,7 @@ ol {
 /* Multi-level Dropdown */
 
 .dropdown-menu {
-    width: 100% !important;
+    width: 100%;
 }
 
 .dropdown-submenu {
@@ -3902,7 +4095,7 @@ ol {
 }
 /* ============ desktop view .end// ============ */
 
-/* ============ small devices ============ */
+/* ============ small devices ============  */
 @media (max-width: 991px) {
     .dropdown-menu .dropdown-menu {
         margin-left: 0.7rem;

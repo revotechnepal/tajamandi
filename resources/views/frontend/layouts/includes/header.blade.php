@@ -201,7 +201,7 @@
                     @php
                         $categories = DB::table('categories')->latest()->get();
                     @endphp
-                    <button class="btn btn-success dropdown-toggle categorydrop " type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars px-4"></i>
+                    <button class="btn btn-success categorydrop humberger__open2" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars px-4"></i>
                       All Departments
                     </button>
                     <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
@@ -226,8 +226,57 @@
                         @endforeach
                       </ul>
                 </div>
-       
+
+<!-- Testing -->
+<div class="humberger__menu__overlay2"></div>
+<div class="humberger__menu__wrapper2">
+    <div class="humberger__menu__logo">
+        <a href="{{route('index')}}"><img src="{{Storage::disk('uploads')->url($setting->headerImage)}}" alt="" style="max-width: 150px; max-height: 170px;"></a>
+    </div>
+    <nav class="humberger__menu__nav2 mobile-menu-cat">
+    @php
+                        $categories = DB::table('categories')->latest()->get();
+                    @endphp
+        <ul>
+        @foreach ($categories as $category)
+         
+            <li><a href="#">{{$category->title}}</a>
+                <ul class="header__menu__dropdown text-center">
+                @php
+                                    $subcategories = DB::table('subcategories')->where('category_id', $category->id)->get();
+                                @endphp
+                                @if (count($subcategories) > 0)
+                                    @foreach ($subcategories as $item)
+                                    <li><a href="{{route('subcategory', $item->slug)}}">{{$item->title}}</a></li>
+                                    @endforeach
+                                    @else
+                                    <li><a href="#">No Subcategories</a></li>
+                                @endif
+                </ul>
+            </li> 
+    
+            @endforeach
+        </ul>
+    </nav>
+    <div id="mobile-menu-cat-wrap"></div>
+</div>
+
+
+
+
+
+
             </div>
+            
+
+
+
+
+
+
+
+
+
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
