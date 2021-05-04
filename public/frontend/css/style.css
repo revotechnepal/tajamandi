@@ -3642,6 +3642,11 @@ ol {
 .product-container {
     height: auto;
     width: 270px;
+    transition: transform 0.2s;
+}
+
+.product-container:hover {
+    transform: scale(1.02);
 }
 
 @media (min-width: 992px) {
