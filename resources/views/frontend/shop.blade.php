@@ -309,7 +309,7 @@
                     <div class="row">
                         @foreach ($products as $product)
                             @if ($product->discount > 0)
-                                <div class="col-lg-3 product-container">
+                                <div class="col-lg-3 col-md-6 col-sm-6 product-container">
                                     <div class="product__discount__item product__discount">
                                         @php
                                             $image = DB::table('product_images')

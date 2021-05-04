@@ -78,7 +78,7 @@
             <div class="row featured__filter">
                 @foreach ($featuredproducts as $product)
                     @if ($product->discount > 0)
-                                <div class="product-lg-6 col-md-4 col-sm-6 product-container">
+                                <div class="product-lg-6 col-md-6 col-sm-6 product-container">
                                     <div class="product__discount__item product__discount">
                                         @php
                                             $image = DB::table('product_images')
@@ -104,7 +104,7 @@
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
-                                            <b>({{$product->quantity}} {{$product->unit}})</b>
+                                            <div class="product__quantity__text">({{$product->quantity}} {{$product->unit}})</div>
                                             <h5><a href="{{ route('products', $product->slug) }}">{{ $product->title }}</a></h5>
                                             <div class="product__item__price">Rs. {{ $afterdiscount }} <span>Rs.
                                                     {{ $product->price }}</span></div>
@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                             @else
-                            <div class="product-lg-6 col-md-4 col-sm-6 product-container">
+                            <div class="product-lg-6 col-md-6 col-sm-6 product-container">
                                 <div class="product__item">
                                 @php
                                     $image = DB::table('product_images')
@@ -133,7 +133,7 @@
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
-                                        <b>({{$product->quantity}} {{$product->unit}})</b>
+                                        <div class="product__quantity__text">({{$product->quantity}} {{$product->unit}})</div>
                                         <h5><a href="{{route('products', $product->slug)}}">{{$product->title}}</a></h5>
                                         <div class="product__item__price">Rs. {{$product->price}}</div>
                                     </div>
@@ -231,7 +231,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="latest-product__slider owl-carousel">
+                <div class="latest-product__slider latest-product__slider2 owl-carousel">
                   <div class="row latest-prdouct__slider__item">
                       @php
                           $i = 1;
@@ -330,7 +330,7 @@
                           </div>
                       </div>
                   </div>
-                  <div class="latest-product__slider owl-carousel">
+                  <div class="latest-product__slider latest-product__slider2 owl-carousel">
                     <div class="row latest-prdouct__slider__item">
                         @php
                             $i = 1;
