@@ -137,7 +137,7 @@
         autoplay: true,
         responsive: {
             320: {
-                items: 1,
+                items: 2,
             },
 
             480: {
