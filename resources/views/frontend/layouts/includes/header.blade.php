@@ -168,10 +168,53 @@
             </div>
             <div class="col-lg-3">
                 <div class="header__cart">
-                    <ul>
+                    <ul class="nav-right">
                         @if (Auth::guest() || Auth::user()->role_id != 3)
                             <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-heart"></i> <span>0</span></a></li>
-                            <li><a href="javascript:void(0)" onclick="openLoginModal();"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+                            <li class="cart-icon"><a href="javascript:void(0)" onclick="openLoginModal();" ><i class="fa fa-shopping-bag"></i> <span>0</span> </a>
+                            
+                            <div class="cart-hover">
+                                    <div class="select-items">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="si-pic"><img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt=""></td>
+                                                    <td class="si-text">
+                                                        <div class="product-selected">
+                                                            <p>$60.00 x 1</p>
+                                                            <h6>Kabino Bedside Table</h6>
+                                                        </div>
+                                                    </td>
+                                                    <td class="si-close">
+                                                        <i class="ti-close"></i>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="si-pic"><img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt=""></td>
+                                                    <td class="si-text">
+                                                        <div class="product-selected">
+                                                            <p>$60.00 x 1</p>
+                                                            <h6>Kabino Bedside Table</h6>
+                                                        </div>
+                                                    </td>
+                                                    <td class="si-close">
+                                                        <i class="ti-close"></i>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="select-total">
+                                        <span>total:</span>
+                                        <h5>$120.00</h5>
+                                    </div>
+                                    <div class="select-button">
+                                        <a href="#" class="primary-btn view-card">VIEW CARD</a>
+                                        <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
+                                    </div>
+                                </div>
+                           </li>
+                           <li class="cart-price">Rs.2000</li>
                         @elseif(Auth::user()->role_id==3)
                             @php
                                 $cartproducts = DB::table('carts')->where('user_id', Auth::user()->id)->get();
